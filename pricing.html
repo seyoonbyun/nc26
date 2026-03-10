@@ -63,6 +63,31 @@
 <section class="mb-16 text-center">
 <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter" data-i18n="hero_title"></h1>
 <p class="text-slate-500 dark:text-slate-400 max-w-4xl mx-auto text-lg" data-i18n="hero_subtitle"></p>
+<!-- Early Bird Countdown -->
+<div class="mt-8 inline-block">
+<p class="text-sm font-bold text-primary uppercase tracking-widest mb-3" data-i18n="countdown_label"></p>
+<div class="flex items-center justify-center gap-3">
+<div class="flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-5 py-3 min-w-[72px] shadow-lg">
+<span id="cd-months" class="text-3xl font-black text-primary tabular-nums">00</span>
+<span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Months</span>
+</div>
+<span class="text-2xl font-black text-slate-600">:</span>
+<div class="flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-5 py-3 min-w-[72px] shadow-lg">
+<span id="cd-days" class="text-3xl font-black text-primary tabular-nums">00</span>
+<span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Days</span>
+</div>
+<span class="text-2xl font-black text-slate-600">:</span>
+<div class="flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-5 py-3 min-w-[72px] shadow-lg">
+<span id="cd-hours" class="text-3xl font-black text-primary tabular-nums">00</span>
+<span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Hours</span>
+</div>
+<span class="text-2xl font-black text-slate-600">:</span>
+<div class="flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-5 py-3 min-w-[72px] shadow-lg">
+<span id="cd-secs" class="text-3xl font-black text-primary tabular-nums">00</span>
+<span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Secs</span>
+</div>
+</div>
+</div>
 </section>
 <!-- Attendee Path Selector -->
 <div class="mb-12">
@@ -307,6 +332,7 @@ const i18n = {
     ko: {
         hero_title: '나에게 맞는 <span class="text-primary">참가권</span>을 선택하세요',
         hero_subtitle: '서울에서 열리는 글로벌 비즈니스 컨퍼런스에 함께하세요.',
+        countdown_label: '얼리버드 마감까지',
         lang_label: '언어 선택:',
         vat_note: '부가세 별도',
         badge_ed: 'ED',
@@ -373,6 +399,7 @@ const i18n = {
     en: {
         hero_title: 'Choose Your <span class="text-primary">Experience</span>',
         hero_subtitle: 'Join global industry leaders for two days of innovation and networking in Seoul.',
+        countdown_label: 'Early Bird Ends In',
         lang_label: 'Preferred Language:',
         vat_note: 'Prices in USD',
         badge_ed: 'ED',
@@ -428,6 +455,7 @@ const i18n = {
     ja: {
         hero_title: 'あなたに最適な<span class="text-primary">プラン</span>をお選びください',
         hero_subtitle: 'ソウルで開催されるグローバルビジネスカンファレンスにご参加ください。',
+        countdown_label: 'アーリーバード締切まで',
         lang_label: '言語選択:',
         vat_note: 'USD表示',
         badge_ed: 'ED',
@@ -483,6 +511,7 @@ const i18n = {
     zh: {
         hero_title: '选择您的<span class="text-primary">参会方案</span>',
         hero_subtitle: '与全球行业领袖一起，在首尔共度创新与交流盛会。',
+        countdown_label: '早鸟优惠截止倒计时',
         lang_label: '语言选择:',
         vat_note: 'USD标价',
         badge_ed: 'ED',
@@ -761,8 +790,36 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Initialize with domestic (Korean)
+// Early Bird Countdown (deadline: April 6, 2026 23:59:59 KST)
+function updateCountdown() {
+    const deadline = new Date('2026-04-06T23:59:59+09:00').getTime();
+    const now = Date.now();
+    const diff = deadline - now;
+    if (diff <= 0) {
+        document.getElementById('cd-months').textContent = '00';
+        document.getElementById('cd-days').textContent = '00';
+        document.getElementById('cd-hours').textContent = '00';
+        document.getElementById('cd-secs').textContent = '00';
+        return;
+    }
+    const totalSecs = Math.floor(diff / 1000);
+    const totalMins = Math.floor(totalSecs / 60);
+    const totalHours = Math.floor(totalMins / 60);
+    const totalDays = Math.floor(totalHours / 24);
+    const months = Math.floor(totalDays / 30);
+    const days = totalDays % 30;
+    const hours = totalHours % 24;
+    const secs = totalSecs % 60;
+    document.getElementById('cd-months').textContent = String(months).padStart(2, '0');
+    document.getElementById('cd-days').textContent = String(days).padStart(2, '0');
+    document.getElementById('cd-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('cd-secs').textContent = String(secs).padStart(2, '0');
+}
+setInterval(updateCountdown, 1000);
+
 document.addEventListener('DOMContentLoaded', () => {
     switchTab('domestic');
+    updateCountdown();
 });
 </script>
 </body></html>
