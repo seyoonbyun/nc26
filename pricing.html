@@ -631,8 +631,8 @@ function openRegForm(planKey) {
     const modal = document.getElementById('reg-modal');
     document.getElementById('modal-title').textContent = t.form_title;
     const planName = t[planKey + '_name'];
-    const planPrice = t[planKey + '_price'];
-    const planLocal = t[planKey + '_local'];
+    const planPrice = t[planKey + '_early_price'] || t[planKey + '_price'] || '';
+    const planLocal = t[planKey + '_early_local'] || t[planKey + '_local'] || '';
     document.getElementById('modal-plan-info').textContent = planName + ' — ' + planPrice + (planLocal ? ' / ' + planLocal : '');
     // Re-apply translations inside modal
     modal.querySelectorAll('[data-i18n]').forEach(el => {
@@ -693,7 +693,7 @@ function submitRegForm(e) {
         position: position,
         memo: document.getElementById('reg-memo').value,
         plan: t[selectedPlan + '_name'],
-        planPrice: t[selectedPlan + '_price'] + (t[selectedPlan + '_local'] ? ' / ' + t[selectedPlan + '_local'] : ''),
+        planPrice: (t[selectedPlan + '_early_price'] || t[selectedPlan + '_price'] || '') + ((t[selectedPlan + '_early_local'] || t[selectedPlan + '_local']) ? ' / ' + (t[selectedPlan + '_early_local'] || t[selectedPlan + '_local']) : ''),
         lang: currentLang,
         timestamp: new Date().toISOString()
     };
