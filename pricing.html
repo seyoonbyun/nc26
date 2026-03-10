@@ -715,9 +715,11 @@ function submitRegForm(e) {
             currentLang === 'ko' ? '등록 완료! 결제 페이지로 이동합니다...' :
             'Registration submitted! Redirecting to payment...'
         );
-        // 결제 페이지로 리디렉트
+        // 결제 페이지로 리디렉트 (plan1=ED, plan2=DM)
         const lang = currentLang;
-        const paymentUrl = PAYMENT_URLS[lang] && PAYMENT_URLS[lang][position];
+        const planToPayment = { plan1: 'ED', plan2: 'DM' };
+        const paymentKey = planToPayment[selectedPlan] || position;
+        const paymentUrl = PAYMENT_URLS[lang] && PAYMENT_URLS[lang][paymentKey];
         if (paymentUrl) {
             setTimeout(() => { window.open(paymentUrl, '_blank'); }, 1500);
         }
