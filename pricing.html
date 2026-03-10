@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Accelerate 2026 - Registration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#cf1f2e",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0a0c10",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-active { border-bottom: 3px solid #cf1f2e; color: #ffffff; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cf1f2e; border-radius: 10px; }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-300">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<!-- Header / Nav -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 px-6 lg:px-20 py-4 bg-background-light dark:bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<a href="index.html" class="text-primary">
+<span class="material-symbols-outlined text-4xl">rocket_launch</span>
+</a>
+<a href="index.html" class="text-xl font-extrabold tracking-tight hover:text-primary transition-colors">Accelerate <span class="text-primary">2026</span></a>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="speakers.html">Speakers</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="event.html">Schedule</a>
+<a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="pricing.html">Pricing</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-primary hover:bg-primary/90 text-white text-sm font-bold py-2 px-6 rounded-lg transition-all shadow-lg shadow-primary/20">
+                    Register Now
+                </button>
+<div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center overflow-hidden">
+<span class="material-symbols-outlined text-slate-500">account_circle</span>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-7xl mx-auto w-full px-6 py-12">
+<!-- Hero Section -->
+<section class="mb-16 text-center">
+<h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter" data-i18n="hero_title"></h1>
+<p class="text-slate-500 dark:text-slate-400 max-w-4xl mx-auto text-lg" data-i18n="hero_subtitle"></p>
+</section>
+<!-- Attendee Path Selector -->
+<div class="mb-12">
+<div class="flex flex-col md:flex-row justify-center items-center gap-4 border-b border-slate-200 dark:border-slate-800">
+<button onclick="switchTab('domestic')" id="tab-domestic" class="w-full md:w-auto px-12 py-4 text-lg font-bold transition-all border-b-4 border-primary text-slate-900 dark:text-white">
+                        국내 참가자
+                    </button>
+<button onclick="switchTab('international')" id="tab-international" class="w-full md:w-auto px-12 py-4 text-lg font-bold transition-all border-b-4 border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                        International Attendee
+                    </button>
+</div>
+</div>
+<!-- Language & Region Controls (Contextual for International) -->
+<div id="language-controls" class="hidden flex-wrap items-center justify-between gap-4 mb-8 p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary">language</span>
+<span class="text-sm font-semibold" data-i18n="lang_label"></span>
+<div id="lang-buttons" class="flex bg-slate-200 dark:bg-slate-800 p-1 rounded-lg">
+<button onclick="switchLang('en')" data-lang="en" class="lang-btn px-4 py-1.5 text-xs font-bold bg-white dark:bg-slate-700 rounded shadow-sm">English</button>
+<button onclick="switchLang('ja')" data-lang="ja" class="lang-btn px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">日本語</button>
+<button onclick="switchLang('zh')" data-lang="zh" class="lang-btn px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">简体中文</button>
+</div>
+</div>
+<div class="flex items-center gap-2 text-sm text-slate-500">
+<span class="material-symbols-outlined text-lg">info</span>
+<span data-i18n="vat_note"></span>
+</div>
+</div>
+<!-- Domestic Pricing Grid (5 types) -->
+<div id="grid-domestic" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+<!-- ED -->
+<div class="flex flex-col p-6 rounded-2xl bg-white dark:bg-slate-900 border-2 border-primary relative shadow-xl shadow-primary/10">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-4 py-1 rounded-full">ED</div>
+<h3 class="text-lg font-bold mb-1 mt-2">Executive Director (ED)</h3>
+<p class="text-xs text-slate-500 mb-3">컨퍼런스 + 네트워킹 파티 포함 · Day 1–2</p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-1 mb-4">
+<div class="flex justify-between items-center"><span class="text-xs font-bold text-primary">얼리버드 (4/6까지)</span><span class="text-xl font-black text-primary">₩500,000</span></div>
+<div class="flex justify-between items-center"><span class="text-xs text-slate-400">정상가</span><span class="text-sm text-slate-400 line-through">₩600,000</span></div>
+</div>
+<p class="text-[10px] text-slate-400 text-center mb-3">부가세 별도</p>
+<button onclick="openRegForm('plan1')" class="plan-select-btn w-full py-3 rounded-xl font-bold bg-primary text-white hover:bg-primary/90 transition-all text-sm">선택하기</button>
+</div>
+<!-- Director -->
+<div class="flex flex-col p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all">
+<h3 class="text-lg font-bold mb-1">Director</h3>
+<p class="text-xs text-slate-500 mb-3">컨퍼런스 + 네트워킹 파티 포함 · Day 1–2</p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-1 mb-4">
+<div class="flex justify-between items-center"><span class="text-xs font-bold text-primary">얼리버드 (4/6까지)</span><span class="text-xl font-black text-primary">₩350,000</span></div>
+<div class="flex justify-between items-center"><span class="text-xs text-slate-400">정상가</span><span class="text-sm text-slate-400 line-through">₩450,000</span></div>
+</div>
+<p class="text-[10px] text-slate-400 text-center mb-3">부가세 별도</p>
+<button onclick="openRegForm('plan2')" class="plan-select-btn w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white transition-all text-sm">선택하기</button>
+</div>
+<!-- Member -->
+<div class="flex flex-col p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all">
+<h3 class="text-lg font-bold mb-1">Member</h3>
+<p class="text-xs text-slate-500 mb-3">컨퍼런스 ONLY · Day 1–2</p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-1 mb-4">
+<div class="flex justify-between items-center"><span class="text-xs font-bold text-primary">얼리버드 (4/6까지)</span><span class="text-xl font-black text-primary">₩280,000</span></div>
+<div class="flex justify-between items-center"><span class="text-xs text-slate-400">정상가</span><span class="text-sm text-slate-400 line-through">₩380,000</span></div>
+</div>
+<p class="text-[10px] text-slate-400 text-center mb-3">부가세 별도</p>
+<button onclick="openRegForm('plan3')" class="plan-select-btn w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white transition-all text-sm">선택하기</button>
+</div>
+<!-- Visitor -->
+<div class="flex flex-col p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all">
+<h3 class="text-lg font-bold mb-1">Visitor</h3>
+<p class="text-xs text-slate-500 mb-3">Day 1 ONLY (점심 포함, 파티 불가)</p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-1 mb-4">
+<div class="flex justify-between items-center"><span class="text-xs font-bold text-primary">얼리버드 (4/6까지)</span><span class="text-xl font-black text-primary">₩140,000</span></div>
+<div class="flex justify-between items-center"><span class="text-xs text-slate-400">정상가</span><span class="text-sm text-slate-400 line-through">₩190,000</span></div>
+</div>
+<p class="text-[10px] text-slate-400 text-center mb-3">부가세 별도</p>
+<button onclick="openRegForm('plan4')" class="plan-select-btn w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white transition-all text-sm">선택하기</button>
+</div>
+<!-- Networking Party -->
+<div class="flex flex-col p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all">
+<h3 class="text-lg font-bold mb-1">Networking Party</h3>
+<p class="text-xs text-slate-500 mb-3">파티 ONLY · Day 1 밤</p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-1 mb-4">
+<div class="flex justify-between items-center"><span class="text-xs font-bold text-primary">가격</span><span class="text-xl font-black text-primary">₩70,000</span></div>
+</div>
+<p class="text-[10px] text-slate-400 text-center mb-3">부가세 별도</p>
+<button onclick="openRegForm('plan5')" class="plan-select-btn w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white transition-all text-sm">선택하기</button>
+</div>
+</div>
+<!-- International Pricing Grid (2 types) -->
+<div id="grid-international" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-4xl mx-auto" style="display:none">
+<!-- Executive Director (ED) Card -->
+<div class="flex flex-col p-8 rounded-2xl bg-white dark:bg-slate-900 border-2 border-primary transition-all relative shadow-2xl shadow-primary/10">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider" data-i18n="badge_ed"></div>
+<div class="mb-6">
+<h3 class="text-xl font-bold mb-3" data-i18n="plan1_name"></h3>
+<p class="text-sm text-slate-500 mb-4" data-i18n="plan1_package"></p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold uppercase tracking-wider text-primary" data-i18n="label_early_bird"></span>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-black text-primary" data-i18n="plan1_early_price"></span>
+<span class="text-sm font-bold text-slate-400" data-i18n-local="plan1_early_local"></span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-slate-400 uppercase tracking-wider" data-i18n="label_regular"></span>
+<div class="flex items-baseline gap-2">
+<span class="text-lg font-bold text-slate-400 line-through" data-i18n="plan1_regular_price"></span>
+<span class="text-sm text-slate-400" data-i18n-local="plan1_regular_local"></span>
+</div>
+</div>
+</div>
+<p class="text-xs text-slate-400 mt-2 text-center" data-i18n="early_bird_deadline"></p>
+</div>
+<ul class="space-y-4 mb-10 flex-1 text-sm">
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_conference"></span></li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_networking_party"></span></li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_day12"></span></li>
+</ul>
+<button onclick="openRegForm('plan1')" class="plan-select-btn w-full py-4 rounded-xl font-bold bg-primary text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/30" data-i18n="btn_select"></button>
+</div>
+<!-- Director & Member Card -->
+<div class="flex flex-col p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all relative">
+<div class="mb-6">
+<h3 class="text-xl font-bold mb-3" data-i18n="plan2_name"></h3>
+<p class="text-sm text-slate-500 mb-4" data-i18n="plan2_package"></p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-xs font-bold uppercase tracking-wider text-primary" data-i18n="label_early_bird"></span>
+<div class="flex items-baseline gap-2">
+<span class="text-3xl font-black text-primary" data-i18n="plan2_early_price"></span>
+<span class="text-sm font-bold text-slate-400" data-i18n-local="plan2_early_local"></span>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-xs font-semibold text-slate-400 uppercase tracking-wider" data-i18n="label_regular"></span>
+<div class="flex items-baseline gap-2">
+<span class="text-lg font-bold text-slate-400 line-through" data-i18n="plan2_regular_price"></span>
+<span class="text-sm text-slate-400" data-i18n-local="plan2_regular_local"></span>
+</div>
+</div>
+</div>
+<p class="text-xs text-slate-400 mt-2 text-center" data-i18n="early_bird_deadline"></p>
+</div>
+<ul class="space-y-4 mb-10 flex-1 text-sm">
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_conference"></span></li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_networking_party"></span></li>
+<li class="flex items-center gap-3"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_day12"></span></li>
+</ul>
+<button onclick="openRegForm('plan2')" class="plan-select-btn w-full py-4 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:bg-primary hover:text-white transition-all" data-i18n="btn_select"></button>
+</div>
+</div>
+<!-- Registration Modal -->
+<div id="reg-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+<div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeRegForm()"></div>
+<div class="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden max-h-[90vh] overflow-y-auto">
+<!-- Modal Header -->
+<div class="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-6 flex items-center justify-between z-10">
+<div>
+<h3 id="modal-title" class="text-xl font-bold"></h3>
+<p id="modal-plan-info" class="text-primary text-sm font-semibold mt-1"></p>
+</div>
+<button onclick="closeRegForm()" class="size-10 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<form id="reg-form" class="p-6 space-y-5" onsubmit="submitRegForm(event)">
+<!-- Name -->
+<div>
+<label class="block text-sm font-semibold mb-2" data-i18n="form_name_label"></label>
+<input id="reg-name" type="text" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-i18n-placeholder="form_name_placeholder">
+</div>
+<!-- Nationality -->
+<div>
+<label class="block text-sm font-semibold mb-2" data-i18n="form_nationality_label"></label>
+<input id="reg-nationality" type="text" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-i18n-placeholder="form_nationality_placeholder">
+</div>
+<!-- Email -->
+<div>
+<label class="block text-sm font-semibold mb-2" data-i18n="form_email_label"></label>
+<input id="reg-email" type="email" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-i18n-placeholder="form_email_placeholder">
+</div>
+<!-- Phone -->
+<div>
+<label class="block text-sm font-semibold mb-2" data-i18n="form_phone_label"></label>
+<input id="reg-phone" type="tel" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-i18n-placeholder="form_phone_placeholder">
+</div>
+<!-- Position -->
+<div>
+<label class="block text-sm font-semibold mb-2" data-i18n="form_position_label"></label>
+<select id="reg-position" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm">
+<option value="" data-i18n="form_position_placeholder"></option>
+<option value="ED">Executive Director (ED)</option>
+<option value="DM">Director & Member</option>
+</select>
+</div>
+<!-- Memo -->
+<div>
+<label class="block text-sm font-semibold mb-2" data-i18n="form_memo_label"></label>
+<textarea id="reg-memo" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm resize-none" data-i18n-placeholder="form_memo_placeholder"></textarea>
+</div>
+<!-- Submit -->
+<button type="submit" class="w-full py-4 rounded-xl font-bold bg-primary text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">lock</span>
+<span data-i18n="form_submit"></span>
+</button>
+<p class="text-center text-xs text-slate-400" data-i18n="form_secure_note"></p>
+</form>
+</div>
+</div>
+<!-- Payment Methods Section -->
+<section id="payment-section" class="mb-20 text-center">
+<h4 class="text-sm font-bold uppercase tracking-[0.2em] text-slate-500 mb-8" data-i18n="payment_title"></h4>
+<div id="payment-domestic" class="flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">credit_card</span> 신용카드</div>
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">account_balance</span> 무통장입금</div>
+<div class="h-8 w-px bg-slate-700 hidden md:block"></div>
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">qr_code_2</span> KakaoPay</div>
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">token</span> Naver Pay</div>
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">toll</span> Toss</div>
+</div>
+<div id="payment-international" class="hidden flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">credit_card</span> VISA</div>
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">payments</span> Mastercard</div>
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">account_balance_wallet</span> PayPal</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="max-w-4xl mx-auto mb-20">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold mb-4" data-i18n="faq_title"></h2>
+<p class="text-slate-500" data-i18n="faq_subtitle"></p>
+</div>
+<div id="faq-container" class="grid gap-4"></div>
+</section>
+<!-- Map/Venue Teaser -->
+<section class="rounded-3xl overflow-hidden bg-slate-900 relative min-h-[400px] flex items-center justify-center border border-slate-800">
+<div class="absolute inset-0 opacity-40">
+<img alt="Seoul Cityscape at Night" class="w-full h-full object-cover" data-alt="Futuristic night cityscape of Seoul South Korea with neon lights" data-location="Seoul" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuVlcsKhiBai0YBHMqIykaHc-5mm4XW4xREyYOWyze2eHlOTS33hquAXXVNSMW4p0bY7iPl3fs5AKrbzs0I6uzqdlQrROykKhblUZi33xb5BLs1Y-IPKUvOtk9iHIoa3tabLNb-Nr2r1EdduP9PtvWfKl0riB820DP-_dbHVQxElqP4xAFMmqHgRG1F8D7OPZ_EGu8hDTy2lC8xnJE9gXYbyn6hNGaGpWlVdonOpal_8pS6ngG-k_JdqVwZ14BsqHthdH4vv9b144"/>
+</div>
+<div class="relative z-10 text-center px-6">
+<h3 class="text-3xl font-bold text-white mb-4" data-i18n="venue_title"></h3>
+<p class="text-slate-300 mb-8 max-w-lg mx-auto" data-i18n="venue_desc"></p>
+<button class="bg-white text-slate-900 font-bold py-3 px-8 rounded-xl hover:bg-primary hover:text-white transition-all" data-i18n="venue_btn"></button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-900 py-12 px-6 lg:px-20">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
+<div class="col-span-1 md:col-span-1">
+<div class="flex items-center gap-3 mb-6">
+<span class="material-symbols-outlined text-primary">rocket_launch</span>
+<h2 class="text-xl font-extrabold tracking-tight">Accelerate <span class="text-primary">2026</span></h2>
+</div>
+<p class="text-sm text-slate-500 leading-relaxed">The premier global conference for tech innovators and leaders pushing the boundaries of what's possible.</p>
+</div>
+<div>
+<h5 class="font-bold mb-6">Resources</h5>
+<ul class="space-y-4 text-sm text-slate-500">
+<li><a class="hover:text-primary transition-colors" href="#">Documentation</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Press Kit</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Safety Guidelines</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold mb-6">Contact</h5>
+<ul class="space-y-4 text-sm text-slate-500">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">mail</span> register@accelerate2026.com</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-sm">call</span> +82 2-123-4567</li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold mb-6">Newsletter</h5>
+<div class="flex gap-2">
+<input class="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-lg text-sm w-full focus:ring-primary focus:border-primary" placeholder="Email address" type="email"/>
+<button class="bg-primary p-2 rounded-lg text-white"><span class="material-symbols-outlined">send</span></button>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-slate-200 dark:border-slate-900 flex flex-col md:row justify-between items-center gap-4 text-xs text-slate-500">
+<p>© 2026 Accelerate Tech Conference. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="hover:text-primary" href="#">Privacy Policy</a>
+<a class="hover:text-primary" href="#">Terms of Service</a>
+</div>
+</div>
+</footer>
+</div>
+<script>
+const i18n = {
+    ko: {
+        hero_title: '나에게 맞는 <span class="text-primary">참가권</span>을 선택하세요',
+        hero_subtitle: '서울에서 열리는 글로벌 비즈니스 컨퍼런스에 함께하세요.',
+        lang_label: '언어 선택:',
+        vat_note: '부가세 별도',
+        badge_ed: 'ED',
+        plan1_name: 'Executive Director (ED)',
+        plan1_package: '컨퍼런스 + 네트워킹 파티 포함',
+        plan1_early_price: '₩500,000',
+        plan1_early_local: '',
+        plan1_regular_price: '₩600,000',
+        plan1_regular_local: '',
+        plan2_name: 'Director',
+        plan2_package: '컨퍼런스 + 네트워킹 파티 포함',
+        plan2_early_price: '₩350,000',
+        plan2_early_local: '',
+        plan2_regular_price: '₩450,000',
+        plan2_regular_local: '',
+        plan3_name: 'Member',
+        plan3_package: '컨퍼런스 ONLY',
+        plan3_early_price: '₩280,000',
+        plan3_regular_price: '₩380,000',
+        plan4_name: 'Visitor',
+        plan4_package: 'Day 1 ONLY (점심 포함, 파티 불가)',
+        plan4_early_price: '₩140,000',
+        plan4_regular_price: '₩190,000',
+        plan5_name: 'Networking Party',
+        plan5_package: '파티 ONLY (Day 1 밤)',
+        plan5_price: '₩70,000',
+        label_early_bird: '얼리버드 (4/6까지)',
+        label_regular: '정상가',
+        early_bird_deadline: '얼리버드 마감: 2026년 4월 6일',
+        feat_conference: '컨퍼런스 참석',
+        feat_networking_party: '네트워킹 파티',
+        feat_day12: 'Day 1–2 참가',
+        btn_select: '선택하기',
+        payment_title: '결제 수단',
+        faq_title: '등록 자주 묻는 질문',
+        faq_subtitle: 'Accelerate 2026 참가에 대해 궁금한 점을 확인하세요.',
+        venue_title: '장소: 스위스그랜드호텔 서울',
+        venue_desc: '서울의 대표적인 호텔에서 컨퍼런스를 경험하세요.',
+        venue_btn: '교통 안내 보기',
+        form_title: '참가자 등록',
+        form_name_label: '이름 (영문)',
+        form_name_placeholder: 'Hong Gildong',
+        form_nationality_label: '국적',
+        form_nationality_placeholder: 'South Korea',
+        form_email_label: '이메일',
+        form_email_placeholder: 'example@email.com',
+        form_phone_label: '휴대폰 번호',
+        form_phone_placeholder: '+82 10-1234-5678',
+        form_position_label: '직책',
+        form_position_placeholder: '직책을 선택하세요',
+        form_position_ed: 'Executive Director (ED)',
+        form_position_dm: 'Director & Member',
+        form_memo_label: '메모 (행사 주최자에게 전할 말)',
+        form_memo_placeholder: '식이 제한, 특별 요청 등을 자유롭게 작성해 주세요.',
+        form_submit: '결제하기',
+        form_secure_note: '모든 결제 정보는 SSL 암호화로 안전하게 처리됩니다.',
+        faqs: [
+            { icon: 'description', q: '세금계산서 발행이 가능한가요?', a: '네, 무통장 입금 또는 법인카드 결제 후 마이페이지에서 사업자 정보를 입력하시면 전자세금계산서가 발행됩니다.' },
+            { icon: 'group', q: '단체 할인이 적용되나요?', a: '5인 이상 단체 등록 시 10% 할인이 적용됩니다. 단체 등록은 admin@bni-korea.com으로 문의해 주세요.' },
+            { icon: 'sync', q: '환불 정책은 어떻게 되나요?', a: '행사 30일 전까지 전액 환불, 14일 전까지 50% 환불이 가능합니다. 이후에는 환불이 불가합니다.' },
+            { icon: 'badge', q: '현장 등록도 가능한가요?', a: '사전 등록을 권장드리며, 잔여석이 있을 경우 현장 등록도 가능합니다. 현장 등록 시 추가 요금이 발생할 수 있습니다.' }
+        ]
+    },
+    en: {
+        hero_title: 'Choose Your <span class="text-primary">Experience</span>',
+        hero_subtitle: 'Join global industry leaders for two days of innovation and networking in Seoul.',
+        lang_label: 'Preferred Language:',
+        vat_note: 'Prices in USD',
+        badge_ed: 'ED',
+        plan1_name: 'Executive Director (ED)',
+        plan1_package: 'Conference + Networking Party',
+        plan1_early_price: 'USD $400',
+        plan1_early_local: '',
+        plan1_regular_price: 'USD $480',
+        plan1_regular_local: '',
+        plan2_name: 'Director & Member',
+        plan2_package: 'Conference + Networking Party',
+        plan2_early_price: 'USD $280',
+        plan2_early_local: '',
+        plan2_regular_price: 'USD $360',
+        plan2_regular_local: '',
+        label_early_bird: 'Early Bird (until Apr 6)',
+        label_regular: 'Regular',
+        early_bird_deadline: 'Early Bird deadline: April 6, 2026',
+        feat_conference: 'Conference Access',
+        feat_networking_party: 'Networking Party',
+        feat_day12: 'Day 1–2 Included',
+        btn_select: 'Select Plan',
+        payment_title: 'Secure Payment Partners',
+        faq_title: 'Registration FAQ',
+        faq_subtitle: 'Everything you need to know about joining Accelerate 2026.',
+        venue_title: 'Venue: Swiss Grand Hotel Seoul',
+        venue_desc: "Experience the conference at Swiss Grand Hotel in Seoul, South Korea.",
+        venue_btn: 'View Travel Guide',
+        form_title: 'Attendee Registration',
+        form_name_label: 'Full Name',
+        form_name_placeholder: 'John Smith',
+        form_email_label: 'Email',
+        form_email_placeholder: 'example@email.com',
+        form_nationality_label: 'Nationality',
+        form_nationality_placeholder: 'United States',
+        form_phone_label: 'Cell Phone Number',
+        form_phone_placeholder: '+1 234-567-8900',
+        form_position_label: 'Position',
+        form_position_placeholder: 'Select your position',
+        form_position_ed: 'Executive Director (ED)',
+        form_position_dm: 'Director & Member',
+        form_memo_label: 'Message to the Organizers',
+        form_memo_placeholder: 'Dietary restrictions, special requests, etc.',
+        form_submit: 'Proceed to Payment',
+        form_secure_note: 'All payment information is securely processed with SSL encryption.',
+        faqs: [
+            { icon: 'help', q: 'Do you provide visa support letters for international attendees?', a: 'Yes, upon completion of registration and payment, you can request an invitation letter for visa purposes through your attendee dashboard.' },
+            { icon: 'group', q: 'Are group discounts available?', a: 'Yes, groups of 5 or more receive a 10% discount. Please contact admin@bni-korea.com for group registration.' },
+            { icon: 'sync', q: 'What is the refund policy?', a: 'Full refunds are available until 30 days before the event. A 50% refund is available up to 14 days before the start date.' },
+            { icon: 'flight', q: 'Is travel and accommodation included?', a: 'Tickets do not include travel or accommodation. However, we offer exclusive hotel partner discounts accessible through your attendee dashboard.' }
+        ]
+    },
+    ja: {
+        hero_title: 'あなたに最適な<span class="text-primary">プラン</span>をお選びください',
+        hero_subtitle: 'ソウルで開催されるグローバルビジネスカンファレンスにご参加ください。',
+        lang_label: '言語選択:',
+        vat_note: 'USD表示',
+        badge_ed: 'ED',
+        plan1_name: 'Executive Director (ED)',
+        plan1_package: 'カンファレンス＋ネットワーキングパーティー',
+        plan1_early_price: 'USD $400',
+        plan1_early_local: '',
+        plan1_regular_price: 'USD $480',
+        plan1_regular_local: '',
+        plan2_name: 'Director & Member',
+        plan2_package: 'カンファレンス＋ネットワーキングパーティー',
+        plan2_early_price: 'USD $280',
+        plan2_early_local: '',
+        plan2_regular_price: 'USD $360',
+        plan2_regular_local: '',
+        label_early_bird: '早割（4/6まで）',
+        label_regular: '通常価格',
+        early_bird_deadline: '早割締切：2026年4月6日',
+        feat_conference: 'カンファレンス参加',
+        feat_networking_party: 'ネットワーキングパーティー',
+        feat_day12: 'Day 1–2 参加',
+        btn_select: 'プランを選択',
+        payment_title: '決済パートナー',
+        faq_title: '登録に関するよくある質問',
+        faq_subtitle: 'Accelerate 2026への参加について、よくあるご質問をまとめました。',
+        venue_title: '会場：スイスグランドホテルソウル',
+        venue_desc: 'ソウルのスイスグランドホテルでカンファレンスを体験してください。',
+        venue_btn: '交通案内を見る',
+        form_title: '参加者登録',
+        form_name_label: 'お名前（英語表記）',
+        form_name_placeholder: 'Taro Yamada',
+        form_nationality_label: '国籍',
+        form_nationality_placeholder: 'Japan',
+        form_email_label: 'メールアドレス',
+        form_email_placeholder: 'example@email.com',
+        form_phone_label: '携帯番号',
+        form_phone_placeholder: '+81 90-1234-5678',
+        form_position_label: '役職',
+        form_position_placeholder: '役職を選択してください',
+        form_position_ed: 'Executive Director (ED)',
+        form_position_dm: 'Director & Member',
+        form_memo_label: '主催者へのメッセージ',
+        form_memo_placeholder: '食事制限、特別なリクエストなどをご自由にお書きください。',
+        form_submit: 'お支払いへ進む',
+        form_secure_note: 'すべての決済情報はSSL暗号化で安全に処理されます。',
+        faqs: [
+            { icon: 'help', q: '国際参加者向けのビザサポートレターは発行できますか？', a: 'はい、登録とお支払い完了後、参加者ダッシュボードからビザ申請用の招待状をリクエストできます。' },
+            { icon: 'group', q: '団体割引はありますか？', a: '5名以上の団体登録で10%割引が適用されます。admin@bni-korea.comまでお問い合わせください。' },
+            { icon: 'sync', q: 'キャンセル・返金ポリシーは？', a: 'イベント30日前までは全額返金、14日前までは50%返金が可能です。それ以降の返金はできません。' },
+            { icon: 'flight', q: '渡航費や宿泊費は含まれていますか？', a: 'チケットに渡航費・宿泊費は含まれておりません。ただし、参加者ダッシュボードからホテルパートナーの特別割引をご利用いただけます。' }
+        ]
+    },
+    zh: {
+        hero_title: '选择您的<span class="text-primary">参会方案</span>',
+        hero_subtitle: '与全球行业领袖一起，在首尔共度创新与交流盛会。',
+        lang_label: '语言选择:',
+        vat_note: 'USD标价',
+        badge_ed: 'ED',
+        plan1_name: 'Executive Director (ED)',
+        plan1_package: '包括商讨会+人脉扩展晚宴',
+        plan1_early_price: 'USD $400',
+        plan1_early_local: '',
+        plan1_regular_price: 'USD $480',
+        plan1_regular_local: '',
+        plan2_name: 'Director & Member',
+        plan2_package: '包括商讨会+人脉扩展晚宴',
+        plan2_early_price: 'USD $280',
+        plan2_early_local: '',
+        plan2_regular_price: 'USD $360',
+        plan2_regular_local: '',
+        label_early_bird: '优惠价（截止4/6）',
+        label_regular: '原价',
+        early_bird_deadline: '优惠截止日期：2026年4月6日',
+        feat_conference: '大会参与',
+        feat_networking_party: '人脉扩展晚宴',
+        feat_day12: 'Day 1–2 参加',
+        btn_select: '选择方案',
+        payment_title: '安全支付合作伙伴',
+        faq_title: '报名常见问题',
+        faq_subtitle: '关于参加 Accelerate 2026 您需要了解的一切。',
+        venue_title: '场馆：瑞士大酒店首尔',
+        venue_desc: '在首尔瑞士大酒店体验本次大会。',
+        venue_btn: '查看交通指南',
+        form_title: '参会者注册',
+        form_name_label: '姓名（英文）',
+        form_name_placeholder: 'Wei Zhang',
+        form_nationality_label: '国籍',
+        form_nationality_placeholder: 'China',
+        form_email_label: '电子邮箱',
+        form_email_placeholder: 'example@email.com',
+        form_phone_label: '手机号码',
+        form_phone_placeholder: '+86 138-0000-0000',
+        form_position_label: '职位',
+        form_position_placeholder: '请选择您的职位',
+        form_position_ed: 'Executive Director (ED)',
+        form_position_dm: 'Director & Member',
+        form_memo_label: '给主办方的留言',
+        form_memo_placeholder: '饮食限制、特殊需求等，请随时告诉我们。',
+        form_submit: '前往支付',
+        form_secure_note: '所有支付信息均通过SSL加密安全处理。',
+        faqs: [
+            { icon: 'help', q: '是否提供国际参会者签证邀请函？', a: '是的，完成注册和付款后，您可以通过参会者面板申请签证邀请函。' },
+            { icon: 'group', q: '有团体优惠吗？', a: '5人以上团体报名可享受9折优惠。请联系 admin@bni-korea.com。' },
+            { icon: 'sync', q: '退款政策是什么？', a: '活动前30天可全额退款，活动前14天可退还50%。之后不予退款。' },
+            { icon: 'flight', q: '票价是否包含交通和住宿？', a: '门票不包含交通和住宿费用。但我们提供合作酒店的专属折扣，可通过参会者面板获取。' }
+        ]
+    }
+};
+
+let currentTab = 'domestic';
+let currentLang = 'en';
+
+function applyTranslations(lang) {
+    const t = i18n[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) {
+            if (key === 'hero_title') {
+                el.innerHTML = t[key];
+            } else {
+                el.textContent = t[key];
+            }
+        }
+    });
+    document.querySelectorAll('[data-i18n-local]').forEach(el => {
+        const key = el.getAttribute('data-i18n-local');
+        const localPrice = t[key];
+        if (localPrice) {
+            el.textContent = '/ ' + localPrice;
+            el.style.display = '';
+        } else {
+            el.textContent = '';
+            el.style.display = 'none';
+        }
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key] !== undefined) {
+            el.placeholder = t[key];
+        }
+    });
+    renderFAQs(t.faqs);
+}
+
+function renderFAQs(faqs) {
+    const container = document.getElementById('faq-container');
+    container.innerHTML = faqs.map(f => `
+        <div class="p-6 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <h4 class="font-bold mb-2 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">${f.icon}</span>
+                ${f.q}
+            </h4>
+            <p class="text-sm text-slate-500 dark:text-slate-400">${f.a}</p>
+        </div>
+    `).join('');
+}
+
+function switchTab(tab) {
+    currentTab = tab;
+    const domestic = document.getElementById('tab-domestic');
+    const international = document.getElementById('tab-international');
+    const langControls = document.getElementById('language-controls');
+    const payDomestic = document.getElementById('payment-domestic');
+    const payInternational = document.getElementById('payment-international');
+    const activeClass = 'w-full md:w-auto px-12 py-4 text-lg font-bold transition-all border-b-4 border-primary text-slate-900 dark:text-white';
+    const inactiveClass = 'w-full md:w-auto px-12 py-4 text-lg font-bold transition-all border-b-4 border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200';
+
+    const gridDomestic = document.getElementById('grid-domestic');
+    const gridInternational = document.getElementById('grid-international');
+
+    if (tab === 'domestic') {
+        domestic.className = activeClass;
+        international.className = inactiveClass;
+        langControls.className = 'hidden';
+        payDomestic.className = 'flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity';
+        payInternational.className = 'hidden';
+        gridDomestic.style.display = '';
+        gridInternational.style.display = 'none';
+        applyTranslations('ko');
+    } else {
+        international.className = activeClass;
+        domestic.className = inactiveClass;
+        langControls.className = 'flex flex-wrap items-center justify-between gap-4 mb-8 p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto';
+        payDomestic.className = 'hidden';
+        payInternational.className = 'flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity';
+        gridDomestic.style.display = 'none';
+        gridInternational.style.display = '';
+        applyTranslations(currentLang);
+    }
+}
+
+function switchLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (btn.getAttribute('data-lang') === lang) {
+            btn.className = 'lang-btn px-4 py-1.5 text-xs font-bold bg-white dark:bg-slate-700 rounded shadow-sm';
+        } else {
+            btn.className = 'lang-btn px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300';
+        }
+    });
+    applyTranslations(lang);
+}
+
+let selectedPlan = '';
+
+function openRegForm(planKey) {
+    if (currentTab === 'domestic') return;
+    selectedPlan = planKey;
+    const lang = currentLang;
+    const t = i18n[lang];
+    const modal = document.getElementById('reg-modal');
+    document.getElementById('modal-title').textContent = t.form_title;
+    const planName = t[planKey + '_name'];
+    const planPrice = t[planKey + '_price'];
+    const planLocal = t[planKey + '_local'];
+    document.getElementById('modal-plan-info').textContent = planName + ' — ' + planPrice + (planLocal ? ' / ' + planLocal : '');
+    // Re-apply translations inside modal
+    modal.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+    });
+    modal.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key] !== undefined) el.placeholder = t[key];
+    });
+    document.getElementById('reg-form').reset();
+    // 직책 select 옵션 번역
+    const posSelect = document.getElementById('reg-position');
+    posSelect.options[0].textContent = t.form_position_placeholder;
+    posSelect.options[1].textContent = t.form_position_ed;
+    posSelect.options[2].textContent = t.form_position_dm;
+    // 언어별 국가번호 자동 입력
+    const countryCode = { en: '+1 ', ja: '+81 ', zh: '+86 ', ko: '+82 ' };
+    document.getElementById('reg-phone').value = countryCode[lang] || '+';
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeRegForm() {
+    document.getElementById('reg-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRGraYARQY8P6fvyTdNALQHEWyLc1I0FjhXMRrgKJVhyKwE3WDt1c48CUH8cuLEso/exec';
+
+const PAYMENT_URLS = {
+    en: { ED: 'https://global.bnikoreastore.com/surl/P/763', DM: 'https://global.bnikoreastore.com/surl/P/764' },
+    zh: { ED: 'https://global.bnikoreastore.com/surl/P/765', DM: 'https://global.bnikoreastore.com/surl/P/766' },
+    ja: { ED: 'https://global.bnikoreastore.com/surl/P/767', DM: 'https://global.bnikoreastore.com/surl/P/768' }
+};
+
+function submitRegForm(e) {
+    e.preventDefault();
+    const t = i18n[currentLang];
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn.innerHTML;
+
+    if (!SCRIPT_URL) {
+        alert('System is not configured yet. Please contact the organizer.');
+        return;
+    }
+
+    // Loading state
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
+
+    const position = document.getElementById('reg-position').value;
+    const payload = {
+        name: document.getElementById('reg-name').value,
+        nationality: document.getElementById('reg-nationality').value,
+        email: document.getElementById('reg-email').value,
+        phone: document.getElementById('reg-phone').value,
+        position: position,
+        memo: document.getElementById('reg-memo').value,
+        plan: t[selectedPlan + '_name'],
+        planPrice: t[selectedPlan + '_price'] + (t[selectedPlan + '_local'] ? ' / ' + t[selectedPlan + '_local'] : ''),
+        lang: currentLang,
+        timestamp: new Date().toISOString()
+    };
+
+    // URLSearchParams로 전송 (CORS 안전 + Apps Script 호환)
+    const params = new URLSearchParams(payload);
+
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
+    })
+    .then(() => {
+        closeRegForm();
+        showToast(
+            currentLang === 'ja' ? '登録完了！決済ページへ移動します...' :
+            currentLang === 'zh' ? '注册成功！正在跳转至支付页面...' :
+            currentLang === 'ko' ? '등록 완료! 결제 페이지로 이동합니다...' :
+            'Registration submitted! Redirecting to payment...'
+        );
+        // 결제 페이지로 리디렉트
+        const lang = currentLang;
+        const paymentUrl = PAYMENT_URLS[lang] && PAYMENT_URLS[lang][position];
+        if (paymentUrl) {
+            setTimeout(() => { window.open(paymentUrl, '_blank'); }, 1500);
+        }
+    })
+    .catch(() => {
+        closeRegForm();
+        showToast(
+            currentLang === 'ja' ? 'エラーが発生しました。' :
+            currentLang === 'zh' ? '发生错误，请重试。' :
+            currentLang === 'ko' ? '오류가 발생했습니다.' :
+            'An error occurred. Please try again.',
+            true
+        );
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHTML;
+    });
+}
+
+function showToast(message, isError = false) {
+    const toast = document.createElement('div');
+    toast.className = `fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] px-6 py-4 rounded-xl text-white font-semibold text-sm shadow-2xl flex items-center gap-3 transition-all ${isError ? 'bg-red-600' : 'bg-emerald-600'}`;
+    toast.innerHTML = `<span class="material-symbols-outlined">${isError ? 'error' : 'check_circle'}</span> ${message}`;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 4000);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeRegForm();
+});
+
+// Initialize with domestic (Korean)
+document.addEventListener('DOMContentLoaded', () => {
+    switchTab('domestic');
+});
+</script>
+</body></html>
