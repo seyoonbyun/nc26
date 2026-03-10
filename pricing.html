@@ -81,15 +81,15 @@
 <!-- Tab selector hidden until domestic pricing is ready -->
 
 <!-- Language & Region Controls (Contextual for International) -->
-<div id="language-controls" class="hidden flex-wrap items-center justify-between gap-3 md:gap-4 mb-6 md:mb-8 p-3 md:p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto">
+<div id="language-controls" class="hidden flex-col md:flex-row md:flex-wrap md:items-center md:justify-between gap-3 md:gap-4 mb-6 md:mb-8 p-3 md:p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto">
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-primary">language</span>
 <span class="text-sm font-semibold" data-i18n="lang_label"></span>
-<div id="lang-buttons" class="flex bg-slate-200 dark:bg-slate-800 p-1 rounded-lg">
-<button onclick="switchLang('en')" data-lang="en" class="lang-btn px-4 py-1.5 text-xs font-bold bg-white dark:bg-slate-700 rounded shadow-sm">English</button>
-<button onclick="switchLang('ja')" data-lang="ja" class="lang-btn px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">日本語</button>
-<button onclick="switchLang('zh')" data-lang="zh" class="lang-btn px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">简体中文</button>
 </div>
+<div id="lang-buttons" class="flex flex-col md:flex-row bg-slate-200 dark:bg-slate-800 p-1 rounded-lg">
+<button onclick="switchLang('en')" data-lang="en" class="lang-btn px-4 py-2 md:py-1.5 text-xs font-bold bg-white dark:bg-slate-700 rounded shadow-sm">English</button>
+<button onclick="switchLang('ja')" data-lang="ja" class="lang-btn px-4 py-2 md:py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">日本語</button>
+<button onclick="switchLang('zh')" data-lang="zh" class="lang-btn px-4 py-2 md:py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">简体中文</button>
 </div>
 <div class="flex items-center gap-2 text-sm text-slate-500">
 <span class="material-symbols-outlined text-lg">info</span>
@@ -600,7 +600,7 @@ function switchTab(tab) {
     } else {
         if (international) international.className = activeClass;
         if (domestic) domestic.className = inactiveClass;
-        if (langControls) langControls.className = 'flex flex-wrap items-center justify-between gap-3 md:gap-4 mb-6 md:mb-8 p-3 md:p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto';
+        if (langControls) langControls.className = 'flex flex-col md:flex-row md:flex-wrap md:items-center md:justify-between gap-3 md:gap-4 mb-6 md:mb-8 p-3 md:p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto';
         if (payDomestic) payDomestic.className = 'hidden';
         if (payInternational) payInternational.className = 'flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity';
         if (gridDomestic) gridDomestic.style.display = 'none';
