@@ -740,8 +740,8 @@ function submitRegForm(e) {
 
 function showToast(message, isError = false) {
     const toast = document.createElement('div');
-    toast.className = `fixed bottom-6 left-1/2 -translate-x-1/2 z-[200] px-6 py-4 rounded-xl text-white font-semibold text-sm shadow-2xl flex items-center gap-3 transition-all ${isError ? 'bg-red-600' : 'bg-emerald-600'}`;
-    toast.innerHTML = `<span class="material-symbols-outlined">${isError ? 'error' : 'check_circle'}</span> ${message}`;
+    toast.className = `fixed bottom-6 left-4 right-4 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-auto z-[200] px-5 py-4 rounded-xl text-white font-semibold text-sm shadow-2xl flex items-start gap-3 transition-all ${isError ? 'bg-red-600' : 'bg-emerald-600'}`;
+    toast.innerHTML = `<span class="material-symbols-outlined mt-0.5">${isError ? 'error' : 'check_circle'}</span> <span>${message}</span>`;
     document.body.appendChild(toast);
     setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 4000);
 }
