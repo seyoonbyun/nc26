@@ -49,59 +49,66 @@
 <a class="text-sm font-semibold hover:text-primary transition-colors" href="event.html">Schedule</a>
 <a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="pricing.html">Pricing</a>
 </nav>
-<div class="flex items-center gap-4">
-<button class="bg-primary hover:bg-primary/90 text-white text-sm font-bold py-2 px-6 rounded-lg transition-all shadow-lg shadow-primary/20">
+<div class="flex items-center gap-3">
+<button class="bg-primary hover:bg-primary/90 text-white text-xs md:text-sm font-bold py-2 px-4 md:px-6 rounded-lg transition-all shadow-lg shadow-primary/20">
                     Register Now
                 </button>
-<div class="h-10 w-10 rounded-full bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 flex items-center justify-center overflow-hidden">
-<span class="material-symbols-outlined text-slate-500">account_circle</span>
-</div>
+<button id="mobile-menu-btn" class="md:hidden flex items-center justify-center" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
+<span class="material-symbols-outlined text-2xl">menu</span>
+</button>
 </div>
 </header>
-<main class="flex-1 max-w-7xl mx-auto w-full px-6 py-12">
+<!-- Mobile Nav -->
+<nav id="mobile-nav" class="hidden md:hidden bg-[#0a0c10] border-b border-slate-800 px-6 py-4 sticky top-[65px] z-40 flex flex-col gap-3">
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="speakers.html">Speakers</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="event.html">Schedule</a>
+<a class="text-sm font-semibold text-primary" href="pricing.html">Pricing</a>
+</nav>
+<main class="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 py-8 md:py-12">
 <!-- Hero Section -->
-<section class="mb-16 text-center">
+<section class="mb-10 md:mb-16 text-center">
 <h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter" data-i18n="hero_title"></h1>
 <p class="text-slate-500 dark:text-slate-400 max-w-4xl mx-auto text-lg" data-i18n="hero_subtitle"></p>
 <!-- Early Bird Countdown -->
 <div class="mt-8 inline-block">
 <p class="text-sm font-bold text-primary uppercase tracking-widest mb-3" data-i18n="countdown_label"></p>
-<div class="flex items-center justify-center gap-3">
-<div class="flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-5 py-3 min-w-[72px] shadow-lg">
-<span id="cd-months" class="text-3xl font-black text-primary tabular-nums">00</span>
-<span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Months</span>
+<div class="flex items-center justify-center gap-2 md:gap-3">
+<div class="flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3 md:px-5 py-2 md:py-3 min-w-[56px] md:min-w-[72px] shadow-lg">
+<span id="cd-months" class="text-2xl md:text-3xl font-black text-primary tabular-nums">00</span>
+<span class="text-[9px] md:text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Months</span>
 </div>
-<span class="text-2xl font-black text-slate-600">:</span>
-<div class="flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-5 py-3 min-w-[72px] shadow-lg">
-<span id="cd-days" class="text-3xl font-black text-primary tabular-nums">00</span>
-<span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Days</span>
+<span class="text-xl md:text-2xl font-black text-slate-600">:</span>
+<div class="flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3 md:px-5 py-2 md:py-3 min-w-[56px] md:min-w-[72px] shadow-lg">
+<span id="cd-days" class="text-2xl md:text-3xl font-black text-primary tabular-nums">00</span>
+<span class="text-[9px] md:text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Days</span>
 </div>
-<span class="text-2xl font-black text-slate-600">:</span>
-<div class="flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-5 py-3 min-w-[72px] shadow-lg">
-<span id="cd-hours" class="text-3xl font-black text-primary tabular-nums">00</span>
-<span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Hours</span>
+<span class="text-xl md:text-2xl font-black text-slate-600">:</span>
+<div class="flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3 md:px-5 py-2 md:py-3 min-w-[56px] md:min-w-[72px] shadow-lg">
+<span id="cd-hours" class="text-2xl md:text-3xl font-black text-primary tabular-nums">00</span>
+<span class="text-[9px] md:text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Hours</span>
 </div>
-<span class="text-2xl font-black text-slate-600">:</span>
-<div class="flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-5 py-3 min-w-[72px] shadow-lg">
-<span id="cd-secs" class="text-3xl font-black text-primary tabular-nums">00</span>
-<span class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Secs</span>
+<span class="text-xl md:text-2xl font-black text-slate-600">:</span>
+<div class="flex flex-col items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl px-3 md:px-5 py-2 md:py-3 min-w-[56px] md:min-w-[72px] shadow-lg">
+<span id="cd-secs" class="text-2xl md:text-3xl font-black text-primary tabular-nums">00</span>
+<span class="text-[9px] md:text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Secs</span>
 </div>
 </div>
 </div>
 </section>
 <!-- Attendee Path Selector -->
-<div class="mb-12">
-<div class="flex flex-col md:flex-row justify-center items-center gap-4 border-b border-slate-200 dark:border-slate-800">
-<button onclick="switchTab('domestic')" id="tab-domestic" class="w-full md:w-auto px-12 py-4 text-lg font-bold transition-all border-b-4 border-primary text-slate-900 dark:text-white">
+<div class="mb-8 md:mb-12">
+<div class="flex flex-row justify-center items-center gap-0 border-b border-slate-200 dark:border-slate-800">
+<button onclick="switchTab('domestic')" id="tab-domestic" class="flex-1 md:flex-none px-4 md:px-12 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-4 border-primary text-slate-900 dark:text-white">
                         국내 참가자
                     </button>
-<button onclick="switchTab('international')" id="tab-international" class="w-full md:w-auto px-12 py-4 text-lg font-bold transition-all border-b-4 border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+<button onclick="switchTab('international')" id="tab-international" class="flex-1 md:flex-none px-4 md:px-12 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-4 border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
                         International Attendee
                     </button>
 </div>
 </div>
 <!-- Language & Region Controls (Contextual for International) -->
-<div id="language-controls" class="hidden flex-wrap items-center justify-between gap-4 mb-8 p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto">
+<div id="language-controls" class="hidden flex-wrap items-center justify-between gap-3 md:gap-4 mb-6 md:mb-8 p-3 md:p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto">
 <div class="flex items-center gap-3">
 <span class="material-symbols-outlined text-primary">language</span>
 <span class="text-sm font-semibold" data-i18n="lang_label"></span>
@@ -126,9 +133,9 @@
 </div>
 </div>
 <!-- International Pricing Grid (2 types) -->
-<div id="grid-international" class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20 max-w-4xl mx-auto" style="display:none">
+<div id="grid-international" class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 mb-12 md:mb-20 max-w-4xl mx-auto" style="display:none">
 <!-- Executive Director (ED) Card -->
-<div class="flex flex-col p-8 rounded-2xl bg-white dark:bg-slate-900 border-2 border-primary transition-all relative shadow-2xl shadow-primary/10">
+<div class="flex flex-col p-5 md:p-8 rounded-2xl bg-white dark:bg-slate-900 border-2 border-primary transition-all relative shadow-2xl shadow-primary/10">
 <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider" data-i18n="badge_ed"></div>
 <div class="mb-6">
 <h3 class="text-xl font-bold mb-3" data-i18n="plan1_name"></h3>
@@ -159,7 +166,7 @@
 <button onclick="openRegForm('plan1')" class="plan-select-btn w-full py-4 rounded-xl font-bold bg-primary text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/30" data-i18n="btn_select"></button>
 </div>
 <!-- Director & Member Card -->
-<div class="flex flex-col p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all relative">
+<div class="flex flex-col p-5 md:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all relative">
 <div class="mb-6">
 <h3 class="text-xl font-bold mb-3" data-i18n="plan2_name"></h3>
 <p class="text-sm text-slate-500 mb-4" data-i18n="plan2_package"></p>
@@ -249,7 +256,7 @@
 </div>
 </div>
 <!-- Payment Methods Section -->
-<section id="payment-section" class="mb-20 text-center">
+<section id="payment-section" class="mb-12 md:mb-20 text-center">
 <h4 class="text-sm font-bold uppercase tracking-[0.2em] text-slate-500 mb-8" data-i18n="payment_title"></h4>
 <div id="payment-domestic" class="flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity">
 <div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">credit_card</span> 신용카드</div>
@@ -274,7 +281,7 @@
 <div id="faq-container" class="grid gap-4"></div>
 </section>
 <!-- Map/Venue Teaser -->
-<section class="rounded-3xl overflow-hidden bg-slate-900 relative min-h-[400px] flex items-center justify-center border border-slate-800">
+<section class="rounded-2xl md:rounded-3xl overflow-hidden bg-slate-900 relative min-h-[280px] md:min-h-[400px] flex items-center justify-center border border-slate-800">
 <div class="absolute inset-0 opacity-40">
 <img alt="Seoul Cityscape at Night" class="w-full h-full object-cover" data-alt="Futuristic night cityscape of Seoul South Korea with neon lights" data-location="Seoul" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuVlcsKhiBai0YBHMqIykaHc-5mm4XW4xREyYOWyze2eHlOTS33hquAXXVNSMW4p0bY7iPl3fs5AKrbzs0I6uzqdlQrROykKhblUZi33xb5BLs1Y-IPKUvOtk9iHIoa3tabLNb-Nr2r1EdduP9PtvWfKl0riB820DP-_dbHVQxElqP4xAFMmqHgRG1F8D7OPZ_EGu8hDTy2lC8xnJE9gXYbyn6hNGaGpWlVdonOpal_8pS6ngG-k_JdqVwZ14BsqHthdH4vv9b144"/>
 </div>
@@ -286,9 +293,9 @@
 </section>
 </main>
 <!-- Footer -->
-<footer class="bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-900 py-12 px-6 lg:px-20">
-<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-12">
-<div class="col-span-1 md:col-span-1">
+<footer class="bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-900 py-8 md:py-12 px-4 md:px-6 lg:px-20">
+<div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+<div class="col-span-2 md:col-span-1">
 <div class="flex items-center gap-3 mb-6">
 <span class="material-symbols-outlined text-primary">rocket_launch</span>
 <h2 class="text-xl font-extrabold tracking-tight">Accelerate <span class="text-primary">2026</span></h2>
@@ -620,8 +627,8 @@ function switchTab(tab) {
     const langControls = document.getElementById('language-controls');
     const payDomestic = document.getElementById('payment-domestic');
     const payInternational = document.getElementById('payment-international');
-    const activeClass = 'w-full md:w-auto px-12 py-4 text-lg font-bold transition-all border-b-4 border-primary text-slate-900 dark:text-white';
-    const inactiveClass = 'w-full md:w-auto px-12 py-4 text-lg font-bold transition-all border-b-4 border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200';
+    const activeClass = 'flex-1 md:flex-none px-4 md:px-12 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-4 border-primary text-slate-900 dark:text-white';
+    const inactiveClass = 'flex-1 md:flex-none px-4 md:px-12 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-4 border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200';
 
     const gridDomestic = document.getElementById('grid-domestic');
     const gridInternational = document.getElementById('grid-international');
@@ -638,7 +645,7 @@ function switchTab(tab) {
     } else {
         international.className = activeClass;
         domestic.className = inactiveClass;
-        langControls.className = 'flex flex-wrap items-center justify-between gap-4 mb-8 p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto';
+        langControls.className = 'flex flex-wrap items-center justify-between gap-3 md:gap-4 mb-6 md:mb-8 p-3 md:p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto';
         payDomestic.className = 'hidden';
         payInternational.className = 'flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity';
         gridDomestic.style.display = 'none';
@@ -817,7 +824,7 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 
 document.addEventListener('DOMContentLoaded', () => {
-    switchTab('domestic');
+    switchTab('international');
     updateCountdown();
 });
 </script>
