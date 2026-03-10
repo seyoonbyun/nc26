@@ -589,22 +589,22 @@ function switchTab(tab) {
     const gridInternational = document.getElementById('grid-international');
 
     if (tab === 'domestic') {
-        domestic.className = activeClass;
-        international.className = inactiveClass;
-        langControls.className = 'hidden';
-        payDomestic.className = 'flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity';
-        payInternational.className = 'hidden';
-        gridDomestic.style.display = '';
-        gridInternational.style.display = 'none';
+        if (domestic) domestic.className = activeClass;
+        if (international) international.className = inactiveClass;
+        if (langControls) langControls.className = 'hidden';
+        if (payDomestic) payDomestic.className = 'flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity';
+        if (payInternational) payInternational.className = 'hidden';
+        if (gridDomestic) gridDomestic.style.display = '';
+        if (gridInternational) gridInternational.style.display = 'none';
         applyTranslations('ko');
     } else {
-        international.className = activeClass;
-        domestic.className = inactiveClass;
-        langControls.className = 'flex flex-wrap items-center justify-between gap-3 md:gap-4 mb-6 md:mb-8 p-3 md:p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto';
-        payDomestic.className = 'hidden';
-        payInternational.className = 'flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity';
-        gridDomestic.style.display = 'none';
-        gridInternational.style.display = '';
+        if (international) international.className = activeClass;
+        if (domestic) domestic.className = inactiveClass;
+        if (langControls) langControls.className = 'flex flex-wrap items-center justify-between gap-3 md:gap-4 mb-6 md:mb-8 p-3 md:p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto';
+        if (payDomestic) payDomestic.className = 'hidden';
+        if (payInternational) payInternational.className = 'flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity';
+        if (gridDomestic) gridDomestic.style.display = 'none';
+        if (gridInternational) gridInternational.style.display = '';
         applyTranslations(currentLang);
     }
 }
