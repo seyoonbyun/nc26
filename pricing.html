@@ -43,23 +43,9 @@
 </a>
 <a href="index.html" class="text-xl font-extrabold tracking-tight hover:text-primary transition-colors">Accelerate <span class="text-primary">2026</span></a>
 </div>
-<nav class="hidden md:flex items-center gap-8">
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="index.html">Home</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="speakers.html">Speakers</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="event.html">Schedule</a>
-<a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="pricing.html">Pricing</a>
-</nav>
-<button id="mobile-menu-btn" class="md:hidden flex items-center justify-center" onclick="document.getElementById('mobile-nav').classList.toggle('hidden')">
-<span class="material-symbols-outlined text-2xl">menu</span>
-</button>
+<!-- Nav links hidden until other pages are ready -->
+
 </header>
-<!-- Mobile Nav -->
-<nav id="mobile-nav" class="hidden md:hidden bg-[#0a0c10] border-b border-slate-800 px-6 py-4 sticky top-[65px] z-40 flex flex-col gap-3">
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="index.html">Home</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="speakers.html">Speakers</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="event.html">Schedule</a>
-<a class="text-sm font-semibold text-primary" href="pricing.html">Pricing</a>
-</nav>
 <main class="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 py-8 md:py-12">
 <!-- Hero Section -->
 <section class="mb-10 md:mb-16 text-center">
@@ -92,16 +78,8 @@
 </div>
 </section>
 <!-- Attendee Path Selector -->
-<div class="mb-8 md:mb-12">
-<div class="flex flex-row justify-center items-center gap-0 border-b border-slate-200 dark:border-slate-800">
-<button disabled id="tab-domestic" class="flex-1 md:flex-none px-4 md:px-12 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-4 border-transparent text-slate-400 cursor-not-allowed opacity-50">
-                        국내 참가자 <span class="text-[10px] md:text-xs align-middle">(Coming Soon)</span>
-                    </button>
-<button onclick="switchTab('international')" id="tab-international" class="flex-1 md:flex-none px-4 md:px-12 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-4 border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
-                        International Attendee
-                    </button>
-</div>
-</div>
+<!-- Tab selector hidden until domestic pricing is ready -->
+
 <!-- Language & Region Controls (Contextual for International) -->
 <div id="language-controls" class="hidden flex-wrap items-center justify-between gap-3 md:gap-4 mb-6 md:mb-8 p-3 md:p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-4xl mx-auto">
 <div class="flex items-center gap-3">
@@ -253,15 +231,9 @@
 <!-- Payment Methods Section -->
 <section id="payment-section" class="mb-12 md:mb-20 text-center">
 <h4 class="text-sm font-bold uppercase tracking-[0.2em] text-slate-500 mb-8" data-i18n="payment_title"></h4>
-<div id="payment-domestic" class="flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity">
-<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">credit_card</span> 신용카드</div>
-<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">account_balance</span> 무통장입금</div>
-<div class="h-8 w-px bg-slate-700 hidden md:block"></div>
-<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">qr_code_2</span> KakaoPay</div>
-<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">token</span> Naver Pay</div>
-<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">toll</span> Toss</div>
+<div id="payment-domestic" class="hidden flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity">
 </div>
-<div id="payment-international" class="hidden flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity">
+<div id="payment-international" class="flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity">
 <div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">credit_card</span> VISA</div>
 <div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">payments</span> Mastercard</div>
 <div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">account_balance_wallet</span> PayPal</div>
@@ -289,7 +261,7 @@
 </main>
 <!-- Footer -->
 <footer class="bg-slate-100 dark:bg-slate-950 border-t border-slate-200 dark:border-slate-900 py-8 md:py-12 px-4 md:px-6 lg:px-20">
-<div class="max-w-7xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
 <div class="col-span-2 md:col-span-1">
 <div class="flex items-center gap-3 mb-6">
 <span class="material-symbols-outlined text-primary">rocket_launch</span>
@@ -297,13 +269,8 @@
 </div>
 <p class="text-sm text-slate-500 leading-relaxed">The premier global conference for tech innovators and leaders pushing the boundaries of what's possible.</p>
 </div>
-<div>
-<h5 class="font-bold mb-6">Resources</h5>
-<ul class="space-y-4 text-sm text-slate-500">
-<li><a class="hover:text-primary transition-colors" href="#">Documentation</a></li>
-<li><a class="hover:text-primary transition-colors" href="#">Press Kit</a></li>
-</ul>
-</div>
+<!-- Resources hidden until ready -->
+
 <div>
 <h5 class="font-bold mb-6">Contact</h5>
 <ul class="space-y-4 text-sm text-slate-500">
@@ -311,20 +278,13 @@
 <li class="flex items-center gap-2 whitespace-nowrap"><span class="material-symbols-outlined text-sm">call</span> 02-6261-8838</li>
 </ul>
 </div>
-<div>
-<h5 class="font-bold mb-6">Newsletter</h5>
-<div class="flex gap-2">
-<input class="bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-lg text-sm w-full focus:ring-primary focus:border-primary" placeholder="Email address" type="email"/>
-<button class="bg-primary p-2 rounded-lg text-white"><span class="material-symbols-outlined">send</span></button>
-</div>
-</div>
+<!-- Newsletter hidden until ready -->
+
 </div>
 <div class="max-w-7xl mx-auto mt-12 pt-8 border-t border-slate-200 dark:border-slate-900 flex flex-col md:row justify-between items-center gap-4 text-xs text-slate-500">
 <p class="whitespace-nowrap">© 2026 Accelerate BNI Korea National Conference. All rights reserved.</p>
-<div class="flex gap-6">
-<a class="hover:text-primary" href="#">Privacy Policy</a>
-<a class="hover:text-primary" href="#">Terms of Service</a>
-</div>
+<!-- Privacy/Terms links hidden until ready -->
+
 </div>
 </footer>
 </div>
