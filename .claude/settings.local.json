@@ -39,7 +39,8 @@
       "Bash(curl -sI https://assets.mixkit.co/videos/28675/28675-720.mp4)",
       "Bash(curl -sI https://assets.mixkit.co/videos/47649/47649-720.mp4)",
       "WebFetch(domain:elements.envato.com)",
-      "Bash(powershell -Command \"Get-Content 'C:\\\\Users\\\\Gram\\\\workspaces\\\\claude-code-mastery\\\\nc26\\\\Code_deploy.gs' -Encoding UTF8 | Set-Clipboard\")"
+      "Bash(powershell -Command \"Get-Content 'C:\\\\Users\\\\Gram\\\\workspaces\\\\claude-code-mastery\\\\nc26\\\\Code_deploy.gs' -Encoding UTF8 | Set-Clipboard\")",
+      "Bash(cd:*)"
     ]
   }
 }
