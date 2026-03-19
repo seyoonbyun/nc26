@@ -331,10 +331,14 @@
 <div class="mb-5">
 <h3 class="text-lg font-bold mb-2" data-i18n="plan5_name"></h3>
 <p class="text-xs text-slate-500 mb-3" data-i18n="plan5_package"></p>
-<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-2">
 <div class="flex items-center justify-between">
-<span class="text-[10px] font-bold uppercase tracking-wider text-primary">정가</span>
-<span class="text-xl font-black text-primary" data-i18n="plan5_price"></span>
+<span class="text-[10px] font-bold uppercase tracking-wider text-primary" data-i18n="label_early_bird"></span>
+<span class="text-xl font-black text-primary" data-i18n="plan5_early_price"></span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider" data-i18n="label_regular"></span>
+<span class="text-sm font-bold text-slate-400 line-through" data-i18n="plan5_regular_price"></span>
 </div>
 </div>
 </div>
@@ -832,31 +836,32 @@ const i18n = {
         hero_subtitle: '서울에서 열리는 글로벌 비즈니스 컨퍼런스에 함께하세요.',
         countdown_label: '얼리버드 마감까지',
         lang_label: '언어 선택:',
-        vat_note: '부가세 별도',
+        vat_note: 'VAT 포함',
         badge_ed: 'ED',
-        plan1_name: 'Executive Director (ED)',
+        plan1_name: 'Executive Director Pass',
         plan1_package: '컨퍼런스 + 네트워킹 파티 포함',
-        plan1_early_price: '₩500,000',
+        plan1_early_price: '₩550,000',
         plan1_early_local: '',
-        plan1_regular_price: '₩600,000',
+        plan1_regular_price: '₩660,000',
         plan1_regular_local: '',
-        plan2_name: 'Director',
+        plan2_name: 'Director Pass',
         plan2_package: '컨퍼런스 + 네트워킹 파티 포함',
-        plan2_early_price: '₩350,000',
+        plan2_early_price: '₩385,000',
         plan2_early_local: '',
-        plan2_regular_price: '₩450,000',
+        plan2_regular_price: '₩495,000',
         plan2_regular_local: '',
-        plan3_name: 'Member',
+        plan3_name: 'BNI K. Member Pass',
         plan3_package: '컨퍼런스 ONLY',
-        plan3_early_price: '₩280,000',
-        plan3_regular_price: '₩380,000',
-        plan4_name: 'Visitor',
+        plan3_early_price: '₩308,000',
+        plan3_regular_price: '₩418,000',
+        plan4_name: 'Visitor Pass',
         plan4_package: 'Day 1 ONLY (점심 포함, 파티 불가)',
-        plan4_early_price: '₩140,000',
-        plan4_regular_price: '₩190,000',
-        plan5_name: 'Networking Party',
+        plan4_early_price: '₩154,000',
+        plan4_regular_price: '₩209,000',
+        plan5_name: 'Networking Party Pass',
         plan5_package: '파티 ONLY (Day 1 밤)',
-        plan5_price: '₩70,000',
+        plan5_early_price: '₩77,000',
+        plan5_regular_price: '₩88,000',
         feat_day1_only: 'Day 1 참가만',
         feat_lunch_included: '점심 포함',
         feat_party_only: '네트워킹 파티 참가',
@@ -1357,11 +1362,11 @@ function showToast(message, isError = false) {
 let selectedDomesticPlan = '';
 
 const DOMESTIC_PLAN_INFO = {
-    plan1: { name: 'Executive Director (ED)', price: '₩500,000', regular: '₩600,000', position: 'ED' },
-    plan2: { name: 'Director', price: '₩350,000', regular: '₩450,000', position: 'Director' },
-    plan3: { name: 'Member', price: '₩280,000', regular: '₩380,000', position: 'Member' },
-    plan4: { name: 'Visitor', price: '₩140,000', regular: '₩190,000', position: 'Visitor' },
-    plan5: { name: 'Networking Party', price: '₩70,000', regular: '', position: 'Party' }
+    plan1: { name: 'Executive Director Pass', price: '₩550,000', regular: '₩660,000', position: 'ED' },
+    plan2: { name: 'Director Pass', price: '₩385,000', regular: '₩495,000', position: 'Director' },
+    plan3: { name: 'BNI K. Member Pass', price: '₩308,000', regular: '₩418,000', position: 'Member' },
+    plan4: { name: 'Visitor Pass', price: '₩154,000', regular: '₩209,000', position: 'Visitor' },
+    plan5: { name: 'Networking Party Pass', price: '₩77,000', regular: '₩88,000', position: 'Party' }
 };
 
 const PAYMENT_URLS_DOMESTIC = {
