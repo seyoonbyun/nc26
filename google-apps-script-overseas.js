@@ -53,30 +53,37 @@ function doPost(e) {
   try {
     var p = e.parameter;
 
-    // text/plain JSON (booth with files)
-    if (e.postData && e.postData.type && e.postData.type.indexOf('text/plain') > -1) {
-      try {
-        p = JSON.parse(e.postData.contents);
-      } catch (err) {
-        Logger.log('JSON parse error: ' + err.message);
+    // 파일 별도 수신 (booth-files)
+    if (p.type === 'booth-files') {
+      var sheet = SS.getSheetByName('Booth');
+      if (sheet) {
+        var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
+        var logoCol = headers.indexOf('Logo File') + 1;
+        var adCol = headers.indexOf('Ad File') + 1;
+        // 해당 회사의 마지막 행 찾기
+        var companyCol = headers.indexOf('Company') + 1;
+        var data = sheet.getRange(2, companyCol, sheet.getLastRow() - 1, 1).getValues();
+        var targetRow = -1;
+        for (var i = data.length - 1; i >= 0; i--) {
+          if (data[i][0] === p.company) { targetRow = i + 2; break; }
+        }
+        if (targetRow > 0) {
+          if (p.logoFileBase64 && logoCol > 0) {
+            var logoUrl = saveFileToDrive(p.logoFileName || 'logo', p.logoFileBase64, p.company);
+            if (logoUrl) setHyperlink(sheet, targetRow, logoCol, logoUrl, p.logoFileName || 'logo');
+          }
+          if (p.adFileBase64 && adCol > 0) {
+            var adUrl = saveFileToDrive(p.adFileName || 'ad', p.adFileBase64, p.company);
+            if (adUrl) setHyperlink(sheet, targetRow, adCol, adUrl, p.adFileName || 'ad');
+          }
+        }
       }
+      return ContentService.createTextOutput(
+        JSON.stringify({ status: 'ok' })
+      ).setMimeType(ContentService.MimeType.JSON);
     }
 
     if (p.type === 'booth') {
-      var logoUrl = '';
-      var logoName = '';
-      var adUrl = '';
-      var adName = '';
-
-      if (p.logoFileBase64) {
-        logoName = p.logoFileName || 'logo';
-        logoUrl = saveFileToDrive(logoName, p.logoFileBase64, p.company);
-      }
-      if (p.adFileBase64) {
-        adName = p.adFileName || 'ad';
-        adUrl = saveFileToDrive(adName, p.adFileBase64, p.company);
-      }
-
       var sheet = getOrCreateSheet('Booth', BOOTH_HEADERS);
       sheet.appendRow([
         formatTimestamp(p.timestamp),
@@ -95,8 +102,8 @@ function doPost(e) {
         p.chapter || '',
         p.license || '',
         p.price || '',
-        logoUrl ? logoName : '',
-        adUrl ? adName : '',
+        '',
+        '',
         'Pending'
       ]);
 
@@ -114,11 +121,6 @@ function doPost(e) {
       if (p.applicantEmail) {
         setHyperlink(sheet, newRow, 12, 'mailto:' + p.applicantEmail, p.applicantEmail);
       }
-      // Logo File -> Drive link with filename
-      if (logoUrl) {
-        setHyperlink(sheet, newRow, 17, logoUrl, logoName);
-      }
-      // Ad File -> Drive link with filename
       if (adUrl) {
         setHyperlink(sheet, newRow, 18, adUrl, adName);
       }

@@ -1287,7 +1287,7 @@ function closeRegForm() {
     document.body.style.overflow = '';
 }
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz250t9gALsAwxCOyjCPxzYJ8YaZyuq5J_yKeNDtrcH8EIFNMgfKk_PU0ClbW2w05w/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw9sILc35Q33sV2wIRTk-bS_dGfJHZmlvT1h-SqYIMiLasSacXM7xpWS5gjlMuukA/exec';
 
 const PAYMENT_URLS = {
     en: { ED: 'https://global.bnikoreastore.com/surl/P/763', DM: 'https://global.bnikoreastore.com/surl/P/764', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' },
@@ -1638,29 +1638,42 @@ async function submitBoothForm(e) {
         timestamp: new Date().toISOString()
     };
 
-    // 파일 첨부 (base64)
-    const logoInput = document.getElementById('booth-file-logo');
-    const adInput = document.getElementById('booth-file-ad');
-    try {
-        if (logoInput.files[0]) {
-            payload.logoFileName = logoInput.files[0].name;
-            payload.logoFileBase64 = await fileToBase64(logoInput.files[0]);
-        }
-        if (adInput.files[0]) {
-            payload.adFileName = adInput.files[0].name;
-            payload.adFileBase64 = await fileToBase64(adInput.files[0]);
-        }
-    } catch (err) {
-        console.error('File read error:', err);
-    }
-
-    // 시트 저장은 백그라운드로 전송 (응답 기다리지 않음)
+    // 폼 데이터 먼저 전송 (URLSearchParams)
+    const params = new URLSearchParams(payload);
     fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(payload)
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
     }).catch(() => {});
+
+    // 파일은 별도 전송 (백그라운드)
+    const logoInput = document.getElementById('booth-file-logo');
+    const adInput = document.getElementById('booth-file-ad');
+    if (logoInput.files[0] || adInput.files[0]) {
+        (async function() {
+            try {
+                const filePayload = { type: 'booth-files', company: payload.company };
+                if (logoInput.files[0]) {
+                    filePayload.logoFileName = logoInput.files[0].name;
+                    filePayload.logoFileBase64 = await fileToBase64(logoInput.files[0]);
+                }
+                if (adInput.files[0]) {
+                    filePayload.adFileName = adInput.files[0].name;
+                    filePayload.adFileBase64 = await fileToBase64(adInput.files[0]);
+                }
+                const fileParams = new URLSearchParams(filePayload);
+                fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: fileParams.toString()
+                }).catch(() => {});
+            } catch (err) {
+                console.error('File upload error:', err);
+            }
+        })();
+    }
 
     // 즉시 결제 페이지로 이동
     closeBoothModal();
