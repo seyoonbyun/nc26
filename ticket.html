@@ -271,7 +271,7 @@ function toggleMobileMenu() {
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_networking_party"></span></li>
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_day12"></span></li>
 </ul>
-<button onclick="openDomesticForm('plan1')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+<button onclick="goToDomesticPayment('plan1')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
 </div>
 <!-- Director Card -->
 <div class="flex flex-col p-5 md:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
@@ -294,7 +294,7 @@ function toggleMobileMenu() {
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_networking_party"></span></li>
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_day12"></span></li>
 </ul>
-<button onclick="openDomesticForm('plan2')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+<button onclick="goToDomesticPayment('plan2')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
 </div>
 <!-- Member Card -->
 <div class="flex flex-col p-5 md:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
@@ -317,7 +317,7 @@ function toggleMobileMenu() {
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-red-400 text-lg">cancel</span> <span class="text-slate-400" data-i18n="feat_no_party"></span></li>
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_day12"></span></li>
 </ul>
-<button onclick="openDomesticForm('plan3')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+<button onclick="goToDomesticPayment('plan3')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
 </div>
 <!-- Visitor Card -->
 <div class="flex flex-col p-5 md:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
@@ -340,7 +340,7 @@ function toggleMobileMenu() {
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_lunch_included"></span></li>
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-red-400 text-lg">cancel</span> <span class="text-slate-400" data-i18n="feat_no_party"></span></li>
 </ul>
-<button onclick="openDomesticForm('plan4')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+<button onclick="goToDomesticPayment('plan4')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
 </div>
 <!-- Networking Party Card -->
 <div class="flex flex-col p-5 md:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
@@ -362,7 +362,7 @@ function toggleMobileMenu() {
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_party_only"></span></li>
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-red-400 text-lg">cancel</span> <span class="text-slate-400" data-i18n="feat_no_conference"></span></li>
 </ul>
-<button onclick="openDomesticForm('plan5')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+<button onclick="goToDomesticPayment('plan5')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
 </div>
 <!-- Booth Card (Domestic) -->
 <div class="flex flex-col p-5 md:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-700 hover:border-primary/50 transition-all relative">
@@ -1379,7 +1379,15 @@ const PAYMENT_URLS_DOMESTIC = {
     plan5: ''  // Party 결제 링크
 };
 
-function openDomesticForm(planKey) {
+function goToDomesticPayment(planKey) {
+    const paymentUrl = PAYMENT_URLS_DOMESTIC[planKey];
+    if (paymentUrl) {
+        window.location.href = paymentUrl;
+    } else {
+        showToast('결제 링크가 아직 준비되지 않았습니다. 잠시 후 다시 시도해 주세요.', true);
+    }
+    return;
+    // 아래 기존 폼 코드는 사용하지 않음
     selectedDomesticPlan = planKey;
     const info = DOMESTIC_PLAN_INFO[planKey];
     document.getElementById('domestic-modal-title').textContent = '참가자 등록';
