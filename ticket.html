@@ -1617,6 +1617,23 @@ async function submitBoothForm(e) {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
 
+    // 저장 중 팝업 표시
+    const savingLang = boothType === 'domestic' ? 'ko' : (currentLang || 'en');
+    const savingMsg = {
+        ko: '제출하신 신청서를 저장하고 있습니다.\n잠시만 기다려주세요!',
+        en: 'Saving your application.\nPlease wait a moment!',
+        ja: '申請書を保存しています。\n少々お待ちください！',
+        zh: '正在保存您的申请表。\n请稍候！'
+    };
+    const savingOverlay = document.createElement('div');
+    savingOverlay.id = 'saving-overlay';
+    savingOverlay.className = 'fixed inset-0 z-[300] bg-black/60 backdrop-blur-sm flex items-center justify-center';
+    savingOverlay.innerHTML = '<div class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-2xl text-center max-w-xs mx-4">'
+        + '<span class="material-symbols-outlined text-primary text-4xl animate-spin mb-4 block">progress_activity</span>'
+        + '<p class="font-bold text-sm whitespace-pre-line">' + (savingMsg[savingLang] || savingMsg.en) + '</p>'
+        + '</div>';
+    document.body.appendChild(savingOverlay);
+
     const payload = {
         type: 'booth',
         boothType: boothType,
@@ -1661,6 +1678,8 @@ async function submitBoothForm(e) {
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload)
     }).then(() => {
+        var overlay = document.getElementById('saving-overlay');
+        if (overlay) overlay.remove();
         closeBoothModal();
         if (boothType === 'domestic') {
             showToast('부스 신청이 완료되었습니다! 결제 안내 이메일을 확인해 주세요.');
@@ -1678,6 +1697,8 @@ async function submitBoothForm(e) {
             }
         }
     }).catch(() => {
+        var overlay = document.getElementById('saving-overlay');
+        if (overlay) overlay.remove();
         closeBoothModal();
         showToast(boothType === 'domestic'
             ? '오류가 발생했습니다. 다시 시도해 주세요.'
