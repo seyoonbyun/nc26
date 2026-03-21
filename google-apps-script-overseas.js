@@ -54,7 +54,7 @@ function doPost(e) {
     var p = e.parameter;
 
     // text/plain JSON (booth with files)
-    if (e.postData && e.postData.type === 'text/plain') {
+    if (e.postData && e.postData.type && e.postData.type.indexOf('text/plain') > -1) {
       try {
         p = JSON.parse(e.postData.contents);
       } catch (err) {
