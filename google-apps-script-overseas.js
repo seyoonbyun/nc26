@@ -9,7 +9,7 @@ var BOOTH_HEADERS = [
   'Timestamp', 'Company', 'Display Name', 'Owner', 'Address',
   'Phone', 'Fax', 'Homepage', 'Email',
   'Applicant Name', 'Applicant Phone', 'Applicant Email',
-  'Country', 'Chapter', 'License', 'Price', 'Status'
+  'Country', 'Chapter', 'License', 'Price', 'Logo File', 'Ad File', 'Status'
 ];
 
 function getOrCreateSheet(name, headers) {
@@ -18,9 +18,35 @@ function getOrCreateSheet(name, headers) {
     sheet = SS.insertSheet(name);
     sheet.appendRow(headers);
     sheet.getRange(1, 1, 1, headers.length).setFontWeight('bold');
+    sheet.getRange(1, 1, 1, headers.length).setBackground('#cf1f2e');
+    sheet.getRange(1, 1, 1, headers.length).setFontColor('#ffffff');
     sheet.setFrozenRows(1);
   }
   return sheet;
+}
+
+function asText(val) {
+  if (!val) return '';
+  return "'" + val;
+}
+
+function formatTimestamp(ts) {
+  try {
+    var d = new Date(ts);
+    return Utilities.formatDate(d, 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
+  } catch (err) {
+    return ts || '';
+  }
+}
+
+function setHyperlink(sheet, row, col, url, label) {
+  if (!url) return;
+  var cell = sheet.getRange(row, col);
+  var richText = SpreadsheetApp.newRichTextValue()
+    .setText(label)
+    .setLinkUrl(url)
+    .build();
+  cell.setRichTextValue(richText);
 }
 
 function doPost(e) {
@@ -28,42 +54,74 @@ function doPost(e) {
     var p = e.parameter;
 
     if (p.type === 'booth') {
+      var logoUrl = '';
+      var logoName = '';
+      var adUrl = '';
+      var adName = '';
+
+      if (p.logoFileBase64) {
+        logoName = p.logoFileName || 'logo';
+        logoUrl = saveFileToDrive(logoName, p.logoFileBase64, p.company);
+      }
+      if (p.adFileBase64) {
+        adName = p.adFileName || 'ad';
+        adUrl = saveFileToDrive(adName, p.adFileBase64, p.company);
+      }
+
       var sheet = getOrCreateSheet('Booth', BOOTH_HEADERS);
       sheet.appendRow([
-        p.timestamp || new Date().toISOString(),
+        formatTimestamp(p.timestamp),
         p.company || '',
         p.displayName || '',
         p.owner || '',
         p.address || '',
-        p.phone || '',
-        p.fax || '',
+        asText(p.phone),
+        asText(p.fax),
         p.homepage || '',
         p.email || '',
         p.applicantName || '',
-        p.applicantPhone || '',
+        asText(p.applicantPhone),
         p.applicantEmail || '',
         p.country || '',
         p.chapter || '',
         p.license || '',
         p.price || '',
+        logoUrl ? logoName : '',
+        adUrl ? adName : '',
         'Pending'
       ]);
 
-      if (p.logoFileBase64) {
-        saveFileToDrive(p.logoFileName, p.logoFileBase64, p.company);
+      var newRow = sheet.getLastRow();
+
+      // Homepage -> clickable link
+      if (p.homepage) {
+        setHyperlink(sheet, newRow, 8, p.homepage, p.homepage);
       }
-      if (p.adFileBase64) {
-        saveFileToDrive(p.adFileName, p.adFileBase64, p.company);
+      // Email -> mailto link
+      if (p.email) {
+        setHyperlink(sheet, newRow, 9, 'mailto:' + p.email, p.email);
+      }
+      // Applicant Email -> mailto link
+      if (p.applicantEmail) {
+        setHyperlink(sheet, newRow, 12, 'mailto:' + p.applicantEmail, p.applicantEmail);
+      }
+      // Logo File -> Drive link with filename
+      if (logoUrl) {
+        setHyperlink(sheet, newRow, 17, logoUrl, logoName);
+      }
+      // Ad File -> Drive link with filename
+      if (adUrl) {
+        setHyperlink(sheet, newRow, 18, adUrl, adName);
       }
 
     } else {
       var sheet = getOrCreateSheet('Tickets', TICKET_HEADERS);
       sheet.appendRow([
-        p.timestamp || new Date().toISOString(),
+        formatTimestamp(p.timestamp),
         p.name || '',
         p.nationality || '',
         p.email || '',
-        p.phone || '',
+        asText(p.phone),
         p.position || '',
         p.plan || '',
         p.planPrice || '',
@@ -71,6 +129,13 @@ function doPost(e) {
         p.memo || '',
         'Pending'
       ]);
+
+      var newRow = sheet.getLastRow();
+
+      // Email -> mailto link
+      if (p.email) {
+        setHyperlink(sheet, newRow, 4, 'mailto:' + p.email, p.email);
+      }
     }
 
     return ContentService.createTextOutput(
@@ -87,14 +152,18 @@ function doPost(e) {
 function saveFileToDrive(fileName, base64Data, companyName) {
   try {
     var folder = getOrCreateFolder('NC26_Booth_Files');
+    var fullName = (companyName ? companyName + '_' : '') + fileName;
     var blob = Utilities.newBlob(
       Utilities.base64Decode(base64Data),
       'application/octet-stream',
-      (companyName ? companyName + '_' : '') + fileName
+      fullName
     );
-    folder.createFile(blob);
+    var file = folder.createFile(blob);
+    file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    return file.getUrl();
   } catch (err) {
     Logger.log('File save error: ' + err.message);
+    return '';
   }
 }
 
