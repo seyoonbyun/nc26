@@ -1327,43 +1327,29 @@ function submitRegForm(e) {
     // URLSearchParams로 전송 (CORS 안전 + Apps Script 호환)
     const params = new URLSearchParams(payload);
 
+    // 시트 저장은 백그라운드로 전송 (응답 기다리지 않음)
     fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: params.toString()
-    })
-    .then(() => {
-        closeRegForm();
+    }).catch(() => {});
+
+    // 즉시 결제 페이지로 이동
+    closeRegForm();
+    const lang = currentLang;
+    const planToPayment = { plan1: 'ED', plan2: 'DM' };
+    const paymentKey = planToPayment[selectedPlan] || position;
+    const paymentUrl = PAYMENT_URLS[lang] && PAYMENT_URLS[lang][paymentKey];
+    if (paymentUrl) {
         showToast(
             currentLang === 'ja' ? '登録完了！決済ページへ移動します...' :
             currentLang === 'zh' ? '注册成功！正在跳转至支付页面...' :
             currentLang === 'ko' ? '등록 완료! 결제 페이지로 이동합니다...' :
             'Registration submitted! Redirecting to payment...'
         );
-        // 결제 페이지로 리디렉트 (plan1=ED, plan2=DM)
-        const lang = currentLang;
-        const planToPayment = { plan1: 'ED', plan2: 'DM' };
-        const paymentKey = planToPayment[selectedPlan] || position;
-        const paymentUrl = PAYMENT_URLS[lang] && PAYMENT_URLS[lang][paymentKey];
-        if (paymentUrl) {
-            setTimeout(() => { window.location.href = paymentUrl; }, 1500);
-        }
-    })
-    .catch(() => {
-        closeRegForm();
-        showToast(
-            currentLang === 'ja' ? 'エラーが発生しました。' :
-            currentLang === 'zh' ? '发生错误，请重试。' :
-            currentLang === 'ko' ? '오류가 발생했습니다.' :
-            'An error occurred. Please try again.',
-            true
-        );
-    })
-    .finally(() => {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalHTML;
-    });
+        setTimeout(() => { window.location.href = paymentUrl; }, 800);
+    }
 }
 
 function showToast(message, isError = false) {
@@ -1668,40 +1654,31 @@ async function submitBoothForm(e) {
         console.error('File read error:', err);
     }
 
+    // 시트 저장은 백그라운드로 전송 (응답 기다리지 않음)
     fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(payload)
-    })
-    .then(() => {
-        closeBoothModal();
-        if (boothType === 'domestic') {
-            showToast('부스 신청이 완료되었습니다! 결제 안내 이메일을 확인해 주세요.');
+    }).catch(() => {});
+
+    // 즉시 결제 페이지로 이동
+    closeBoothModal();
+    if (boothType === 'domestic') {
+        showToast('부스 신청이 완료되었습니다! 결제 안내 이메일을 확인해 주세요.');
+    } else {
+        const boothPayUrl = PAYMENT_URLS[currentLang] && PAYMENT_URLS[currentLang]['BOOTH'];
+        if (boothPayUrl) {
+            showToast(
+                currentLang === 'ja' ? '申請完了！決済ページへ移動します...' :
+                currentLang === 'zh' ? '申请成功！正在跳转至支付页面...' :
+                'Application submitted! Redirecting to payment...'
+            );
+            setTimeout(() => { window.location.href = boothPayUrl; }, 800);
         } else {
-            const boothPayUrl = PAYMENT_URLS[currentLang] && PAYMENT_URLS[currentLang]['BOOTH'];
-            if (boothPayUrl) {
-                showToast(
-                    currentLang === 'ja' ? '申請完了！決済ページへ移動します...' :
-                    currentLang === 'zh' ? '申请成功！正在跳转至支付页面...' :
-                    'Application submitted! Redirecting to payment...'
-                );
-                setTimeout(() => { window.location.href = boothPayUrl; }, 1500);
-            } else {
-                showToast('Booth application submitted! Payment instructions will be sent via email.');
-            }
+            showToast('Booth application submitted! Payment instructions will be sent via email.');
         }
-    })
-    .catch(() => {
-        closeBoothModal();
-        showToast(boothType === 'domestic'
-            ? '오류가 발생했습니다. 다시 시도해 주세요.'
-            : 'An error occurred. Please try again.', true);
-    })
-    .finally(() => {
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = originalHTML;
-    });
+    }
 }
 
 const layoutBackText = { ko: '신청서로 돌아가기', en: 'Back to Application', ja: '申請書に戻る', zh: '返回申请表' };
