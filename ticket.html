@@ -164,16 +164,27 @@
 <a class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="schedule.html">Schedule</a>
 <a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="ticket.html">Ticket</a>
 </nav>
-<button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden size-10 flex items-center justify-center rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
-<span class="material-symbols-outlined">menu</span>
+<button onclick="toggleMobileMenu()" id="menu-toggle-btn" class="md:hidden size-10 flex items-center justify-center rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined" id="menu-toggle-icon">menu</span>
 </button>
 </header>
-<div id="mobile-menu" class="hidden md:hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-6 py-4 space-y-3 sticky top-[65px] z-40">
-<a class="block text-sm font-semibold hover:text-primary transition-colors" href="index.html">Home</a>
-<a class="block text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="speakers.html">Speakers</a>
-<a class="block text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="schedule.html">Schedule</a>
-<a class="block text-sm font-semibold text-primary" href="ticket.html">Ticket</a>
+<div id="mobile-menu" class="md:hidden bg-white dark:bg-[#0a0c10] border-b border-slate-200 dark:border-slate-800 overflow-hidden transition-all duration-300 sticky top-[65px] z-40" style="max-height:0;">
+<div class="flex items-center justify-around py-3 px-2">
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="index.html"><span class="material-symbols-outlined text-xl">home</span><span class="text-[10px] font-bold">Home</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="speakers.html"><span class="material-symbols-outlined text-xl">mic</span><span class="text-[10px] font-bold">Speakers</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="schedule.html"><span class="material-symbols-outlined text-xl">calendar_month</span><span class="text-[10px] font-bold">Schedule</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-primary" href="ticket.html"><span class="material-symbols-outlined text-xl">confirmation_number</span><span class="text-[10px] font-bold">Ticket</span></a>
 </div>
+</div>
+<script>
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const icon = document.getElementById('menu-toggle-icon');
+    const isOpen = menu.style.maxHeight !== '0px' && menu.style.maxHeight !== '0';
+    menu.style.maxHeight = isOpen ? '0' : '80px';
+    icon.textContent = isOpen ? 'menu' : 'close';
+}
+</script>
 <main class="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 py-8 md:py-12">
 <!-- Hero Section -->
 <section class="mb-10 md:mb-16 text-center">
@@ -197,6 +208,7 @@
 <div class="flex gap-[3px]"><ul class="flip" id="fc-hr-t"></ul><ul class="flip" id="fc-hr-o"></ul></div>
 <span class="text-[9px] md:text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-2">Hours</span>
 </div>
+<div class="w-full md:hidden"></div>
 <span class="text-lg md:text-xl font-black text-slate-600 mx-1 md:mx-2" style="margin-top:28px;">:</span>
 <div class="flex flex-col items-center">
 <div class="flex gap-[3px]"><ul class="flip" id="fc-mn-t"></ul><ul class="flip" id="fc-mn-o"></ul></div>
@@ -765,10 +777,10 @@
 <div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">account_balance</span> 무통장입금</div>
 <div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">credit_card</span> 카드결제</div>
 </div>
-<div id="payment-international" class="flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity">
-<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">credit_card</span> VISA</div>
-<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">payments</span> Mastercard</div>
-<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">account_balance_wallet</span> PayPal</div>
+<div id="payment-international" class="flex flex-wrap justify-center items-center gap-4 md:gap-10 opacity-60 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-1 md:gap-2 font-bold text-sm md:text-xl"><span class="material-symbols-outlined text-primary text-lg md:text-2xl">credit_card</span> VISA</div>
+<div class="flex items-center gap-1 md:gap-2 font-bold text-sm md:text-xl"><span class="material-symbols-outlined text-primary text-lg md:text-2xl">payments</span> Mastercard</div>
+<div class="flex items-center gap-1 md:gap-2 font-bold text-sm md:text-xl"><span class="material-symbols-outlined text-primary text-lg md:text-2xl">account_balance_wallet</span> PayPal</div>
 </div>
 </section>
 <!-- FAQ Section -->
@@ -927,13 +939,13 @@ const i18n = {
         lang_label: 'Preferred Language:',
         vat_note: 'Prices in USD',
         badge_ed: 'ED',
-        plan1_name: 'Executive Director (ED)',
+        plan1_name: 'Executive Director Pass',
         plan1_package: 'Conference + Networking Party',
         plan1_early_price: 'USD $400',
         plan1_early_local: '',
         plan1_regular_price: 'USD $480',
         plan1_regular_local: '',
-        plan2_name: 'Director & Member',
+        plan2_name: 'Director & Member Pass',
         plan2_package: 'Conference + Networking Party',
         plan2_early_price: 'USD $280',
         plan2_early_local: '',
@@ -1000,13 +1012,13 @@ const i18n = {
         lang_label: '言語選択:',
         vat_note: 'USD表示',
         badge_ed: 'ED',
-        plan1_name: 'Executive Director (ED)',
+        plan1_name: 'Executive Director Pass',
         plan1_package: 'カンファレンス＋ネットワーキングパーティー',
         plan1_early_price: 'USD $400',
         plan1_early_local: '',
         plan1_regular_price: 'USD $480',
         plan1_regular_local: '',
-        plan2_name: 'Director & Member',
+        plan2_name: 'Director & Member Pass',
         plan2_package: 'カンファレンス＋ネットワーキングパーティー',
         plan2_early_price: 'USD $280',
         plan2_early_local: '',
@@ -1073,13 +1085,13 @@ const i18n = {
         lang_label: '语言选择:',
         vat_note: 'USD标价',
         badge_ed: 'ED',
-        plan1_name: 'Executive Director (ED)',
+        plan1_name: 'Executive Director Pass',
         plan1_package: '包括商讨会+人脉扩展晚宴',
         plan1_early_price: 'USD $400',
         plan1_early_local: '',
         plan1_regular_price: 'USD $480',
         plan1_regular_local: '',
-        plan2_name: 'Director & Member',
+        plan2_name: 'Director & Member Pass',
         plan2_package: '包括商讨会+人脉扩展晚宴',
         plan2_early_price: 'USD $280',
         plan2_early_local: '',
@@ -1275,12 +1287,12 @@ function closeRegForm() {
     document.body.style.overflow = '';
 }
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwLPnJl2W-TDdrizZIhM7QUcrzmr17UM2dq3yuqMbKo0Y-R2NxMhwDqaYPQv0iiWGo/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyKgl7lIDiMWQ55-KHsl7Bqq_LpWScRHElgYRdjrlCauqG9UAZzdKZ6LXXSo2wGBL8/exec';
 
 const PAYMENT_URLS = {
-    en: { ED: 'https://global.bnikoreastore.com/surl/P/763', DM: 'https://global.bnikoreastore.com/surl/P/764' },
-    zh: { ED: 'https://global.bnikoreastore.com/surl/P/765', DM: 'https://global.bnikoreastore.com/surl/P/766' },
-    ja: { ED: 'https://global.bnikoreastore.com/surl/P/767', DM: 'https://global.bnikoreastore.com/surl/P/768' }
+    en: { ED: 'https://global.bnikoreastore.com/surl/P/763', DM: 'https://global.bnikoreastore.com/surl/P/764', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' },
+    zh: { ED: 'https://global.bnikoreastore.com/surl/P/765', DM: 'https://global.bnikoreastore.com/surl/P/766', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' },
+    ja: { ED: 'https://global.bnikoreastore.com/surl/P/767', DM: 'https://global.bnikoreastore.com/surl/P/768', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' }
 };
 
 function submitRegForm(e) {
@@ -1665,9 +1677,21 @@ async function submitBoothForm(e) {
     })
     .then(() => {
         closeBoothModal();
-        showToast(boothType === 'domestic'
-            ? '부스 신청이 완료되었습니다! 결제 안내 이메일을 확인해 주세요.'
-            : 'Booth application submitted! Payment instructions will be sent via email.');
+        if (boothType === 'domestic') {
+            showToast('부스 신청이 완료되었습니다! 결제 안내 이메일을 확인해 주세요.');
+        } else {
+            const boothPayUrl = PAYMENT_URLS[currentLang] && PAYMENT_URLS[currentLang]['BOOTH'];
+            if (boothPayUrl) {
+                showToast(
+                    currentLang === 'ja' ? '申請完了！決済ページへ移動します...' :
+                    currentLang === 'zh' ? '申请成功！正在跳转至支付页面...' :
+                    'Application submitted! Redirecting to payment...'
+                );
+                setTimeout(() => { window.location.href = boothPayUrl; }, 1500);
+            } else {
+                showToast('Booth application submitted! Payment instructions will be sent via email.');
+            }
+        }
     })
     .catch(() => {
         closeBoothModal();

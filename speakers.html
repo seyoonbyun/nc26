@@ -51,17 +51,28 @@ body { font-family: 'Noto Sans KR', 'Inter', sans-serif; }
 <a class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="schedule.html">Schedule</a>
 <a class="text-sm font-semibold hover:text-primary transition-colors" href="ticket.html">Ticket</a>
 </nav>
-<button onclick="document.getElementById('mobile-menu').classList.toggle('hidden')" class="md:hidden size-10 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-colors">
-<span class="material-symbols-outlined">menu</span>
+<button onclick="toggleMobileMenu()" id="menu-toggle-btn" class="md:hidden size-10 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined" id="menu-toggle-icon">menu</span>
 </button>
 </div>
 </header>
-<div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-[#0a0c10] px-6 py-4 space-y-3 sticky top-[65px] z-40">
-<a class="block text-sm font-semibold hover:text-primary transition-colors" href="index.html">Home</a>
-<a class="block text-sm font-semibold text-primary" href="speakers.html">Speakers</a>
-<a class="block text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="schedule.html">Schedule</a>
-<a class="block text-sm font-semibold hover:text-primary transition-colors" href="ticket.html">Ticket</a>
+<div id="mobile-menu" class="md:hidden bg-[#0a0c10] border-b border-slate-800 overflow-hidden transition-all duration-300 sticky top-[65px] z-40" style="max-height:0;">
+<div class="flex items-center justify-around py-3 px-2">
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="index.html"><span class="material-symbols-outlined text-xl">home</span><span class="text-[10px] font-bold">Home</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-primary" href="speakers.html"><span class="material-symbols-outlined text-xl">mic</span><span class="text-[10px] font-bold">Speakers</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="schedule.html"><span class="material-symbols-outlined text-xl">calendar_month</span><span class="text-[10px] font-bold">Schedule</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="ticket.html"><span class="material-symbols-outlined text-xl">confirmation_number</span><span class="text-[10px] font-bold">Ticket</span></a>
 </div>
+</div>
+<script>
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const icon = document.getElementById('menu-toggle-icon');
+    const isOpen = menu.style.maxHeight !== '0px' && menu.style.maxHeight !== '0';
+    menu.style.maxHeight = isOpen ? '0' : '80px';
+    icon.textContent = isOpen ? 'menu' : 'close';
+}
+</script>
 
 <main class="flex-1 max-w-6xl mx-auto w-full px-4 md:px-6 py-12 md:py-20">
 <!-- Hero -->
@@ -253,7 +264,7 @@ const speakers = {
         }
     },
     norm: {
-        photo: 'speaker-norm.png',
+        photo: 'Norm Dominguez_main.jpg',
         tag: 'Special Speech',
         name: 'Norm Dominguez',
         title: 'BNI Vice Chairman Emeritus & Senator · Co-Founder, Possi Global',
