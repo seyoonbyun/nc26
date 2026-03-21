@@ -1,4 +1,6 @@
 var SS = SpreadsheetApp.getActiveSpreadsheet();
+var ADMIN_EMAILS = 'hq@joy-bnikorea.com,admin@bni-korea.com,ksoh7512@gmail.com';
+var ADMIN_EMAILS_KOR = 'hq@joy-bnikorea.com,admin@bni-korea.com';
 
 var TICKET_HEADERS = [
   'Timestamp', 'Name', 'Nationality', 'Email', 'Phone',
@@ -263,7 +265,7 @@ function onEditInstallable(e) {
   if (sheetName === 'Tickets') {
     sendTicketConfirmationEmail(headers, rowData);
   } else if (sheetName === 'Booth' || sheetName === 'Booth_Kor') {
-    sendBoothVoucherEmail(headers, rowData);
+    sendBoothVoucherEmail(headers, rowData, sheetName);
   }
 }
 
@@ -319,11 +321,11 @@ function sendTicketConfirmationEmail(headers, row) {
     + '<p style="margin:0;font-size:11px;color:#bbb;">&copy; 2026 BNI Korea. All rights reserved.</p>'
     + '</div></div></body></html>';
 
-  MailApp.sendEmail({ to: email, subject: subject, htmlBody: body });
-  Logger.log('Ticket confirmation email sent to: ' + email);
+  MailApp.sendEmail({ to: email, cc: ADMIN_EMAILS, subject: subject, htmlBody: body });
+  Logger.log('Ticket confirmation email sent to: ' + email + ' cc: ' + ADMIN_EMAILS);
 }
 
-function sendBoothVoucherEmail(headers, row) {
+function sendBoothVoucherEmail(headers, row, sheetName) {
   var get = function(key) { return row[headers.indexOf(key)] || ''; };
 
   var company = get('Company');
@@ -398,6 +400,7 @@ function sendBoothVoucherEmail(headers, row) {
     + '<p style="margin:0;font-size:11px;color:#bbb;">&copy; 2026 BNI Korea. All rights reserved.</p>'
     + '</div></div></body></html>';
 
-  MailApp.sendEmail({ to: recipientEmail, subject: subject, htmlBody: body });
-  Logger.log('Booth voucher email sent to: ' + recipientEmail);
+  var adminCc = (sheetName === 'Booth_Kor') ? ADMIN_EMAILS_KOR : ADMIN_EMAILS;
+  MailApp.sendEmail({ to: recipientEmail, cc: adminCc, subject: subject, htmlBody: body });
+  Logger.log('Booth voucher email sent to: ' + recipientEmail + ' cc: ' + adminCc);
 }
