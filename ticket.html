@@ -1287,7 +1287,7 @@ function closeRegForm() {
     document.body.style.overflow = '';
 }
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxsP65ZYp1F5iPvR5Avgf8jwPnCkEjyN7OCZJaB0rg7kxMu97AV17O-iR_nDwLIDyg/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxUkpSDRgcg8W4-vF7e3-cCgGcde_v31JAxjatenvISy6OXbcJ5MaeW6v_FTHZM64/exec';
 
 const PAYMENT_URLS = {
     en: { ED: 'https://global.bnikoreastore.com/surl/P/763', DM: 'https://global.bnikoreastore.com/surl/P/764', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' },
@@ -1668,12 +1668,11 @@ async function submitBoothForm(e) {
         console.error('File read error:', err);
     }
 
-    const params = new URLSearchParams(payload);
     fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: params.toString()
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
     })
     .then(() => {
         closeBoothModal();

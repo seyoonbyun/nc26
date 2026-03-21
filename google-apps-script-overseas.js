@@ -53,6 +53,15 @@ function doPost(e) {
   try {
     var p = e.parameter;
 
+    // text/plain JSON (booth with files)
+    if (e.postData && e.postData.type === 'text/plain') {
+      try {
+        p = JSON.parse(e.postData.contents);
+      } catch (err) {
+        Logger.log('JSON parse error: ' + err.message);
+      }
+    }
+
     if (p.type === 'booth') {
       var logoUrl = '';
       var logoName = '';
