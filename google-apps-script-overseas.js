@@ -107,7 +107,8 @@ function doPost(e) {
         adUrl = saveFileToDrive(adName, p.adFileBase64, p.company);
       }
 
-      var sheet = getOrCreateSheet('Booth', BOOTH_HEADERS);
+      var boothSheetName = (p.boothType === 'domestic') ? 'Booth_Kor' : 'Booth';
+      var sheet = getOrCreateSheet(boothSheetName, BOOTH_HEADERS);
       sheet.appendRow([
         formatTimestamp(p.timestamp),
         p.company || '',
@@ -149,9 +150,6 @@ function doPost(e) {
         setHyperlink(sheet, newRow, 17, logoUrl, logoName);
       }
       // Ad File -> Drive link
-      if (adUrl) {
-        setHyperlink(sheet, newRow, 18, adUrl, adName);
-      }
       if (adUrl) {
         setHyperlink(sheet, newRow, 18, adUrl, adName);
       }
@@ -225,7 +223,7 @@ function onEditInstallable(e) {
   var range = e.range;
   var sheetName = sheet.getName();
 
-  if (sheetName !== 'Tickets' && sheetName !== 'Booth') return;
+  if (sheetName !== 'Tickets' && sheetName !== 'Booth' && sheetName !== 'Booth_Kor') return;
 
   var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
   var statusCol = headers.indexOf('Status') + 1;
@@ -241,7 +239,7 @@ function onEditInstallable(e) {
 
   if (sheetName === 'Tickets') {
     sendTicketConfirmationEmail(headers, rowData);
-  } else if (sheetName === 'Booth') {
+  } else if (sheetName === 'Booth' || sheetName === 'Booth_Kor') {
     sendBoothVoucherEmail(headers, rowData);
   }
 }
