@@ -334,11 +334,13 @@ function sendBoothVoucherEmail(headers, row) {
   var country = get('Country');
   var price = get('Price');
 
+  Logger.log('Booth email debug - Email: [' + email + '] ApplicantEmail: [' + applicantEmail + ']');
   var recipients = [];
   if (email) recipients.push(email);
   if (applicantEmail && applicantEmail !== email) recipients.push(applicantEmail);
   if (recipients.length === 0) return;
   var recipientEmail = recipients.join(',');
+  Logger.log('Booth sending to: ' + recipientEmail);
 
   var voucherNo = 'BNI-BOOTH-' + Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyyMMdd') + '-' + Math.random().toString(36).substring(2, 7).toUpperCase();
 
