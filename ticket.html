@@ -1628,10 +1628,10 @@ async function submitBoothForm(e) {
     // 저장 중 팝업 표시
     const savingLang = boothType === 'domestic' ? 'ko' : (currentLang || 'en');
     const savingMsg = {
-        ko: '제출하신 신청서를 저장하고 있습니다.\n잠시만 기다려주세요!',
-        en: 'Saving your application.\nPlease wait a moment!',
-        ja: '申請書を保存しています。\n少々お待ちください！',
-        zh: '正在保存您的申请表。\n请稍候！'
+        ko: '제출하신 신청서를 저장하고 있습니다.\n잠시만 기다려주세요!\n\n최대 1~2분 소요될 수 있습니다.',
+        en: 'Saving your application.\nPlease wait a moment!\n\nThis may take up to 1-2 minutes.',
+        ja: '申請書を保存しています。\n少々お待ちください！\n\n最大1〜2分かかる場合があります。',
+        zh: '正在保存您的申请表。\n请稍候！\n\n最多可能需要1-2分钟。'
     };
     const savingOverlay = document.createElement('div');
     savingOverlay.id = 'saving-overlay';
