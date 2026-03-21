@@ -84,6 +84,20 @@ function doPost(e) {
     }
 
     if (p.type === 'booth') {
+      var logoUrl = '';
+      var logoName = '';
+      var adUrl = '';
+      var adName = '';
+
+      if (p.logoFileBase64) {
+        logoName = p.logoFileName || 'logo';
+        logoUrl = saveFileToDrive(logoName, p.logoFileBase64, p.company);
+      }
+      if (p.adFileBase64) {
+        adName = p.adFileName || 'ad';
+        adUrl = saveFileToDrive(adName, p.adFileBase64, p.company);
+      }
+
       var sheet = getOrCreateSheet('Booth', BOOTH_HEADERS);
       sheet.appendRow([
         formatTimestamp(p.timestamp),
@@ -102,8 +116,8 @@ function doPost(e) {
         p.chapter || '',
         p.license || '',
         p.price || '',
-        '',
-        '',
+        logoUrl ? logoName : '',
+        adUrl ? adName : '',
         'Pending'
       ]);
 
@@ -120,6 +134,14 @@ function doPost(e) {
       // Applicant Email -> mailto link
       if (p.applicantEmail) {
         setHyperlink(sheet, newRow, 12, 'mailto:' + p.applicantEmail, p.applicantEmail);
+      }
+      // Logo File -> Drive link
+      if (logoUrl) {
+        setHyperlink(sheet, newRow, 17, logoUrl, logoName);
+      }
+      // Ad File -> Drive link
+      if (adUrl) {
+        setHyperlink(sheet, newRow, 18, adUrl, adName);
       }
       if (adUrl) {
         setHyperlink(sheet, newRow, 18, adUrl, adName);
