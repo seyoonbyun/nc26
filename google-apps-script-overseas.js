@@ -313,8 +313,11 @@ function sendBoothVoucherEmail(headers, row) {
   var country = get('Country');
   var price = get('Price');
 
-  var recipientEmail = applicantEmail || email;
-  if (!recipientEmail) return;
+  var recipients = [];
+  if (email) recipients.push(email);
+  if (applicantEmail && applicantEmail !== email) recipients.push(applicantEmail);
+  if (recipients.length === 0) return;
+  var recipientEmail = recipients.join(',');
 
   var voucherNo = 'BNI-BOOTH-' + Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyyMMdd') + '-' + Math.random().toString(36).substring(2, 7).toUpperCase();
 
