@@ -1287,7 +1287,7 @@ function closeRegForm() {
     document.body.style.overflow = '';
 }
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_xiIdrr4qCGQHiNKwXLFhTgVUNlpM0VOVu7zhbVnc6aC7lomkrNj7MDmH7m-ux0M/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzyxXQtEPJM4VIbEkhlz-cjjmTLEdJBXQW1DjxRnU63ZP2a1ctGTaCAHQrdAW_Cmq8/exec';
 
 const PAYMENT_URLS = {
     en: { ED: 'https://global.bnikoreastore.com/surl/P/763', DM: 'https://global.bnikoreastore.com/surl/P/764', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' },
@@ -1655,12 +1655,11 @@ async function submitBoothForm(e) {
     }
 
     // 폼 데이터 + 파일 함께 전송 후 결제 이동
-    const params = new URLSearchParams(payload);
     fetch(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: params.toString()
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
     }).then(() => {
         closeBoothModal();
         if (boothType === 'domestic') {

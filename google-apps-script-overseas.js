@@ -53,6 +53,15 @@ function doPost(e) {
   try {
     var p = e.parameter;
 
+    // text/plain JSON (booth with files)
+    if (e.postData && e.postData.type && e.postData.type.indexOf('text/plain') > -1) {
+      try {
+        p = JSON.parse(e.postData.contents);
+      } catch (err) {
+        Logger.log('JSON parse error: ' + err.message);
+      }
+    }
+
     // 파일 별도 수신 (booth-files)
     if (p.type === 'booth-files') {
       var sheet = SS.getSheetByName('Booth');
@@ -228,7 +237,7 @@ function onEditInstallable(e) {
   var row = range.getRow();
   if (row <= 1) return;
 
-  var rowData = sheet.getRange(row, 1, 1, sheet.getLastColumn()).getValues()[0];
+  var rowData = sheet.getRange(row, 1, 1, sheet.getLastColumn()).getDisplayValues()[0];
 
   if (sheetName === 'Tickets') {
     sendTicketConfirmationEmail(headers, rowData);
