@@ -1690,7 +1690,8 @@ async function submitBoothForm(e) {
         if (overlay) overlay.remove();
         closeBoothModal();
         if (boothType === 'domestic') {
-            showToast('부스 신청이 완료되었습니다! 결제 안내 이메일을 확인해 주세요.');
+            showToast('부스 신청이 완료되었습니다! 결제 페이지로 이동합니다...');
+            setTimeout(() => { window.location.href = 'https://pay.bnikorea.com/linkpay/1774064635225x621795363979827700'; }, 800);
         } else {
             const boothPayUrl = PAYMENT_URLS[currentLang] && PAYMENT_URLS[currentLang]['BOOTH'];
             if (boothPayUrl) {
