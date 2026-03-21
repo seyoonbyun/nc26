@@ -12,6 +12,13 @@ var BOOTH_HEADERS = [
   'Country', 'Chapter', 'License', 'Price', 'Logo File', 'Ad File', 'Status'
 ];
 
+var BOOTH_KOR_HEADERS = [
+  'Timestamp', 'Company', 'Owner', 'Address',
+  'Phone', 'Fax', 'Homepage', 'Email',
+  'Applicant Name', 'Chapter', 'Applicant Phone', 'Applicant Email',
+  'License', 'Price', 'Logo File', 'Ad File', 'Status'
+];
+
 function getOrCreateSheet(name, headers) {
   var sheet = SS.getSheetByName(name);
   if (!sheet) {
@@ -107,51 +114,67 @@ function doPost(e) {
         adUrl = saveFileToDrive(adName, p.adFileBase64, p.company);
       }
 
-      var boothSheetName = (p.boothType === 'domestic') ? 'Booth_Kor' : 'Booth';
-      var sheet = getOrCreateSheet(boothSheetName, BOOTH_HEADERS);
-      sheet.appendRow([
-        formatTimestamp(p.timestamp),
-        p.company || '',
-        p.displayName || '',
-        p.owner || '',
-        p.address || '',
-        asText(p.phone),
-        asText(p.fax),
-        p.homepage || '',
-        p.email || '',
-        p.applicantName || '',
-        asText(p.applicantPhone),
-        p.applicantEmail || '',
-        p.country || '',
-        p.chapter || '',
-        p.license || '',
-        p.price || '',
-        logoUrl ? logoName : '',
-        adUrl ? adName : '',
-        'Pending'
-      ]);
+      if (p.boothType === 'domestic') {
+        // 국내 부스 -> Booth_Kor
+        var sheet = getOrCreateSheet('Booth_Kor', BOOTH_KOR_HEADERS);
+        sheet.appendRow([
+          formatTimestamp(p.timestamp),
+          p.company || '',
+          p.owner || '',
+          p.address || '',
+          asText(p.phone),
+          asText(p.fax),
+          p.homepage || '',
+          p.email || '',
+          p.applicantName || '',
+          p.chapter || '',
+          asText(p.applicantPhone),
+          p.applicantEmail || '',
+          p.license || '',
+          p.price || '',
+          logoUrl ? logoName : '',
+          adUrl ? adName : '',
+          'Pending'
+        ]);
 
-      var newRow = sheet.getLastRow();
+        var newRow = sheet.getLastRow();
+        if (p.homepage) setHyperlink(sheet, newRow, 7, p.homepage, p.homepage);
+        if (p.email) setHyperlink(sheet, newRow, 8, 'mailto:' + p.email, p.email);
+        if (p.applicantEmail) setHyperlink(sheet, newRow, 12, 'mailto:' + p.applicantEmail, p.applicantEmail);
+        if (logoUrl) setHyperlink(sheet, newRow, 15, logoUrl, logoName);
+        if (adUrl) setHyperlink(sheet, newRow, 16, adUrl, adName);
 
-      // Homepage -> clickable link
-      if (p.homepage) {
-        setHyperlink(sheet, newRow, 8, p.homepage, p.homepage);
-      }
-      // Email -> mailto link
-      if (p.email) {
-        setHyperlink(sheet, newRow, 9, 'mailto:' + p.email, p.email);
-      }
-      // Applicant Email -> mailto link
-      if (p.applicantEmail) {
-        setHyperlink(sheet, newRow, 12, 'mailto:' + p.applicantEmail, p.applicantEmail);
-      }
-      // Logo File -> Drive link
-      if (logoUrl) {
-        setHyperlink(sheet, newRow, 17, logoUrl, logoName);
-      }
-      // Ad File -> Drive link
-      if (adUrl) {
-        setHyperlink(sheet, newRow, 18, adUrl, adName);
+      } else {
+        // 해외 부스 -> Booth
+        var sheet = getOrCreateSheet('Booth', BOOTH_HEADERS);
+        sheet.appendRow([
+          formatTimestamp(p.timestamp),
+          p.company || '',
+          p.displayName || '',
+          p.owner || '',
+          p.address || '',
+          asText(p.phone),
+          asText(p.fax),
+          p.homepage || '',
+          p.email || '',
+          p.applicantName || '',
+          asText(p.applicantPhone),
+          p.applicantEmail || '',
+          p.country || '',
+          p.chapter || '',
+          p.license || '',
+          p.price || '',
+          logoUrl ? logoName : '',
+          adUrl ? adName : '',
+          'Pending'
+        ]);
+
+        var newRow = sheet.getLastRow();
+        if (p.homepage) setHyperlink(sheet, newRow, 8, p.homepage, p.homepage);
+        if (p.email) setHyperlink(sheet, newRow, 9, 'mailto:' + p.email, p.email);
+        if (p.applicantEmail) setHyperlink(sheet, newRow, 12, 'mailto:' + p.applicantEmail, p.applicantEmail);
+        if (logoUrl) setHyperlink(sheet, newRow, 17, logoUrl, logoName);
+        if (adUrl) setHyperlink(sheet, newRow, 18, adUrl, adName);
       }
 
     } else {
