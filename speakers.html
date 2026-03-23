@@ -136,15 +136,15 @@ function toggleMobileMenu() {
 <div class="flex-1 h-px bg-slate-800"></div>
 </div>
 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
-<!-- Keynote Speaker Coming Soon -->
-<div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 transition-all group">
-<div class="aspect-square bg-slate-800 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined text-4xl text-slate-700 group-hover:text-primary/50 transition-colors">person</span>
+<!-- 김하원 -->
+<div onclick="openSpeakerModal('kim')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
+<div class="aspect-square bg-slate-800 relative overflow-hidden">
+<img src="speaker-kim-hawon.jpg" alt="김하원 대표" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 20%;"/>
 </div>
 <div class="p-4">
-<h4 class="font-bold text-sm mb-1">Speaker TBA</h4>
+<h4 class="font-bold text-sm mb-1">김하원</h4>
 <p class="text-xs text-primary font-semibold mb-1">Keynote Speaker</p>
-<p class="text-[11px] text-slate-500">Coming Soon</p>
+<p class="text-[11px] text-slate-500">해녀키친그룹 대표이사</p>
 </div>
 </div>
 <!-- Norm Dominguez -->
@@ -240,27 +240,28 @@ function toggleMobileMenu() {
 <script>
 // Speaker Data
 const speakers = {
-    lim: {
-        photo: 'speaker-lim-profile.png',
+    kim: {
+        photo: 'speaker-kim-hawon-modal.png',
         tag: 'Keynote Speaker',
-        name: '임상진',
-        title: '데일리비어(생활맥주) 대표이사',
-        quote: '"사업은 돈을 버는 것보다 많은 사람들을 이롭게 하는 것이다."',
-        profile: `외식 사업 20년 경력의 베테랑 창업가. 한국오라클 IT 프로그래머 출신으로, 조직에 머무르지 않고 스스로 기획하고 만드는 삶을 선택해 외식업 창업에 뛰어들었다.<br><br>
-2014년, 여의도 10평 매장에서 <strong class="text-white">생활맥주</strong> 1호점을 오픈한 이후 전국 250여 개 매장을 보유한 수제맥주 플랫폼으로 성장시켰다. 브랜드 연 매출 <strong class="text-white">750억 원</strong> 달성, 시리즈A <strong class="text-white">70억 원</strong> 투자 유치, <strong class="text-white">가맹점 분쟁 0건</strong>이라는 이례적인 기록을 이어가고 있다.<br><br>
-2024년에는 성공적인 해외 진출을 통해 글로벌 브랜드로의 첫발을 내딛으며 제2의 전성기를 맞이하고 있다.`,
+        name: '김하원',
+        title: '주식회사 해녀키친그룹 대표이사',
+        quote: '"굉장히 오랜 시간 동안, 모든 삶의 방식으로 이루어진 문화가 변화된다는 것 자체가 혁신이라고 생각합니다."',
+        profile: `제주와 서울을, 예술과 비즈니스를 오가며 <strong class="text-white">해녀의 부엌</strong>을 운영하는 청년 창업가. 한국예술종합학교 연극원 연기과를 졸업한 뒤, 해녀 집안에서 자라온 경험을 바탕으로 제주 해녀 해산물의 가치를 세계에 알리겠다는 사명을 품고 창업에 뛰어들었다.<br><br>
+2019년, 제주에서 해녀의 이야기를 담은 연극과 다이닝을 결합한 극장식 레스토랑 <strong class="text-white">해녀의 부엌</strong>을 오픈. 이후 서울 북촌, 성수 팝업스토어까지 확장하며 <strong class="text-white">'뿔소라를 세계인의 식탁으로'</strong>라는 미션 아래 제주 해산물의 새로운 시장을 개척하고 있다.<br><br>
+2025년에는 싱가포르에 <strong class="text-white">JEJU HAENYEO</strong> 매장을 오픈하고 해외 법인을 설립하며 글로벌 진출에 박차를 가하고 있다. 제주특별자치도 사회적 가치 실현 중소기업 최우수상, 예술경영대상, 관광벤처 ESG 우수사례 최우수상 등 다수 수상.`,
         career: [
-            { current: true, text: '주식회사 데일리비어(생활맥주) 대표이사' },
-            { current: false, text: '한국오라클 IT 프로그래머' },
-            { current: false, text: '음반 프로듀서·무대감독' },
-            { current: false, text: '참치집·치킨 매장 등 외식업 창업 다수' }
+            { current: true, text: '주식회사 해녀키친그룹 대표이사 (2019~)' },
+            { current: true, text: 'HAENYEO KITCHEN GROUP PTE.LTD. 싱가포르 법인' },
+            { current: false, text: '해녀의부엌 제주 · 서울 북촌 · 성수 운영' },
+            { current: false, text: '싱가포르 JEJU HAENYEO 오픈 (2025)' },
+            { current: false, text: '한국예술종합학교 연극원 연기과 졸업 (2021)' }
         ],
-        gallery: ['speaker-lim.png', 'speaker-lim-g1.png', 'speaker-lim-g2.png'],
-        book: { title: '『상권을 이기는 작은 가게 성공 법칙』', sub: '2024 · 필름출판사' },
+        gallery: ['speaker-kim-hawon.jpg', 'speaker-kim-hawon-modal.png'],
+        book: null,
         topic: {
             tag: 'KEYNOTE',
-            title: '"작은 가게가 상권을 이기는 법<br>— 연결과 시스템으로 만드는 지속 가능한 비즈니스"',
-            desc: 'IT 출신 창업가가 수제맥주 플랫폼을 만들기까지, 실패와 전략, 가맹점과의 상생 경영, 그리고 브랜드를 성장시키는 연결의 방식을 공유합니다.'
+            title: '"해녀의 부엌에서 세계의 식탁으로<br>— 문화를 바꾸는 청년 창업가의 도전"',
+            desc: '제주 해녀 문화를 예술과 비즈니스로 재해석하여 세계 시장에 도전하는 이야기. 지역 자원의 가치를 높이고, 자연과 공존하는 비즈니스 모델을 만들어가는 과정을 공유합니다.'
         }
     },
     norm: {
@@ -330,10 +331,12 @@ function openSpeakerModal(id) {
     });
     html += '</div></div>';
     // Book
-    html += `<div>${sectionTitle('Book')}<div class="bg-slate-800/50 rounded-xl p-4 flex items-center gap-4">
-        <span class="text-2xl">📖</span><div>
-        <p class="text-sm font-bold text-white">${s.book.title}</p>
-        <p class="text-xs text-slate-500 mt-1">${s.book.sub}</p></div></div></div>`;
+    if (s.book) {
+        html += `<div>${sectionTitle('Book')}<div class="bg-slate-800/50 rounded-xl p-4 flex items-center gap-4">
+            <span class="text-2xl">📖</span><div>
+            <p class="text-sm font-bold text-white">${s.book.title}</p>
+            <p class="text-xs text-slate-500 mt-1">${s.book.sub}</p></div></div></div>`;
+    }
     // Speech Topic
     html += `<div>${sectionTitle('Speech Topic')}
         <div class="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-xl p-5 border border-slate-700/50">

@@ -1380,11 +1380,8 @@ const PAYMENT_URLS_DOMESTIC = {
 };
 
 function goToDomesticPayment(planKey) {
-    // TODO: 결제 링크 오픈 시 아래 주석 해제
-    // const paymentUrl = PAYMENT_URLS_DOMESTIC[planKey];
-    // if (paymentUrl) { window.location.href = paymentUrl; return; }
-    showToast('국내 참가 등록은 준비 중입니다. 곧 오픈 예정이니 잠시만 기다려 주세요!', true);
-    return;
+    const paymentUrl = PAYMENT_URLS_DOMESTIC[planKey];
+    if (paymentUrl) { window.location.href = paymentUrl; return; }
     // 아래 기존 폼 코드는 사용하지 않음
     selectedDomesticPlan = planKey;
     const info = DOMESTIC_PLAN_INFO[planKey];
