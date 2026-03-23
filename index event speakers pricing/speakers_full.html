@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#cf1f2e",
+              "background-light": "#f5f7f8",
+              "background-dark": "#101922",
+            },
+            fontFamily: {
+              "display": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<title>Speakers - Accelerate 2026</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="relative flex h-auto min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Navigation Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 md:px-10 py-4 bg-background-light dark:bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-4 text-primary">
+<a href="index.html" class="size-8 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl">bolt</span>
+</a>
+<a href="index.html" class="text-slate-900 dark:text-white text-xl font-bold leading-tight tracking-tight hover:text-primary transition-colors">Accelerate 2026</a>
+</div>
+<div class="flex flex-1 justify-end gap-8">
+<nav class="hidden md:flex items-center gap-9">
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="index.html">Home</a>
+<a class="text-primary text-sm font-medium transition-colors border-b-2 border-primary pb-1" href="speakers.html">Speakers</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="event.html">Schedule</a>
+<a class="text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary text-sm font-medium transition-colors" href="pricing.html">Pricing</a>
+</nav>
+<div class="bg-center bg-no-repeat aspect-square bg-cover rounded-full size-10 border-2 border-primary/20" data-alt="User profile avatar circle" style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuD64ctjwxXaXfoVjkAFpXg77GHJFWle2DqYtH1_OFaIjOvPEm8tPLy3OYUHZrzVIdnu0gj0g0OsA1LCySe820l5NPsrUdu3hGadkO_KlGu_KxpzYx4T3WpgmWacSShctuV5Z-mDnwcyLcmR987xSvQl-tZIKDrx2e5YpXAh0Rf4X_PFIb4Aw3vdedd-Q28RDdbMrJ8KAiwZg3XMK8GSC6KGXEM1uuKMnefmUyovxfZvH5eetOYZkZiNg7b9sk0UbtOsV81B6xGYYGk");'></div>
+</div>
+</header>
+<main class="flex-1 flex flex-col max-w-[1200px] mx-auto w-full px-6 py-10">
+<!-- Hero Section & Introduction -->
+<div class="flex flex-wrap justify-between items-end gap-6 mb-12">
+<div class="flex flex-col gap-4 max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-bold uppercase tracking-wider">
+<span class="material-symbols-outlined text-sm">groups</span>
+                            Elite Speakers
+                        </div>
+<h1 class="text-slate-900 dark:text-white text-4xl md:text-5xl font-black leading-tight tracking-tight">Meet the Visionaries</h1>
+<p class="text-slate-600 dark:text-slate-400 text-lg font-normal leading-relaxed">
+                            Join 50+ industry leaders, innovators, and disruptive thinkers who are redefining the boundaries of global business and technology.
+                        </p>
+</div>
+</div>
+<!-- Filters and Search Bar -->
+<div class="flex flex-col gap-6 mb-12">
+<div class="w-full">
+<label class="flex flex-col w-full group">
+<div class="flex w-full flex-1 items-stretch rounded-xl h-14 bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 focus-within:border-primary transition-all">
+<div class="text-slate-400 flex items-center justify-center pl-5">
+<span class="material-symbols-outlined">search</span>
+</div>
+<input class="form-input flex w-full min-w-0 flex-1 resize-none overflow-hidden rounded-xl text-slate-900 dark:text-white focus:outline-0 focus:ring-0 border-none bg-transparent placeholder:text-slate-400 px-4 text-base font-normal leading-normal" placeholder="Search speakers by name, role, or company..." value=""/>
+</div>
+</label>
+</div>
+<div class="flex gap-3 overflow-x-auto pb-2 scrollbar-hide no-scrollbar">
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-primary text-white px-5 text-sm font-semibold shadow-lg shadow-primary/20">
+                            All Industries
+                        </button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-lg">memory</span>
+                            Technology
+                        </button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-lg">payments</span>
+                            Finance
+                        </button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-lg">health_and_safety</span>
+                            Healthcare
+                        </button>
+<button class="flex h-10 shrink-0 items-center justify-center gap-x-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 px-5 text-sm font-medium hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-lg">eco</span>
+                            Sustainability
+                        </button>
+</div>
+</div>
+<!-- Speakers Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+<!-- Speaker Card 1 -->
+<div class="group flex flex-col bg-slate-100 dark:bg-slate-800/30 rounded-xl overflow-hidden border border-transparent hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+<div class="aspect-[4/5] overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Professional headshot of Sarah Jenkins in a blazer" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBB1EmzNKpCidCRnIUn-06S58bhEE0W7e0Y1kr1uDokT90ALRpaYaIipuNJkwDtNmhZdc2G_7sD75sT5F4e4xo8mNJEVm-nrCMqr-TSWivU6qe_EMkWH1nh61HcqRs6ZGTRGJya1AjJ-0FjeZu0foFreqxVszCqJj_OK5WJqyt1gV9f29DjxUyMfRhITh6IRG6ZiAyAz5CTjXcje3Sd2sWKey4Zz60NIdF_0FpMklhphNIN_DhddVeMY5Osu4GItwwy5nlI8uQ1trU"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="p-5 flex flex-col gap-2">
+<p class="text-primary text-xs font-bold uppercase tracking-widest">Technology</p>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold">Sarah Jenkins</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Chief AI Officer, Nexus Labs</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-2 line-clamp-3">Specializing in ethical AI frameworks and the integration of large language models in enterprise operations.</p>
+<div class="flex gap-3 mt-4">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">link</span>
+</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Speaker Card 2 -->
+<div class="group flex flex-col bg-slate-100 dark:bg-slate-800/30 rounded-xl overflow-hidden border border-transparent hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+<div class="aspect-[4/5] overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Portrait of Marcus Thorne in a modern office" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLkYjCMLttegKqIeOTTCJGKejk0QZv5Nj2hdXHu2rnFTFXgMTB5JslhxTklXgkLB3zKCFqxSMq0AsMGbEJuFYcK-e9GSgjdAFvSP4hrLMr8A8GSAqw_2HmaChRe_kHfOeT1OoKmRnOrzfuVkXe0xNRjQEusQgPY2wnT1xd-_EyYWAqNtl03qurYxu9W_r4q5SroaDwr5_fFbOJzboPxFu4e2-_TUGLd6xECtB0QAxkqscDg-9ItnLDxjZeJKPzVI63uyhRS8eWDs4"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="p-5 flex flex-col gap-2">
+<p class="text-primary text-xs font-bold uppercase tracking-widest">Finance</p>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold">Marcus Thorne</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Founder, GreenCapital</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-2 line-clamp-3">A pioneer in sustainable investment portfolios and decentralized finance for emerging markets.</p>
+<div class="flex gap-3 mt-4">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">link</span>
+</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Speaker Card 3 -->
+<div class="group flex flex-col bg-slate-100 dark:bg-slate-800/30 rounded-xl overflow-hidden border border-transparent hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+<div class="aspect-[4/5] overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="David Chen smiling in professional attire" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIR4nnzXd8IXh40NjeJ45HHVKdXxCMDZk3QzRsrEyk_Y24KfBdZY3Aj1p79hugSFS8rqbgd_varAF1I6eh0PIuHMpmSLFQSiaFyTICWn_q8AtSuzhBpXF7rdPgG-P8Dfcy1d44JSMsMUjz_12JTBOYUQTAu3tHV6vCEZUIywq3gGj5LBX4vjm5TAcQ1KAf7fDmiTVTfnYlfFsZ9iOlGOhFMIN_48b3RlfMnSTxMiddQPVwJSj-sBKLNvDCWUwDgXDtbdCYrAv6YCQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="p-5 flex flex-col gap-2">
+<p class="text-primary text-xs font-bold uppercase tracking-widest">Sustainability</p>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold">David Chen</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Head of Innovation, EcoCorp</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-2 line-clamp-3">Leading the charge in zero-waste manufacturing and circular economy business models for global logistics.</p>
+<div class="flex gap-3 mt-4">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">link</span>
+</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Speaker Card 4 -->
+<div class="group flex flex-col bg-slate-100 dark:bg-slate-800/30 rounded-xl overflow-hidden border border-transparent hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+<div class="aspect-[4/5] overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Dr. Elena Rodriguez in a medical research lab" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZRpuPg1SN29T5Fp4L9SSNd4DKQh2GmEOYbJTwK0M1kDBDroD0GMT9LbX0aDwKoH13ViMo3lDujCmindedml_xvtZT__UxjV8ZmpudF2gVRa-TWeARFZoyqGx7MRwVlc1cWep8r6kJSVq3bu_8oIe4MCEbKtbuROsamurAe6RnxKqb7Ili94508OHMhDeRnCA5V3OpxhGsNya7O7VQGAG6yv1GD_qN2Km0DQ7B1hmGQkD8FhqHtdhOQ7ZWNSloSXVQASUTH4rAkuk"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="p-5 flex flex-col gap-2">
+<p class="text-primary text-xs font-bold uppercase tracking-widest">Healthcare</p>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold">Dr. Elena Rodriguez</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Director, BioHealth Systems</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-2 line-clamp-3">Redefining patient care through personalized genomic data and AI-driven diagnostic tools.</p>
+<div class="flex gap-3 mt-4">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">link</span>
+</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Speaker Card 5 -->
+<div class="group flex flex-col bg-slate-100 dark:bg-slate-800/30 rounded-xl overflow-hidden border border-transparent hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+<div class="aspect-[4/5] overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="James Wilson in a modern startup environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQz-xvB8hKqPkiD0DMYO7x4U8dZotzMTlnu3JzcgVAqDas_zljtNZHP3JgPm0zH6tl9q7Lcbq1thwrcZAEvsLM4t3P7Low-kDr1A6dRZSWl1ZTrdyR43_f_jZIcreocEfnkwBU-jMNMzGWjoc1jIjhErxc7DMpUNdhlxTJZk706uBTnDpSuRPMrizjoRfR_MWG8UnI9rqUNhQ8sFLjHRKe91JmJJ4DveHLpvVPM7uOztlB_YxnS-GPa5qTuoLNh9f34x5QSdVddFg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="p-5 flex flex-col gap-2">
+<p class="text-primary text-xs font-bold uppercase tracking-widest">Technology</p>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold">James Wilson</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-medium">VP Engineering, CloudScale</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-2 line-clamp-3">Expert in hyperscale computing architectures and the future of edge computing for autonomous devices.</p>
+<div class="flex gap-3 mt-4">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">link</span>
+</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Speaker Card 6 -->
+<div class="group flex flex-col bg-slate-100 dark:bg-slate-800/30 rounded-xl overflow-hidden border border-transparent hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+<div class="aspect-[4/5] overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Priya Sharma presenting at a conference" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIg2HXaEeAMJuS3bqqcL5sp0XJXzRSVwM-Qp4sVEEI2JPKrf8gqjQKmd-olPAGDlMWfWWlDHH-PtjtfWIhP4CSfMf6phDOdwqGpxAft8v-DHrAwMTurFhkgEetqNUOhOt4e_a0z3ZruxNI6SaUgaKIq7wblTPqNsduJVoqODNpVqBnso9mvgFEoErdemdtWS3xZeRSdYPoQnuN6-WqO2Z72AtGIpw2lTtHQwBTbZIFwJIDygyLRjhDxLtldbC9zWYgDJtHUJI6M58"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="p-5 flex flex-col gap-2">
+<p class="text-primary text-xs font-bold uppercase tracking-widest">Finance</p>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold">Priya Sharma</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Chief Economist, GlobalTrust</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-2 line-clamp-3">Analyzing macro-economic shifts and the impact of digital currencies on national banking systems.</p>
+<div class="flex gap-3 mt-4">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">link</span>
+</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Speaker Card 7 -->
+<div class="group flex flex-col bg-slate-100 dark:bg-slate-800/30 rounded-xl overflow-hidden border border-transparent hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+<div class="aspect-[4/5] overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Thomas Müller in a high-tech manufacturing facility" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnvOQYLfxsuzw6oC-qxjgd-KTpmjAo2OxUHTLOa8xDXwZNKzqTrRhwEk6BQYrSeDolb8jsEed3xet7ElzbWilH0Kgr_SwsxPAQhTEkIM8_Cc7wxe6iE2y2mADJvegv1BMQYPGTCfFmQzMRvLVSVP3q5C8oYPnqpeAG6UK5yCOQ_2m_jHWuRB-2Fv2o-lpG2MQL_t13z-Ny9Ksvr5uOIqpsKzHeZfZc_-blcpGOyo-TcW-USeqmQWQZ7O3JBYAo6mZyMrw061H_0H8"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="p-5 flex flex-col gap-2">
+<p class="text-primary text-xs font-bold uppercase tracking-widest">Manufacturing</p>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold">Thomas Müller</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-medium">COO, Robotics First</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-2 line-clamp-3">Optimizing smart factories with human-robot collaboration (Cobots) and real-time data analytics.</p>
+<div class="flex gap-3 mt-4">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">link</span>
+</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Speaker Card 8 -->
+<div class="group flex flex-col bg-slate-100 dark:bg-slate-800/30 rounded-xl overflow-hidden border border-transparent hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/5">
+<div class="aspect-[4/5] overflow-hidden relative">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Linda Wu standing in front of a digital city map" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCtfDcoN5hYEr-TnVOd9zlm9_h33Yy1kMw7YHgQTsb0Zyxv5HLkQrsbpbilhlpQsaD8MxNz6SEDQvO6xIzK4dygOoeVrXsvd-XD7VaplJO3ObFcFL3JYBC3HFfm5U0QwasYtxYS7ziG5JIw4S2b81cPHnRakwL277Za5IyyZIAebfrNHXSkMgX9_0muJA1AJ_9Z4KrV7e69yJFZulK2Tl5RcaFbgT4uqDbY1D3WdwVlVKiDRhzbFXNjxvlL8dKlpd7zs-ruORibtag"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+<div class="p-5 flex flex-col gap-2">
+<p class="text-primary text-xs font-bold uppercase tracking-widest">Sustainability</p>
+<h3 class="text-slate-900 dark:text-white text-xl font-bold">Linda Wu</h3>
+<p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Urban Planning Lead, SmartCity IQ</p>
+<p class="text-slate-500 dark:text-slate-400 text-xs mt-2 line-clamp-3">Designing the resilient cities of 2050 with renewable energy grids and integrated transport systems.</p>
+<div class="flex gap-3 mt-4">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">link</span>
+</a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Load More / Pagination -->
+<div class="mt-16 flex justify-center">
+<button class="flex items-center gap-2 px-8 py-4 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-white font-bold hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+                        Load More Speakers
+                        <span class="material-symbols-outlined">expand_more</span>
+</button>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-100 dark:bg-slate-900/50 border-t border-slate-200 dark:border-slate-800 py-12 px-6">
+<div class="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-4 gap-10">
+<div class="col-span-1 md:col-span-1 flex flex-col gap-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined text-2xl font-bold">bolt</span>
+<span class="text-slate-900 dark:text-white text-lg font-bold">Accelerate 2026</span>
+</div>
+<p class="text-slate-500 dark:text-slate-400 text-sm">Empowering the next generation of business leaders through innovation and collaboration.</p>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-900 dark:text-white font-bold">Quick Links</h4>
+<a class="text-slate-500 dark:text-slate-400 text-sm hover:text-primary transition-colors" href="event.html">Schedule</a>
+<a class="text-slate-500 dark:text-slate-400 text-sm hover:text-primary transition-colors" href="speakers.html">Speakers</a>
+<a class="text-slate-500 dark:text-slate-400 text-sm hover:text-primary transition-colors" href="pricing.html">Tickets</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-900 dark:text-white font-bold">Resources</h4>
+<a class="text-slate-500 dark:text-slate-400 text-sm hover:text-primary transition-colors" href="#">Press Kit</a>
+<a class="text-slate-500 dark:text-slate-400 text-sm hover:text-primary transition-colors" href="#">Sponsorships</a>
+<a class="text-slate-500 dark:text-slate-400 text-sm hover:text-primary transition-colors" href="#">FAQ</a>
+</div>
+<div class="flex flex-col gap-4">
+<h4 class="text-slate-900 dark:text-white font-bold">Stay Updated</h4>
+<div class="flex items-center gap-2 bg-slate-200 dark:bg-slate-800 rounded-lg p-1">
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full pl-3" placeholder="Email address" type="email"/>
+<button class="bg-primary text-white p-2 rounded-lg">
+<span class="material-symbols-outlined text-sm">send</span>
+</button>
+</div>
+</div>
+</div>
+<div class="max-w-[1200px] mx-auto mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-slate-500 dark:text-slate-400 text-xs">© 2026 Accelerate Business Conference. All rights reserved.</p>
+<div class="flex gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary" href="#"><span class="material-symbols-outlined">social_leaderboard</span></a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-primary" href="#"><span class="material-symbols-outlined">rss_feed</span></a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Accelerate 2026 - BNI Korea National Conference</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: { "primary": "#cf1f2e" },
+            fontFamily: { "display": ["Inter", "sans-serif"] }
+        }
+    }
+}
+</script>
+<style>
+body { font-family: 'Inter', sans-serif; }
+@keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+.float-anim { animation: float 6s ease-in-out infinite; }
+/* Flip Clock */
+ul.flip { position:relative; display:inline-block; margin:0; width:28px; height:40px; font-size:24px; font-weight:900; line-height:38px; border-radius:5px; box-shadow:0 2px 6px rgba(0,0,0,0.25); font-family:'Inter',sans-serif; font-variant-numeric:tabular-nums; list-style:none; padding:0; }
+@media(min-width:400px) { ul.flip { width:36px; height:52px; font-size:32px; line-height:50px; border-radius:6px; } }
+@media(min-width:768px) { ul.flip { width:48px; height:68px; font-size:44px; line-height:66px; border-radius:8px; } }
+ul.flip li { z-index:1; position:absolute; left:0; top:0; width:100%; height:100%; list-style:none; }
+ul.flip li:first-child { z-index:2; }
+ul.flip li a { display:block; height:100%; perspective:300px; cursor:default; text-decoration:none; }
+ul.flip li a div { z-index:1; position:absolute; left:0; width:100%; height:50%; overflow:hidden; }
+ul.flip li a div .shadow { position:absolute; width:100%; height:100%; z-index:2; }
+ul.flip li a div.up { transform-origin:50% 100%; top:0; }
+ul.flip li a div.up:after { content:""; position:absolute; left:0; right:0; bottom:0; z-index:5; height:2px; background:rgba(255,255,255,0.06); }
+ul.flip li a div.down { transform-origin:50% 0%; bottom:0; }
+ul.flip li a div div.inn { position:absolute; left:0; z-index:1; width:100%; height:200%; color:#cf1f2e; text-align:center; background:#0f172a; border-radius:6px; }
+@media(min-width:400px) { ul.flip li a div div.inn { border-radius:6px; } }
+@media(min-width:768px) { ul.flip li a div div.inn { border-radius:8px; } }
+ul.flip li a div.up div.inn { top:0; }
+ul.flip li a div.down div.inn { bottom:0; }
+ul.flip.play li.before { z-index:3; }
+ul.flip.play li.active { animation:flipZindex .5s .5s linear both; z-index:2; }
+@keyframes flipZindex { 0%{z-index:2} 5%{z-index:4} 100%{z-index:4} }
+ul.flip.play li.active .down { z-index:2; animation:flipTurn .5s .5s linear both; }
+@keyframes flipTurn { 0%{transform:rotateX(90deg)} 100%{transform:rotateX(0deg)} }
+ul.flip.play li.before .up { z-index:2; animation:flipTurn2 .5s linear both; }
+@keyframes flipTurn2 { 0%{transform:rotateX(0deg)} 100%{transform:rotateX(-90deg)} }
+ul.flip.play li.before .up .shadow { background:linear-gradient(to bottom,rgba(0,0,0,.1),rgba(0,0,0,1)); animation:flipShow .5s linear both; }
+ul.flip.play li.active .up .shadow { background:linear-gradient(to bottom,rgba(0,0,0,.1),rgba(0,0,0,1)); animation:flipHide .5s .3s linear both; }
+ul.flip.play li.before .down .shadow { background:linear-gradient(to bottom,rgba(0,0,0,1),rgba(0,0,0,.1)); animation:flipShow .5s linear both; }
+ul.flip.play li.active .down .shadow { background:linear-gradient(to bottom,rgba(0,0,0,1),rgba(0,0,0,.1)); animation:flipHide .5s .3s linear both; }
+@keyframes flipShow { 0%{opacity:0} 100%{opacity:1} }
+@keyframes flipHide { 0%{opacity:1} 100%{opacity:0} }
+/* Spotlight sweep */
+@keyframes spotlight {
+  0% { background-position: -200% center; }
+  60% { background-position: 200% center; }
+  100% { background-position: 200% center; }
+}
+.hero-title {
+  background: linear-gradient(
+    90deg,
+    #ffffff 0%,
+    #ffffff 35%,
+    #fffbe6 42%,
+    #fff7cc 50%,
+    #fffbe6 58%,
+    #ffffff 65%,
+    #ffffff 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: spotlight 4s ease-in-out infinite;
+}
+.hero-sub {
+  color: #ffffff;
+  text-shadow: 0 0 10px rgba(207,31,46,0.8), 0 0 20px rgba(207,31,46,0.5), 0 0 40px rgba(207,31,46,0.3), 0 0 80px rgba(207,31,46,0.15);
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+@keyframes glow-pulse {
+  0%, 100% { text-shadow: 0 0 10px rgba(207,31,46,0.8), 0 0 20px rgba(207,31,46,0.5), 0 0 40px rgba(207,31,46,0.3), 0 0 80px rgba(207,31,46,0.15); }
+  50% { text-shadow: 0 0 15px rgba(207,31,46,1), 0 0 30px rgba(207,31,46,0.7), 0 0 60px rgba(207,31,46,0.5), 0 0 100px rgba(207,31,46,0.25); }
+}
+.hero-sub-delay {
+  background: linear-gradient(
+    90deg,
+    #64748b 0%, #64748b 35%,
+    #e2e8f0 45%, #ffd700 50%, #e2e8f0 55%,
+    #64748b 65%, #64748b 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: spotlight 4s 1s ease-in-out infinite;
+}
+.hero-title-red {
+  background: linear-gradient(
+    90deg,
+    #cf1f2e 0%,
+    #cf1f2e 35%,
+    #ff6b6b 42%,
+    #ffaa5c 50%,
+    #ff6b6b 58%,
+    #cf1f2e 65%,
+    #cf1f2e 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: spotlight 4s ease-in-out infinite;
+}
+</style>
+</head>
+<body class="bg-[#0a0c10] font-display text-white min-h-screen flex flex-col">
+<!-- Nav -->
+<header class="border-b border-slate-800 px-6 lg:px-20 py-4 sticky top-0 z-50 bg-[#0a0c10]/80 backdrop-blur-md">
+<div class="flex items-center justify-between max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<a href="index.html"><img src="bni-logo.png" alt="BNI Logo" class="h-6 brightness-0 invert"/></a>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="index.html">Home</a>
+<a class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="speakers.html">Speakers</a>
+<a class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="schedule.html">Schedule</a>
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="ticket.html">Ticket</a>
+</nav>
+<button onclick="toggleMobileMenu()" id="menu-toggle-btn" class="md:hidden size-10 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined" id="menu-toggle-icon">menu</span>
+</button>
+</div>
+</header>
+<div id="mobile-menu" class="md:hidden bg-[#0a0c10] border-b border-slate-800 overflow-hidden transition-all duration-300 sticky top-[65px] z-40" style="max-height:0;">
+<div class="flex items-center justify-around py-3 px-2">
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-primary" href="index.html"><span class="material-symbols-outlined text-xl">home</span><span class="text-[10px] font-bold">Home</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="speakers.html"><span class="material-symbols-outlined text-xl">mic</span><span class="text-[10px] font-bold">Speakers</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="schedule.html"><span class="material-symbols-outlined text-xl">calendar_month</span><span class="text-[10px] font-bold">Schedule</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="ticket.html"><span class="material-symbols-outlined text-xl">confirmation_number</span><span class="text-[10px] font-bold">Ticket</span></a>
+</div>
+</div>
+<script>
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const icon = document.getElementById('menu-toggle-icon');
+    const isOpen = menu.style.maxHeight !== '0px' && menu.style.maxHeight !== '0';
+    menu.style.maxHeight = isOpen ? '0' : '80px';
+    icon.textContent = isOpen ? 'menu' : 'close';
+}
+</script>
+
+<main class="flex-1">
+<!-- Hero -->
+<section class="relative overflow-hidden py-20 md:py-32 px-6">
+<video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+<source src="https://assets.mixkit.co/videos/47649/47649-720.mp4" type="video/mp4">
+</video>
+<div class="absolute inset-0 bg-[#0a0c10]/80"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent"></div>
+<div class="absolute top-20 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute bottom-10 right-1/4 w-72 h-72 bg-primary/3 rounded-full blur-3xl"></div>
+<div class="relative max-w-5xl mx-auto text-center">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold tracking-widest uppercase mb-8">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+Accelerate Your Success !
+</div>
+<h1 class="text-[11vw] sm:text-6xl md:text-8xl font-black tracking-tighter mb-6"><span class="hero-title">ACCELERATE</span><br><span class="hero-title-red">2026</span></h1>
+<p class="text-lg md:text-xl mb-4 max-w-2xl mx-auto hero-sub">BNI Korea National Conference, 11<sup class="text-xs">TH</sup></p>
+<p class="text-sm md:text-base mb-10 hero-sub-delay">2026년 6월 1–2일 &middot; 스위스그랜드호텔 서울</p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<a href="ticket.html" class="px-7 py-3 bg-primary text-white rounded-xl text-base font-bold hover:bg-primary/90 transition-all shadow-lg shadow-primary/30">
+참가 등록 Register Now
+</a>
+<a href="schedule.html" class="px-7 py-3 border border-slate-700 text-white rounded-xl text-base font-bold hover:border-primary hover:text-primary transition-all">
+일정 보기 View Schedule
+</a>
+</div>
+<!-- Countdown (Flip) -->
+<div class="mt-12 flex items-start justify-center flex-wrap gap-y-4">
+<div class="flex flex-col items-center">
+<div class="flex gap-[3px]"><ul class="flip" id="fc-mo-t"></ul><ul class="flip" id="fc-mo-o"></ul></div>
+<span class="text-[9px] md:text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-2">Months</span>
+</div>
+<span class="text-lg md:text-xl font-black text-slate-600 mx-1 md:mx-2" style="margin-top:18px;">:</span>
+<div class="flex flex-col items-center">
+<div class="flex gap-[3px]"><ul class="flip" id="fc-dy-t"></ul><ul class="flip" id="fc-dy-o"></ul></div>
+<span class="text-[9px] md:text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-2">Days</span>
+</div>
+<span class="text-lg md:text-xl font-black text-slate-600 mx-1 md:mx-2" style="margin-top:18px;">:</span>
+<div class="flex flex-col items-center">
+<div class="flex gap-[3px]"><ul class="flip" id="fc-hr-t"></ul><ul class="flip" id="fc-hr-o"></ul></div>
+<span class="text-[9px] md:text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-2">Hours</span>
+</div>
+<div class="w-full md:hidden"></div>
+<span class="text-lg md:text-xl font-black text-slate-600 mx-1 md:mx-2" style="margin-top:18px;">:</span>
+<div class="flex flex-col items-center">
+<div class="flex gap-[3px]"><ul class="flip" id="fc-mn-t"></ul><ul class="flip" id="fc-mn-o"></ul></div>
+<span class="text-[9px] md:text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-2">Mins</span>
+</div>
+<span class="text-lg md:text-xl font-black text-slate-600 mx-1 md:mx-2" style="margin-top:18px;">:</span>
+<div class="flex flex-col items-center">
+<div class="flex gap-[3px]"><ul class="flip" id="fc-sc-t"></ul><ul class="flip" id="fc-sc-o"></ul></div>
+<span class="text-[9px] md:text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-2">Secs</span>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Stats -->
+<section class="border-y border-slate-800 bg-slate-900/50">
+<div class="max-w-5xl mx-auto grid grid-cols-2 md:grid-cols-4">
+<div class="py-8 md:py-12 text-center border-r border-slate-800">
+<div class="text-3xl md:text-4xl font-black text-primary mb-1 counter-num" data-target="2" data-suffix="">0</div>
+<div class="text-xs text-slate-500 font-semibold uppercase tracking-wider">일 Days</div>
+</div>
+<div class="py-8 md:py-12 text-center md:border-r border-slate-800">
+<div class="text-3xl md:text-4xl font-black text-primary mb-1 counter-num" data-target="800" data-suffix="+">0</div>
+<div class="text-xs text-slate-500 font-semibold uppercase tracking-wider">참가자 Attendees</div>
+</div>
+<div class="py-8 md:py-12 text-center border-r border-slate-800 border-t md:border-t-0">
+<div class="text-3xl md:text-4xl font-black text-primary mb-1 counter-num" data-target="10" data-suffix="+">0</div>
+<div class="text-xs text-slate-500 font-semibold uppercase tracking-wider">연사 Speakers</div>
+</div>
+<div class="py-8 md:py-12 text-center border-t md:border-t-0">
+<div class="text-3xl md:text-4xl font-black text-primary mb-1 counter-num" data-target="20" data-suffix="+">0</div>
+<div class="text-xs text-slate-500 font-semibold uppercase tracking-wider">국가 Countries</div>
+</div>
+</div>
+</section>
+
+<!-- About -->
+<section class="py-16 md:py-24 px-6">
+<div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div>
+<span class="text-xs font-bold text-primary uppercase tracking-widest">About the Conference</span>
+<h2 class="text-3xl md:text-4xl font-black mt-3 mb-6 tracking-tight">AGI시대의 비즈니스 전략</h2>
+<p class="text-slate-400 leading-relaxed mb-6">BNI Korea National Conference는 전 세계 비즈니스 리더, 기업가, 혁신가들이 한자리에 모여 인사이트를 공유하고, 파트너십을 구축하며, 성장을 가속하는 자리입니다.</p>
+<p class="text-slate-500 leading-relaxed mb-8">서울 스위스그랜드호텔에서 열리는 이틀간의 영감 넘치는 키노트, 인터랙티브 워크숍, 그리고 최고의 네트워킹 기회에 함께하세요.</p>
+<a href="ticket.html" class="inline-flex items-center gap-2 text-primary font-bold hover:gap-3 transition-all">
+참가 등록 Register Now <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</a>
+</div>
+<div class="relative">
+<div class="bg-slate-900 border border-slate-800 rounded-2xl p-8 space-y-6">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-3xl mt-1">campaign</span>
+<div>
+<h4 class="font-bold mb-1">키노트 세션 Keynote Sessions</h4>
+<p class="text-sm text-slate-500">세계적인 연사들이 검증된 비즈니스 성장 전략을 공유합니다.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-3xl mt-1">handshake</span>
+<div>
+<h4 class="font-bold mb-1">네트워킹 파티 Networking Party</h4>
+<p class="text-sm text-slate-500">20개국 이상 500명 이상의 전문가들과 교류하세요.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary text-3xl mt-1">storefront</span>
+<div>
+<h4 class="font-bold mb-1">전시 부스 Exhibition Booths</h4>
+<p class="text-sm text-slate-500">글로벌 의사결정자들에게 귀사를 홍보하세요.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- Speakers Preview -->
+<section class="py-16 md:py-24 px-6 bg-slate-900/30">
+<div class="max-w-5xl mx-auto">
+<div class="text-center mb-12">
+<span class="text-xs font-bold text-primary uppercase tracking-widest">Featured Speakers</span>
+<h2 class="text-3xl md:text-4xl font-black mt-3 tracking-tight">직접 해본 사람의<br class="md:hidden"> 진짜 이야기<br><span class="text-lg md:text-xl text-slate-400 font-semibold">Those Who Did It, Know It.</span></h2>
+<p class="text-slate-500 mt-3">연사 라인업 미리보기 !</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+<div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center hover:border-primary/50 transition-all group">
+<div class="w-24 h-24 mx-auto rounded-full bg-slate-800 overflow-hidden mb-4 border-2 border-primary/30 flex items-center justify-center">
+<span class="material-symbols-outlined text-3xl text-slate-700">person</span>
+</div>
+<h4 class="font-bold text-lg mb-1">Speaker TBA</h4>
+<p class="text-sm text-primary font-semibold mb-2">Keynote Speaker</p>
+<p class="text-xs text-slate-500">Coming Soon</p>
+</div>
+<div onclick="openSpeakerModal('norm')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
+<div class="w-24 h-24 mx-auto rounded-full bg-slate-800 overflow-hidden mb-4 border-2 border-primary/30 group-hover:border-primary transition-colors">
+<img src="speaker-norm.png" alt="Norm Dominguez" class="w-full h-full object-cover"/>
+</div>
+<h4 class="font-bold text-lg mb-1">Norm Dominguez</h4>
+<p class="text-sm text-primary font-semibold mb-2">Special Speech</p>
+<p class="text-xs text-slate-500">BNI Vice Chairman Emeritus</p>
+</div>
+<div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center hover:border-primary/50 transition-all group">
+<div class="w-24 h-24 mx-auto rounded-full bg-slate-800 flex items-center justify-center mb-4 group-hover:bg-primary/10 transition-colors">
+<span class="material-symbols-outlined text-4xl text-slate-600 group-hover:text-primary transition-colors">person</span>
+</div>
+<h4 class="font-bold text-lg mb-1">추가 연사</h4>
+<p class="text-sm text-primary font-semibold mb-2">Coming Soon</p>
+<p class="text-xs text-slate-500">곧 공개됩니다</p>
+</div>
+</div>
+<div class="text-center mt-10">
+<a href="speakers.html" class="inline-flex items-center gap-2 px-8 py-3 border border-slate-700 rounded-xl font-bold text-sm hover:border-primary hover:text-primary transition-all">
+전체 연사 보기 View All Speakers <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+
+<!-- Event Highlights -->
+<section class="py-16 md:py-24 px-6">
+<div class="max-w-5xl mx-auto">
+<div class="text-center mb-12">
+<span class="text-xs font-bold text-primary uppercase tracking-widest">What to Expect</span>
+<h2 class="text-3xl md:text-4xl font-black mt-3 tracking-tight">주요 행사 하이라이트<br><span class="text-lg md:text-xl text-slate-400 font-semibold">Main Event Highlights</span></h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-primary/50 transition-all">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-2xl">calendar_month</span>
+</div>
+<h4 class="font-bold text-lg mb-2">Day 1 - 컨퍼런스</h4>
+<p class="text-sm text-slate-500">키노트 세션, 패널 토론, 인터랙티브 워크숍으로 구성된 종일 컨퍼런스</p>
+<p class="text-xs text-primary font-semibold mt-3">2026년 6월 1일</p>
+</div>
+<div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-primary/50 transition-all">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-2xl">celebration</span>
+</div>
+<h4 class="font-bold text-lg mb-2">네트워킹 파티 Networking Party</h4>
+<p class="text-sm text-slate-500">전 세계 전문가들과 교류하는 저녁 네트워킹 파티</p>
+<p class="text-xs text-primary font-semibold mt-3">2026년 6월 1일 저녁</p>
+</div>
+<div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 hover:border-primary/50 transition-all">
+<div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
+<span class="material-symbols-outlined text-primary text-2xl">groups</span>
+</div>
+<h4 class="font-bold text-lg mb-2">Day 2 - 워크숍</h4>
+<p class="text-sm text-slate-500">심화 학습과 협업을 위한 실전 워크숍 및 분과 세션</p>
+<p class="text-xs text-primary font-semibold mt-3">2026년 6월 2일</p>
+</div>
+</div>
+<div class="text-center mt-10">
+<a href="schedule.html" class="inline-flex items-center gap-2 px-8 py-3 border border-slate-700 rounded-xl font-bold text-sm hover:border-primary hover:text-primary transition-all">
+전체 일정 보기 View Full Schedule <span class="material-symbols-outlined text-lg">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+
+<!-- CTA Banner -->
+<section class="relative overflow-hidden py-16 md:py-20 px-6">
+<video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover">
+<source src="https://assets.mixkit.co/videos/47649/47649-720.mp4" type="video/mp4">
+</video>
+<div class="absolute inset-0 bg-primary/80"></div>
+<div class="relative max-w-3xl mx-auto text-center">
+<h2 class="text-3xl md:text-5xl font-black tracking-tight mb-2">가속 성장할 준비,<br class="md:hidden"> 되셨나요?</h2>
+<p class="text-white/60 text-sm md:text-base font-semibold tracking-wide mb-4">Are You Ready to Accelerate?</p>
+<p class="text-white/80 mb-8 text-lg">나만 모를 수 없는 절대 성장의 기회,<br class="md:hidden"> 내 자리 미리 선점하기 !</p>
+<a href="ticket.html" class="inline-block px-12 py-4 bg-white text-primary rounded-xl text-lg font-bold hover:bg-slate-100 transition-all shadow-lg">
+참가 등록 Register Now
+</a>
+</div>
+</section>
+
+<!-- Venue -->
+<section class="py-16 md:py-24 px-6">
+<div class="max-w-5xl mx-auto">
+<a href="https://www.swissgrand.co.kr/ko/about-hotel#hotel_location" target="_blank" rel="noopener" class="block rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 relative min-h-[300px] flex items-center justify-center hover:border-primary/50 transition-all cursor-pointer group">
+<div class="absolute inset-0 opacity-30 group-hover:opacity-40 transition-opacity">
+<img alt="Seoul Cityscape" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuVlcsKhiBai0YBHMqIykaHc-5mm4XW4xREyYOWyze2eHlOTS33hquAXXVNSMW4p0bY7iPl3fs5AKrbzs0I6uzqdlQrROykKhblUZi33xb5BLs1Y-IPKUvOtk9iHIoa3tabLNb-Nr2r1EdduP9PtvWfKl0riB820DP-_dbHVQxElqP4xAFMmqHgRG1F8D7OPZ_EGu8hDTy2lC8xnJE9gXYbyn6hNGaGpWlVdonOpal_8pS6ngG-k_JdqVwZ14BsqHthdH4vv9b144"/>
+</div>
+<div class="relative z-10 text-center px-6">
+<span class="material-symbols-outlined text-primary text-4xl mb-4 block">location_on</span>
+<h3 class="text-2xl md:text-3xl font-bold mb-3 group-hover:text-primary transition-colors">스위스그랜드호텔 서울 Swiss Grand Hotel Seoul</h3>
+<p class="text-slate-300 mb-2">서울 서대문구 연세로 353</p>
+<p class="text-slate-400 text-sm">2026년 6월 1–2일</p>
+</div>
+</a>
+</div>
+</section>
+</main>
+
+<!-- Speaker Modal -->
+<div id="speaker-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+<div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeSpeakerModal()"></div>
+<div class="relative w-full max-w-2xl bg-[#0f1118] rounded-2xl shadow-2xl border border-slate-800 overflow-hidden max-h-[90vh] overflow-y-auto" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.1) transparent;">
+<div class="sticky top-0 bg-[#141418] border-b border-slate-800 p-5 md:p-6 flex items-center gap-4 z-10">
+<img id="modal-photo" src="" alt="" class="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover shrink-0" style="border:3px solid #cf1f2e;"/>
+<div class="flex-1 min-w-0">
+<div id="modal-tag" class="inline-block bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full tracking-widest uppercase mb-1"></div>
+<h3 id="modal-name" class="text-xl md:text-2xl font-black"></h3>
+<p id="modal-title" class="text-sm text-slate-400"></p>
+</div>
+<button onclick="closeSpeakerModal()" class="size-7 flex items-center justify-center rounded-md hover:bg-slate-700 transition-colors shrink-0">
+<span class="material-symbols-outlined text-lg text-slate-400 hover:text-white">close</span>
+</button>
+</div>
+<div id="modal-body" class="p-5 md:p-8 space-y-6"></div>
+</div>
+</div>
+
+<!-- Floating Buttons -->
+<div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+<a href="https://wa.me/821023778835" target="_blank" rel="noopener" class="w-12 h-12 rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center" title="WhatsApp 상담">
+<svg viewBox="0 0 32 32" class="w-12 h-12" fill="#25D366"><path d="M16.004 3.2C9.054 3.2 3.4 8.854 3.4 15.804c0 2.218.58 4.384 1.682 6.296L3.2 28.8l6.94-1.82A12.56 12.56 0 0016.004 28.4c6.95 0 12.596-5.646 12.596-12.596S22.954 3.2 16.004 3.2zm0 23.048a10.22 10.22 0 01-5.512-1.6l-.396-.234-4.104 1.076 1.096-4.004-.258-.41a10.18 10.18 0 01-1.566-5.472c0-5.646 4.596-10.242 10.24-10.242 5.646 0 10.242 4.596 10.242 10.242S21.65 26.248 16.004 26.248zm5.616-7.67c-.308-.154-1.82-.898-2.102-.998-.282-.102-.488-.154-.694.154-.206.306-.796.998-.976 1.204-.18.206-.36.232-.668.078-.308-.154-1.3-.48-2.478-1.528-.916-.816-1.534-1.824-1.714-2.132-.18-.308-.02-.474.134-.628.14-.138.308-.36.462-.54.154-.18.206-.308.308-.514.102-.206.052-.386-.026-.54-.078-.154-.694-1.672-.95-2.29-.25-.6-.506-.52-.694-.528l-.592-.01c-.206 0-.54.078-.822.386-.282.308-1.076 1.052-1.076 2.564s1.102 2.974 1.256 3.18c.154.206 2.168 3.31 5.252 4.64.734.316 1.306.506 1.752.648.736.234 1.406.2 1.936.122.59-.088 1.82-.744 2.076-1.462.258-.718.258-1.334.18-1.462-.076-.128-.282-.206-.59-.36z"/></svg>
+</a>
+<a href="http://pf.kakao.com/_xewxmrT/chat" target="_blank" rel="noopener" class="w-12 h-12 rounded-full shadow-lg hover:scale-110 transition-transform" title="카카오톡 상담">
+<img src="kakao logo2.png" alt="카카오톡 상담" class="w-14 h-14 rounded-full object-cover"/>
+</a>
+</div>
+
+<!-- Footer -->
+<footer class="bg-slate-950 border-t border-slate-900 py-12 px-6 lg:px-20">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+<div>
+<div class="flex items-center gap-3 mb-4">
+<img src="bni-logo.png" alt="BNI Logo" class="h-6"/>
+<span class="text-lg font-extrabold tracking-tight">Accelerate <span class="text-primary">2026</span></span>
+</div>
+<p class="text-sm text-slate-500 leading-relaxed">제 11회 BNI Korea National Conference<br>당신의 성공을 가속하세요</p>
+</div>
+<div>
+<h5 class="font-bold mb-4 text-sm uppercase tracking-wider">바로가기 Quick Links</h5>
+<ul class="space-y-3 text-sm text-slate-500">
+<li><a href="speakers.html" class="hover:text-primary transition-colors">연사 소개 Speakers</a></li>
+<li><a href="schedule.html" class="hover:text-primary transition-colors">행사 일정 Schedule</a></li>
+<li><a href="ticket.html" class="hover:text-primary transition-colors">참가 등록 Registration</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold mb-4 text-sm uppercase tracking-wider">연락처 Contact</h5>
+<ul class="space-y-3 text-sm text-slate-500">
+<li><a href="mailto:admin@bni-korea.com" class="flex items-center gap-2 hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">mail</span> admin@bni-korea.com</a></li>
+<li><a href="tel:0262618838" class="flex items-center gap-2 hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">call</span> 02-6261-8838</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-10 pt-8 border-t border-slate-900 text-xs text-slate-600">
+<p class="text-center">&copy; 2026 Accelerate BNI Korea National Conference. All rights reserved.</p>
+<p class="text-center mt-1">Created by Joy Byun. <a href="mailto:joy.byun@bnikorea.com" class="hover:text-primary transition-colors">joy.byun@bnikorea.com</a></p>
+</div>
+</footer>
+
+<script>
+const speakers = {
+    lim: {
+        photo: 'speaker-lim-profile.png', tag: 'Keynote Speaker', name: '임상진', title: '데일리비어(생활맥주) 대표이사',
+        quote: '"사업은 돈을 버는 것보다 많은 사람들을 이롭게 하는 것이다."',
+        profile: `외식 사업 20년 경력의 베테랑 창업가. 한국오라클 IT 프로그래머 출신으로, 조직에 머무르지 않고 스스로 기획하고 만드는 삶을 선택해 외식업 창업에 뛰어들었다.<br><br>2014년, 여의도 10평 매장에서 <strong class="text-white">생활맥주</strong> 1호점을 오픈한 이후 전국 250여 개 매장을 보유한 수제맥주 플랫폼으로 성장시켰다. 브랜드 연 매출 <strong class="text-white">750억 원</strong> 달성, 시리즈A <strong class="text-white">70억 원</strong> 투자 유치, <strong class="text-white">가맹점 분쟁 0건</strong>이라는 이례적인 기록을 이어가고 있다.<br><br>2024년에는 성공적인 해외 진출을 통해 글로벌 브랜드로의 첫발을 내딛으며 제2의 전성기를 맞이하고 있다.`,
+        career: [{current:true,text:'주식회사 데일리비어(생활맥주) 대표이사'},{current:false,text:'한국오라클 IT 프로그래머'},{current:false,text:'음반 프로듀서·무대감독'},{current:false,text:'참치집·치킨 매장 등 외식업 창업 다수'}],
+        gallery: ['speaker-lim.png','speaker-lim-g1.png','speaker-lim-g2.png'],
+        book: {title:'『상권을 이기는 작은 가게 성공 법칙』',sub:'2024 · 필름출판사'},
+        topic: {tag:'KEYNOTE',title:'"작은 가게가 상권을 이기는 법<br>— 연결과 시스템으로 만드는 지속 가능한 비즈니스"',desc:'IT 출신 창업가가 수제맥주 플랫폼을 만들기까지, 실패와 전략, 가맹점과의 상생 경영, 그리고 브랜드를 성장시키는 연결의 방식을 공유합니다.'}
+    },
+    norm: {
+        photo: 'speaker-norm.png', tag: 'Special Speech', name: 'Norm Dominguez', title: 'BNI Vice Chairman Emeritus & Senator · Co-Founder, Possi Global',
+        quote: '"Faith Makes Things Possible … Not Easy"',
+        profile: `BNI와 함께한 <strong class="text-white">38년</strong>의 여정. 1980년대 BNI 일반 멤버로 시작해 Executive Director, US National Director를 거쳐 BNI 본사의 <strong class="text-white">COO 및 CEO</strong>까지 역임한 BNI의 살아있는 역사다.<br><br>현재는 BNI Vice Chairman Emeritus &amp; Senator로서 BNI의 글로벌 성장을 이끌어온 핵심 인물이며, 2017년에는 전 세계에 긍정의 힘을 전파하는 글로벌 운동 <strong class="text-white">Possi Global</strong>을 공동 창립했다.<br><br>그의 핵심 메시지는 단 하나 — <strong class="text-white">"Positivity(긍정)"</strong>. 긍정적 태도가 비즈니스와 삶을 어떻게 바꾸는지를 38년의 BNI 경험으로 증명해 온 글로벌 리더이자 스피커다.`,
+        career: [{current:true,text:'BNI Vice Chairman Emeritus & Senator'},{current:true,text:'Possi Global Co-Founder'},{current:true,text:'Referral Hub LLC 대표'},{current:false,text:'BNI CEO (최고경영자)'},{current:false,text:'BNI COO (최고운영책임자)'},{current:false,text:'BNI US National Director'},{current:false,text:'BNI Executive Director'}],
+        gallery: ['speaker-norm-profile.png','speaker-norm-g1.png','speaker-norm-g2.png'],
+        book: {title:'『The Magic of Positivity』 3rd Edition',sub:'Be Positive and YOU will Be Happy!'},
+        topic: {tag:'SPECIAL SPEECH',title:'"Making Positivity a Habit<br>— 긍정을 습관으로 만드는 법"',desc:'Norm이 38년간 BNI를 통해 체득한 긍정의 7가지 기둥(Pillars of Strength)과 긍정의 우산(Positivity Umbrella)을 통해, 네트워킹과 비즈니스를 비범하게(Remarkable) 만드는 실천적 방법을 전합니다.'},
+        pillars: [{num:'01',en:'Never Give Up',ko:'절대 포기하지 마라'},{num:'02',en:'Show That You Care',ko:'배려를 표현하라'},{num:'03',en:'Accept Responsibility',ko:'책임을 수용하라'},{num:'04',en:'Treat with Respect',ko:'존중으로 대하라'},{num:'05',en:'Keep Your Word',ko:'약속을 지켜라'},{num:'06',en:'Always Think Remarkable',ko:'항상 비범함을 생각하라'},{num:'07',en:'Enjoy a Little Craziness',ko:'약간의 광기를 즐겨라'}]
+    }
+};
+function sectionTitle(t){return `<h4 class="text-[11px] font-bold tracking-widest text-primary uppercase border-b-2 border-primary inline-block pb-1 mb-4">${t}</h4>`;}
+function openSpeakerModal(id){
+    const s=speakers[id]; if(!s) return;
+    document.getElementById('modal-photo').src=s.photo;
+    document.getElementById('modal-photo').alt=s.name;
+    document.getElementById('modal-tag').textContent=s.tag;
+    document.getElementById('modal-name').textContent=s.name;
+    document.getElementById('modal-title').textContent=s.title;
+    let h='';
+    h+=`<div class="border-l-4 border-primary bg-primary/5 rounded-r-lg px-5 py-4"><p class="text-primary/90 font-medium italic text-sm">${s.quote}</p></div>`;
+    h+=`<div>${sectionTitle('Profile')}<p class="text-sm text-slate-300 leading-relaxed">${s.profile}</p></div>`;
+    h+=`<div>${sectionTitle('Career')}<div class="space-y-2 text-sm">`;
+    s.career.forEach(c=>{const b=c.current?'<span class="bg-primary text-white text-[11px] font-bold px-2.5 py-1 rounded shrink-0">現</span>':'<span class="bg-slate-700 text-slate-300 text-[11px] font-bold px-2.5 py-1 rounded shrink-0">前</span>';h+=`<div class="flex gap-3">${b}<span class="${c.current?'text-slate-300':'text-slate-400'}">${c.text}</span></div>`;});
+    h+='</div></div>';
+    h+=`<div>${sectionTitle('Book')}<div class="bg-slate-800/50 rounded-xl p-4 flex items-center gap-4"><span class="text-2xl">📖</span><div><p class="text-sm font-bold text-white">${s.book.title}</p><p class="text-xs text-slate-500 mt-1">${s.book.sub}</p></div></div></div>`;
+    h+=`<div>${sectionTitle('Speech Topic')}<div class="bg-gradient-to-br from-[#1a1a2e] to-[#16213e] rounded-xl p-5 border border-slate-700/50"><span class="text-[10px] font-bold tracking-widest text-primary">${s.topic.tag}</span><p class="text-base font-bold text-white mt-2 leading-relaxed">${s.topic.title}</p><p class="text-xs text-slate-400 mt-3 leading-relaxed">${s.topic.desc}</p></div></div>`;
+    if(s.gallery&&s.gallery.length){h+=`<div>${sectionTitle('Gallery')}<div class="grid grid-cols-3 gap-2">`;s.gallery.forEach(img=>{h+=`<div class="rounded-lg overflow-hidden aspect-square bg-slate-800"><img src="${img}" alt="${s.name}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer" onclick="window.open('${img}','_blank')"/></div>`;});h+='</div></div>';}
+    if(s.pillars){h+=`<div>${sectionTitle('Positivity Pillars of Strength')}<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">`;s.pillars.forEach(p=>{h+=`<div class="bg-slate-800/50 rounded-lg p-3 flex items-start gap-3"><span class="text-lg font-black text-primary">${p.num}</span><div><div class="text-sm font-bold">${p.en}</div><div class="text-xs text-slate-500">${p.ko}</div></div></div>`;});h+='</div></div>';}
+    document.getElementById('modal-body').innerHTML=h;
+    document.getElementById('speaker-modal').classList.remove('hidden');
+    document.body.style.overflow='hidden';
+}
+function closeSpeakerModal(){document.getElementById('speaker-modal').classList.add('hidden');document.body.style.overflow='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSpeakerModal();});
+
+// Flip clock
+function buildDigit(ul) {
+    ul.innerHTML = '';
+    for (let i = 0; i <= 9; i++) {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="#"><div class="up"><div class="shadow"></div><div class="inn">${i}</div></div><div class="down"><div class="shadow"></div><div class="inn">${i}</div></div></a>`;
+        ul.appendChild(li);
+    }
+    ul._prev = undefined;
+}
+function flipDigit(ul, digit) {
+    const items = ul.querySelectorAll('li');
+    if (ul._prev === digit) return;
+    const prev = ul._prev;
+    ul._prev = digit;
+    items.forEach(li => li.classList.remove('before', 'active'));
+    ul.classList.remove('play');
+    void ul.offsetWidth;
+    if (prev !== undefined && items[prev]) items[prev].classList.add('before');
+    if (items[digit]) items[digit].classList.add('active');
+    ul.classList.add('play');
+}
+const hDigits = {};
+['mo-t','mo-o','dy-t','dy-o','hr-t','hr-o','mn-t','mn-o','sc-t','sc-o'].forEach(id => {
+    const ul = document.getElementById('fc-' + id);
+    buildDigit(ul);
+    hDigits[id] = ul;
+});
+function updateCountdown() {
+    const deadline = new Date('2026-06-01T09:00:00+09:00').getTime();
+    const diff = deadline - Date.now();
+    if (diff <= 0) { Object.values(hDigits).forEach(ul => flipDigit(ul, 0)); return; }
+    const totalSecs = Math.floor(diff / 1000);
+    const totalHours = Math.floor(totalSecs / 3600);
+    const totalDays = Math.floor(totalHours / 24);
+    const mo = String(Math.floor(totalDays / 30)).padStart(2, '0');
+    const dy = String(totalDays % 30).padStart(2, '0');
+    const hr = String(totalHours % 24).padStart(2, '0');
+    const mn = String(Math.floor(totalSecs % 3600 / 60)).padStart(2, '0');
+    const sc = String(totalSecs % 60).padStart(2, '0');
+    flipDigit(hDigits['mo-t'], +mo[0]); flipDigit(hDigits['mo-o'], +mo[1]);
+    flipDigit(hDigits['dy-t'], +dy[0]); flipDigit(hDigits['dy-o'], +dy[1]);
+    flipDigit(hDigits['hr-t'], +hr[0]); flipDigit(hDigits['hr-o'], +hr[1]);
+    flipDigit(hDigits['mn-t'], +mn[0]); flipDigit(hDigits['mn-o'], +mn[1]);
+    flipDigit(hDigits['sc-t'], +sc[0]); flipDigit(hDigits['sc-o'], +sc[1]);
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// Counter roll-up animation
+const counterEls = document.querySelectorAll('.counter-num');
+const counterObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (!entry.isIntersecting || entry.target.dataset.done) return;
+        entry.target.dataset.done = '1';
+        const target = +entry.target.dataset.target;
+        const suffix = entry.target.dataset.suffix;
+        const duration = 1600;
+        const start = performance.now();
+        function tick(now) {
+            const p = Math.min((now - start) / duration, 1);
+            const ease = 1 - Math.pow(1 - p, 3);
+            entry.target.textContent = Math.floor(ease * target) + suffix;
+            if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+    });
+}, { threshold: 0.5 });
+counterEls.forEach(el => counterObserver.observe(el));
+</script>
+</body>
+</html>

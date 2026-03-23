@@ -52,10 +52,10 @@ body { font-family: 'Inter', sans-serif; }
 <a href="index.html"><img src="bni-logo.png" alt="BNI Logo" class="h-6 brightness-0 invert"/></a>
 </div>
 <nav class="hidden md:flex items-center gap-8">
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="index.html">Home</a>
-<a class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="speakers.html">Speakers</a>
-<a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="schedule.html">Schedule</a>
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="ticket.html">Ticket</a>
+<a class="nav-hover text-sm font-semibold hover:text-primary transition-colors" href="index.html" data-ko="프로그램 소개">Home</a>
+<a class="nav-hover text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="speakers.html" data-ko="연사">Speakers</a>
+<a class="nav-hover text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="schedule.html" data-ko="일정">Schedule</a>
+<a class="nav-hover text-sm font-semibold hover:text-primary transition-colors" href="ticket.html" data-ko="참가신청">Ticket</a>
 </nav>
 <button onclick="toggleMobileMenu()" id="menu-toggle-btn" class="md:hidden size-10 flex items-center justify-center rounded-lg hover:bg-slate-800 transition-colors">
 <span class="material-symbols-outlined" id="menu-toggle-icon">menu</span>
@@ -64,13 +64,19 @@ body { font-family: 'Inter', sans-serif; }
 </header>
 <div id="mobile-menu" class="md:hidden bg-[#0a0c10] border-b border-slate-800 overflow-hidden transition-all duration-300 sticky top-[65px] z-40" style="max-height:0;">
 <div class="flex items-center justify-around py-3 px-2">
-<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="index.html"><span class="material-symbols-outlined text-xl">home</span><span class="text-[10px] font-bold">Home</span></a>
-<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="speakers.html"><span class="material-symbols-outlined text-xl">mic</span><span class="text-[10px] font-bold">Speakers</span></a>
-<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-primary" href="schedule.html"><span class="material-symbols-outlined text-xl">calendar_month</span><span class="text-[10px] font-bold">Schedule</span></a>
-<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="ticket.html"><span class="material-symbols-outlined text-xl">confirmation_number</span><span class="text-[10px] font-bold">Ticket</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="index.html"><span class="material-symbols-outlined text-xl">home</span><span class="nav-hover text-[10px] font-bold" data-ko="프로그램 소개">Home</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="speakers.html"><span class="material-symbols-outlined text-xl">mic</span><span class="nav-hover text-[10px] font-bold" data-ko="연사">Speakers</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-primary" href="schedule.html"><span class="material-symbols-outlined text-xl">calendar_month</span><span class="nav-hover text-[10px] font-bold" data-ko="일정">Schedule</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="ticket.html"><span class="material-symbols-outlined text-xl">confirmation_number</span><span class="nav-hover text-[10px] font-bold" data-ko="참가신청">Ticket</span></a>
 </div>
 </div>
 <script>
+document.querySelectorAll('.nav-hover').forEach(el => {
+    const original = el.textContent;
+    const ko = el.dataset.ko;
+    el.addEventListener('mouseenter', () => { el.textContent = ko; });
+    el.addEventListener('mouseleave', () => { el.textContent = original; });
+});
 function toggleMobileMenu() {
     const menu = document.getElementById('mobile-menu');
     const icon = document.getElementById('menu-toggle-icon');
@@ -89,9 +95,9 @@ function toggleMobileMenu() {
 </section>
 
 <!-- Day Tabs -->
-<div class="flex gap-2 mb-10 overflow-x-auto">
-<button onclick="switchDay('day1')" id="btn-day1" class="day-tab px-6 py-3 rounded-xl text-sm font-bold bg-primary text-white transition-all whitespace-nowrap">Day 1 · 6월 1일 (월)</button>
-<button onclick="switchDay('day2')" id="btn-day2" class="day-tab px-6 py-3 rounded-xl text-sm font-bold bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-all whitespace-nowrap">Day 2 · 6월 2일 (화)</button>
+<div class="flex gap-2 mb-10">
+<button onclick="switchDay('day1')" id="btn-day1" class="day-tab w-1/2 py-3 rounded-xl text-sm font-bold bg-primary text-white transition-all whitespace-nowrap">Day 1 · 6월 1일 (월)</button>
+<button onclick="switchDay('day2')" id="btn-day2" class="day-tab w-1/2 py-3 rounded-xl text-sm font-bold bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-all whitespace-nowrap">Day 2 · 6월 2일 (화)</button>
 </div>
 
 <!-- Day 1 Schedule -->
@@ -462,9 +468,9 @@ function switchDay(day) {
     document.getElementById('schedule-day2').classList.toggle('hidden', day !== 'day2');
     document.querySelectorAll('.day-tab').forEach(btn => {
         if (btn.id === 'btn-' + day) {
-            btn.className = 'day-tab px-6 py-3 rounded-xl text-sm font-bold bg-primary text-white transition-all whitespace-nowrap';
+            btn.className = 'day-tab w-1/2 py-3 rounded-xl text-sm font-bold bg-primary text-white transition-all whitespace-nowrap';
         } else {
-            btn.className = 'day-tab px-6 py-3 rounded-xl text-sm font-bold bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-all whitespace-nowrap';
+            btn.className = 'day-tab w-1/2 py-3 rounded-xl text-sm font-bold bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-all whitespace-nowrap';
         }
     });
 }

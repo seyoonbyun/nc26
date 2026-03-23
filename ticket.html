@@ -35,6 +35,9 @@
     </script>
 <style>
         body { font-family: 'Inter', sans-serif; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .faq-open .faq-answer { max-height: 500px; }
+        .faq-open .faq-chevron { transform: rotate(180deg); }
         .tab-active { border-bottom: 3px solid #cf1f2e; color: #ffffff; }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cf1f2e; border-radius: 10px; }
@@ -166,10 +169,10 @@
 </a>
 </div>
 <nav class="hidden md:flex items-center gap-8">
-<a class="text-sm font-semibold hover:text-primary transition-colors" href="index.html">Home</a>
-<a class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="speakers.html">Speakers</a>
-<a class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="schedule.html">Schedule</a>
-<a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="ticket.html">Ticket</a>
+<a class="nav-hover text-sm font-semibold hover:text-primary transition-colors" href="index.html" data-ko="프로그램 소개">Home</a>
+<a class="nav-hover text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="speakers.html" data-ko="연사">Speakers</a>
+<a class="nav-hover text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="schedule.html" data-ko="일정">Schedule</a>
+<a class="nav-hover text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="ticket.html" data-ko="참가신청">Ticket</a>
 </nav>
 <button onclick="toggleMobileMenu()" id="menu-toggle-btn" class="md:hidden size-10 flex items-center justify-center rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
 <span class="material-symbols-outlined" id="menu-toggle-icon">menu</span>
@@ -177,13 +180,19 @@
 </header>
 <div id="mobile-menu" class="md:hidden bg-white dark:bg-[#0a0c10] border-b border-slate-200 dark:border-slate-800 overflow-hidden transition-all duration-300 sticky top-[65px] z-40" style="max-height:0;">
 <div class="flex items-center justify-around py-3 px-2">
-<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="index.html"><span class="material-symbols-outlined text-xl">home</span><span class="text-[10px] font-bold">Home</span></a>
-<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="speakers.html"><span class="material-symbols-outlined text-xl">mic</span><span class="text-[10px] font-bold">Speakers</span></a>
-<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="schedule.html"><span class="material-symbols-outlined text-xl">calendar_month</span><span class="text-[10px] font-bold">Schedule</span></a>
-<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-primary" href="ticket.html"><span class="material-symbols-outlined text-xl">confirmation_number</span><span class="text-[10px] font-bold">Ticket</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="index.html"><span class="material-symbols-outlined text-xl">home</span><span class="nav-hover text-[10px] font-bold" data-ko="프로그램 소개">Home</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="speakers.html"><span class="material-symbols-outlined text-xl">mic</span><span class="nav-hover text-[10px] font-bold" data-ko="연사">Speakers</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="schedule.html"><span class="material-symbols-outlined text-xl">calendar_month</span><span class="nav-hover text-[10px] font-bold" data-ko="일정">Schedule</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-primary" href="ticket.html"><span class="material-symbols-outlined text-xl">confirmation_number</span><span class="nav-hover text-[10px] font-bold" data-ko="참가신청">Ticket</span></a>
 </div>
 </div>
 <script>
+document.querySelectorAll('.nav-hover').forEach(el => {
+    const original = el.textContent;
+    const ko = el.dataset.ko;
+    el.addEventListener('mouseenter', () => { el.textContent = ko; });
+    el.addEventListener('mouseleave', () => { el.textContent = original; });
+});
 function toggleMobileMenu() {
     const menu = document.getElementById('mobile-menu');
     const icon = document.getElementById('menu-toggle-icon');
@@ -233,8 +242,8 @@ function toggleMobileMenu() {
 <!-- Attendee Path Selector -->
 <div class="max-w-5xl mx-auto mb-8 md:mb-10">
 <div class="flex bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-lg">
-<button id="tab-domestic" onclick="switchTab('domestic')" class="w-1/2 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-2 border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-center">국내 참가자</button>
-<button id="tab-international" onclick="switchTab('international')" class="w-1/2 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-2 border-primary text-slate-900 dark:text-white text-center">International</button>
+<button id="tab-domestic" onclick="switchTab('domestic')" class="w-1/2 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-2 border-primary text-slate-900 dark:text-white text-center">국내 참가자</button>
+<button id="tab-international" onclick="switchTab('international')" class="w-1/2 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-2 border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-center">International</button>
 </div>
 </div>
 
@@ -322,7 +331,7 @@ function toggleMobileMenu() {
 <ul class="space-y-3 mb-8 flex-1 text-sm">
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_conference"></span></li>
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-red-400 text-lg">cancel</span> <span class="text-slate-400" data-i18n="feat_no_party"></span></li>
-<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_day12"></span></li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_day12_member"></span></li>
 </ul>
 <button onclick="goToDomesticPayment('plan3')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
 </div>
@@ -546,20 +555,16 @@ function toggleMobileMenu() {
 <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeBoothModal()"></div>
 <div class="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden max-h-[90vh] overflow-y-auto" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.1) transparent;">
 <!-- Header -->
-<div class="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-5 flex items-center justify-between z-10">
-<div class="flex items-center gap-3">
+<div class="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-5 z-10">
+<div class="flex items-center justify-between mb-3">
 <img src="bni-logo.png" alt="BNI" class="h-8"/>
-<div>
-<h3 id="booth-modal-title" class="text-lg font-bold">부스 참가 신청서</h3>
-<p class="text-xs text-slate-500">제 11회 BNI KOREA National Conference</p>
-</div>
-</div>
-<div class="flex items-center gap-2">
-<p id="booth-modal-price" class="text-primary text-sm font-bold"></p>
 <button onclick="closeBoothModal()" class="size-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
 <span class="material-symbols-outlined text-lg text-slate-400">close</span>
 </button>
 </div>
+<h3 id="booth-modal-title" class="text-lg font-bold">부스 참가 신청서</h3>
+<p class="text-xs text-slate-500 mb-1">제 11회 BNI KOREA National Conference</p>
+<p id="booth-modal-price" class="text-primary text-sm font-bold"></p>
 </div>
 <form id="booth-form" class="p-5 md:p-6 space-y-5" onsubmit="submitBoothForm(event)">
 <!-- 참가 업체 섹션 -->
@@ -780,9 +785,10 @@ function toggleMobileMenu() {
 <!-- Payment Methods Section -->
 <section id="payment-section" class="mb-12 md:mb-20 text-center">
 <h4 class="text-sm font-bold uppercase tracking-[0.2em] text-slate-500 mb-8" data-i18n="payment_title"></h4>
-<div id="payment-domestic" class="hidden flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity">
-<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">account_balance</span> 무통장입금</div>
-<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">credit_card</span> 카드결제</div>
+<div id="payment-domestic" class="hidden flex-wrap justify-center items-center gap-4 md:gap-10 opacity-60 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-2 font-bold text-sm md:text-xl"><span class="material-symbols-outlined text-primary">account_balance</span> 가상계좌 결제</div>
+<div class="flex items-center gap-2 font-bold text-sm md:text-xl"><span class="material-symbols-outlined text-primary">credit_card</span> 신용카드 결제</div>
+<div class="flex items-center gap-2 font-bold text-sm md:text-xl"><span class="material-symbols-outlined text-primary">chat_bubble</span> 카카오 결제</div>
 </div>
 <div id="payment-international" class="flex flex-wrap justify-center items-center gap-4 md:gap-10 opacity-60 hover:opacity-100 transition-opacity">
 <div class="flex items-center gap-1 md:gap-2 font-bold text-sm md:text-xl"><span class="material-symbols-outlined text-primary text-lg md:text-2xl">credit_card</span> VISA</div>
@@ -905,14 +911,15 @@ const i18n = {
         early_bird_deadline: '얼리버드 마감: 2026년 4월 20일 23:50',
         feat_conference: '컨퍼런스 참석',
         feat_networking_party: '네트워킹 파티',
-        feat_day12: 'Day 1–2 참가',
+        feat_day12: 'Day 1–3 참가',
+        feat_day12_member: 'Day 1–2 참가',
         btn_select: '선택하기',
         payment_title: '결제 수단',
         faq_title: '등록 자주 묻는 질문',
         faq_subtitle: 'Accelerate 2026 참가에 대해 궁금한 점을 확인하세요.',
-        venue_title: '장소: 스위스그랜드호텔 서울',
+        venue_title: '스위스그랜드호텔 서울',
         venue_desc: '서울의 대표적인 호텔에서 컨퍼런스를 경험하세요.',
-        venue_btn: '교통 안내 보기',
+        venue_btn: '주변 관광지 정보 보기',
         form_title: '참가자 등록',
         form_name_label: '이름 (영문)',
         form_name_placeholder: 'Hong Gildong',
@@ -931,8 +938,8 @@ const i18n = {
         form_submit: '결제하기',
         form_secure_note: '모든 결제 정보는 SSL 암호화로 안전하게 처리됩니다.',
         faqs: [
-            { icon: 'description', q: '세금계산서 발행이 가능한가요?', a: '네, 무통장 입금 또는 법인카드 결제 후 마이페이지에서 사업자 정보를 입력하시면 전자세금계산서가 발행됩니다.' },
-            { icon: 'sync', q: '환불 정책은 어떻게 되나요?', a: '행사 30일 전까지 전액 환불, 14일 전까지 50% 환불이 가능합니다. 이후에는 환불이 불가합니다.' },
+            { icon: 'description', q: '세금계산서 발행이 가능한가요?', a: '네, 가상계좌 입금을 선택하신 뒤, \'현금영수증\' 발행을 선택하시고, 사업자 등록 정보를 입력하시면 전자세금계산서가 발행됩니다.' },
+            { icon: 'sync', q: '환불 정책은 어떻게 되나요?', a: '<div class="space-y-2"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-base">check_circle</span>5/8까지: 티켓금액의 100% 환불</div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-yellow-500 text-base">check_circle</span>5/15까지: 티켓금액의 50% 환불</div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-500 text-base">check_circle</span>5/28까지: 티켓금액의 30% 환불</div><div class="flex items-center gap-2 text-red-400 font-semibold"><span class="material-symbols-outlined text-red-400 text-base">cancel</span>※ 5/29부터 환불이 불가합니다.</div></div>' },
             { icon: 'badge', q: '현장 등록도 가능한가요?', a: '사전 등록을 권장드리며, 잔여석이 있을 경우 현장 등록도 가능합니다. 현장 등록 시 추가 요금이 발생할 수 있습니다.' }
         ]
     },
@@ -962,7 +969,8 @@ const i18n = {
         early_bird_deadline: 'Early Bird ends: April 20, 2026 at 23:50 KST',
         feat_conference: 'Conference Access',
         feat_networking_party: 'Networking Party',
-        feat_day12: 'Day 1–2 Included',
+        feat_day12: 'Day 1–3 Included',
+        feat_day12_member: 'Day 1–2 Included',
         feat_day1_only: 'Day 1 Only',
         feat_lunch_included: 'Lunch Included',
         feat_party_only: 'Networking Party Access',
@@ -1005,7 +1013,7 @@ const i18n = {
         form_secure_note: 'All payment information is securely processed with SSL encryption.',
         faqs: [
             { icon: 'help', q: 'Do you provide visa support letters for international attendees?', a: 'Yes, upon completion of registration and payment, you can request an invitation letter for visa purposes through your attendee dashboard.' },
-            { icon: 'sync', q: 'What is the refund policy?', a: 'Full refunds are available until 30 days before the event. A 50% refund is available up to 14 days before the start date.' },
+            { icon: 'sync', q: 'What is the refund policy?', a: '<div class="space-y-2"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-base">check_circle</span>Until May 8: 100% refund</div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-yellow-500 text-base">check_circle</span>Until May 15: 50% refund</div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-500 text-base">check_circle</span>Until May 28: 30% refund</div><div class="flex items-center gap-2 text-red-400 font-semibold"><span class="material-symbols-outlined text-red-400 text-base">cancel</span>※ No refunds from May 29 onwards.</div></div>' },
             { icon: 'flight', q: 'Is travel and accommodation included?', a: 'Tickets do not include travel or accommodation. However, we offer exclusive hotel partner discounts accessible through your attendee dashboard.' }
         ]
     },
@@ -1035,7 +1043,8 @@ const i18n = {
         early_bird_deadline: '早割締切：2026年4月20日 23:50 KST',
         feat_conference: 'カンファレンス参加',
         feat_networking_party: 'ネットワーキングパーティー',
-        feat_day12: 'Day 1–2 参加',
+        feat_day12: 'Day 1–3 参加',
+        feat_day12_member: 'Day 1–2 参加',
         feat_day1_only: 'Day 1のみ',
         feat_lunch_included: 'ランチ込み',
         feat_party_only: 'パーティーのみ',
@@ -1108,7 +1117,8 @@ const i18n = {
         early_bird_deadline: '优惠截止：2026年4月20日 23:50 KST',
         feat_conference: '大会参与',
         feat_networking_party: '人脉扩展晚宴',
-        feat_day12: 'Day 1–2 参加',
+        feat_day12: 'Day 1–3 参加',
+        feat_day12_member: 'Day 1–2 参加',
         feat_day1_only: '仅Day 1',
         feat_lunch_included: '含午餐',
         feat_party_only: '仅晚宴',
@@ -1195,12 +1205,15 @@ function applyTranslations(lang) {
 function renderFAQs(faqs) {
     const container = document.getElementById('faq-container');
     container.innerHTML = faqs.map(f => `
-        <div class="p-6 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
-            <h4 class="font-bold mb-2 flex items-center gap-2">
+        <div class="rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden">
+            <button onclick="this.parentElement.classList.toggle('faq-open')" class="w-full p-6 flex items-center gap-3 text-left font-bold hover:text-primary transition-colors">
                 <span class="material-symbols-outlined text-primary">${f.icon}</span>
-                ${f.q}
-            </h4>
-            <p class="text-sm text-slate-500 dark:text-slate-400">${f.a}</p>
+                <span class="flex-1">${f.q}</span>
+                <span class="material-symbols-outlined text-slate-500 transition-transform duration-300 faq-chevron">expand_more</span>
+            </button>
+            <div class="faq-answer">
+                <div class="pl-[60px] pr-6 pb-6 text-sm text-slate-400">${f.a}</div>
+            </div>
         </div>
     `).join('');
 }
@@ -1222,7 +1235,7 @@ function switchTab(tab) {
         if (domestic) domestic.className = activeClass;
         if (international) international.className = inactiveClass;
         if (langControls) langControls.className = 'hidden';
-        if (payDomestic) payDomestic.className = 'flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity';
+        if (payDomestic) payDomestic.className = 'flex flex-wrap justify-center items-center gap-4 md:gap-10 opacity-60 hover:opacity-100 transition-opacity';
         if (payInternational) payInternational.className = 'hidden';
         if (gridDomestic) gridDomestic.style.display = '';
         if (gridInternational) gridInternational.style.display = 'none';
@@ -1805,7 +1818,7 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 
 document.addEventListener('DOMContentLoaded', () => {
-    switchTab('international');
+    switchTab('domestic');
     updateCountdown();
 });
 </script>

@@ -1,0 +1,1811 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Accelerate 2026 - Registration</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#cf1f2e",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#0a0c10",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .tab-active { border-bottom: 3px solid #cf1f2e; color: #ffffff; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cf1f2e; border-radius: 10px; }
+
+        /* Flip Clock (split-flap) */
+        ul.flip {
+            position: relative;
+            display: inline-block;
+            margin: 0;
+            width: 28px; height: 40px;
+            font-size: 24px; font-weight: 900;
+            line-height: 38px;
+            border-radius: 5px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+            font-family: 'Inter', sans-serif;
+            font-variant-numeric: tabular-nums;
+        }
+        @media(min-width:400px) {
+            ul.flip { width: 36px; height: 52px; font-size: 32px; line-height: 50px; border-radius: 6px; }
+        }
+        @media(min-width:768px) {
+            ul.flip { width: 48px; height: 68px; font-size: 44px; line-height: 66px; border-radius: 8px; }
+        }
+        ul.flip li {
+            z-index: 1;
+            position: absolute; left: 0; top: 0;
+            width: 100%; height: 100%;
+            list-style: none;
+        }
+        ul.flip li:first-child { z-index: 2; }
+        ul.flip li a {
+            display: block; height: 100%;
+            perspective: 300px;
+            cursor: default;
+        }
+        ul.flip li a div {
+            z-index: 1;
+            position: absolute; left: 0;
+            width: 100%; height: 50%;
+            overflow: hidden;
+        }
+        ul.flip li a div .shadow {
+            position: absolute; width: 100%; height: 100%; z-index: 2;
+        }
+        ul.flip li a div.up {
+            transform-origin: 50% 100%; top: 0;
+        }
+        ul.flip li a div.up:after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            z-index: 5;
+            height: 2px;
+            background: rgba(0,0,0,0.15);
+        }
+        .dark ul.flip li a div.up:after { background: rgba(255,255,255,0.06); }
+        ul.flip li a div.down {
+            transform-origin: 50% 0%; bottom: 0;
+        }
+        ul.flip li a div div.inn {
+            position: absolute; left: 0;
+            z-index: 1;
+            width: 100%; height: 200%;
+            color: #cf1f2e;
+            text-align: center;
+            background: #fff;
+            border-radius: 6px;
+        }
+        @media(min-width:400px) { ul.flip li a div div.inn { border-radius: 6px; } }
+        @media(min-width:768px) { ul.flip li a div div.inn { border-radius: 8px; } }
+        .dark ul.flip li a div div.inn { background: #0f172a; }
+        ul.flip li a div.up div.inn { top: 0; }
+        ul.flip li a div.down div.inn { bottom: 0; }
+        /* Active/Before z-index */
+        ul.flip.play li.before { z-index: 3; }
+        ul.flip.play li.active {
+            animation: flipZindex 0.5s 0.5s linear both;
+            z-index: 2;
+        }
+        @keyframes flipZindex { 0%{z-index:2} 5%{z-index:4} 100%{z-index:4} }
+        /* Flip animations */
+        ul.flip.play li.active .down {
+            z-index: 2;
+            animation: flipTurn 0.5s 0.5s linear both;
+        }
+        @keyframes flipTurn { 0%{transform:rotateX(90deg)} 100%{transform:rotateX(0deg)} }
+        ul.flip.play li.before .up {
+            z-index: 2;
+            animation: flipTurn2 0.5s linear both;
+        }
+        @keyframes flipTurn2 { 0%{transform:rotateX(0deg)} 100%{transform:rotateX(-90deg)} }
+        /* Shadow animations */
+        ul.flip.play li.before .up .shadow {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,1) 100%);
+            animation: flipShow 0.5s linear both;
+        }
+        ul.flip.play li.active .up .shadow {
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,1) 100%);
+            animation: flipHide 0.5s 0.3s linear both;
+        }
+        ul.flip.play li.before .down .shadow {
+            background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.1) 100%);
+            animation: flipShow 0.5s linear both;
+        }
+        ul.flip.play li.active .down .shadow {
+            background: linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0.1) 100%);
+            animation: flipHide 0.5s 0.3s linear both;
+        }
+        @keyframes flipShow { 0%{opacity:0} 100%{opacity:1} }
+        @keyframes flipHide { 0%{opacity:1} 100%{opacity:0} }
+        @keyframes ambientA { 0%,100%{opacity:0;transform:translate(0,0)} 50%{opacity:1;transform:translate(30px,-20px)} }
+        @keyframes ambientB { 0%,100%{opacity:0;transform:translate(0,0)} 50%{opacity:1;transform:translate(-20px,30px)} }
+        @keyframes ambientC { 0%,100%{opacity:0;transform:translate(0,0)} 50%{opacity:1;transform:translate(15px,15px)} }
+    </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-300">
+<!-- Ambient Background -->
+<div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] animate-[ambientA_8s_ease-in-out_infinite]"></div>
+<div class="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-blue-500/4 rounded-full blur-[100px] animate-[ambientB_10s_ease-in-out_infinite]"></div>
+<div class="absolute top-2/3 left-1/2 w-[300px] h-[300px] bg-primary/3 rounded-full blur-[80px] animate-[ambientC_12s_ease-in-out_infinite]"></div>
+</div>
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden z-10">
+<!-- Header / Nav -->
+<header class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 px-6 lg:px-20 py-4 bg-background-light dark:bg-background-dark sticky top-0 z-50">
+<div class="flex items-center gap-3">
+<a href="index.html">
+<img src="bni-logo.png" alt="BNI Logo" class="h-6 brightness-0 invert"/>
+</a>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-semibold hover:text-primary transition-colors" href="index.html">Home</a>
+<a class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="speakers.html">Speakers</a>
+<a class="text-sm font-semibold text-slate-400 hover:text-primary transition-colors" href="schedule.html">Schedule</a>
+<a class="text-sm font-semibold text-primary border-b-2 border-primary pb-1" href="ticket.html">Ticket</a>
+</nav>
+<button onclick="toggleMobileMenu()" id="menu-toggle-btn" class="md:hidden size-10 flex items-center justify-center rounded-lg hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined" id="menu-toggle-icon">menu</span>
+</button>
+</header>
+<div id="mobile-menu" class="md:hidden bg-white dark:bg-[#0a0c10] border-b border-slate-200 dark:border-slate-800 overflow-hidden transition-all duration-300 sticky top-[65px] z-40" style="max-height:0;">
+<div class="flex items-center justify-around py-3 px-2">
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="index.html"><span class="material-symbols-outlined text-xl">home</span><span class="text-[10px] font-bold">Home</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="speakers.html"><span class="material-symbols-outlined text-xl">mic</span><span class="text-[10px] font-bold">Speakers</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-slate-400 hover:text-primary transition-colors" href="schedule.html"><span class="material-symbols-outlined text-xl">calendar_month</span><span class="text-[10px] font-bold">Schedule</span></a>
+<a class="flex flex-col items-center gap-1 px-3 py-1.5 rounded-lg text-primary" href="ticket.html"><span class="material-symbols-outlined text-xl">confirmation_number</span><span class="text-[10px] font-bold">Ticket</span></a>
+</div>
+</div>
+<script>
+function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    const icon = document.getElementById('menu-toggle-icon');
+    const isOpen = menu.style.maxHeight !== '0px' && menu.style.maxHeight !== '0';
+    menu.style.maxHeight = isOpen ? '0' : '80px';
+    icon.textContent = isOpen ? 'menu' : 'close';
+}
+</script>
+<main class="flex-1 max-w-7xl mx-auto w-full px-4 md:px-6 py-8 md:py-12">
+<!-- Hero Section -->
+<section class="mb-10 md:mb-16 text-center">
+<h1 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter" data-i18n="hero_title"></h1>
+<p class="text-slate-500 dark:text-slate-400 max-w-4xl mx-auto text-sm md:text-lg" data-i18n="hero_subtitle"></p>
+<!-- Early Bird Countdown (Flip) -->
+<div class="mt-8 inline-block">
+<p class="text-sm font-bold text-primary uppercase tracking-widest mb-5" data-i18n="countdown_label"></p>
+<div class="flex items-start justify-center flex-wrap gap-y-4">
+<div class="flex flex-col items-center">
+<div class="flex gap-[3px]"><ul class="flip" id="fc-mo-t"></ul><ul class="flip" id="fc-mo-o"></ul></div>
+<span class="text-[9px] md:text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-2">Months</span>
+</div>
+<span class="text-lg md:text-xl font-black text-slate-600 mx-1 md:mx-2" style="margin-top:18px;">:</span>
+<div class="flex flex-col items-center">
+<div class="flex gap-[3px]"><ul class="flip" id="fc-dy-t"></ul><ul class="flip" id="fc-dy-o"></ul></div>
+<span class="text-[9px] md:text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-2">Days</span>
+</div>
+<span class="text-lg md:text-xl font-black text-slate-600 mx-1 md:mx-2" style="margin-top:28px;">:</span>
+<div class="flex flex-col items-center">
+<div class="flex gap-[3px]"><ul class="flip" id="fc-hr-t"></ul><ul class="flip" id="fc-hr-o"></ul></div>
+<span class="text-[9px] md:text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-2">Hours</span>
+</div>
+<div class="w-full md:hidden"></div>
+<span class="text-lg md:text-xl font-black text-slate-600 mx-1 md:mx-2" style="margin-top:28px;">:</span>
+<div class="flex flex-col items-center">
+<div class="flex gap-[3px]"><ul class="flip" id="fc-mn-t"></ul><ul class="flip" id="fc-mn-o"></ul></div>
+<span class="text-[9px] md:text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-2">Mins</span>
+</div>
+<span class="text-lg md:text-xl font-black text-slate-600 mx-1 md:mx-2" style="margin-top:28px;">:</span>
+<div class="flex flex-col items-center">
+<div class="flex gap-[3px]"><ul class="flip" id="fc-sc-t"></ul><ul class="flip" id="fc-sc-o"></ul></div>
+<span class="text-[9px] md:text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-2">Secs</span>
+</div>
+</div>
+<p class="mt-5 text-xs text-slate-400" data-i18n="early_bird_deadline"></p>
+</div>
+</section>
+<!-- Attendee Path Selector -->
+<div class="max-w-5xl mx-auto mb-8 md:mb-10">
+<div class="flex bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-lg">
+<button id="tab-domestic" onclick="switchTab('domestic')" class="w-1/2 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-2 border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-center">국내 참가자</button>
+<button id="tab-international" onclick="switchTab('international')" class="w-1/2 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-2 border-primary text-slate-900 dark:text-white text-center">International</button>
+</div>
+</div>
+
+<!-- Language & Region Controls (Contextual for International) -->
+<div id="language-controls" class="hidden flex-col md:flex-row md:flex-wrap md:items-center md:justify-between gap-3 md:gap-4 mb-6 md:mb-8 p-4 md:p-5 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-5xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl">language</span>
+<span class="text-base md:text-lg font-bold" data-i18n="lang_label"></span>
+</div>
+<div id="lang-buttons" class="flex flex-col md:flex-row bg-slate-200 dark:bg-slate-800 p-1.5 rounded-lg gap-1">
+<button onclick="switchLang('en')" data-lang="en" class="lang-btn px-4 py-1.5 text-xs font-bold bg-white dark:bg-slate-700 rounded shadow-sm">English</button>
+<button onclick="switchLang('ja')" data-lang="ja" class="lang-btn px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">日本語</button>
+<button onclick="switchLang('zh')" data-lang="zh" class="lang-btn px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300">简体中文</button>
+</div>
+<div class="flex items-center gap-2 text-base text-slate-500">
+<span class="material-symbols-outlined text-xl">info</span>
+<span data-i18n="vat_note"></span>
+</div>
+</div>
+<!-- Domestic Pricing Grid (5 plans) -->
+<div id="grid-domestic" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6 mb-12 md:mb-20 max-w-5xl mx-auto" style="display:none">
+<!-- ED Card -->
+<div class="flex flex-col p-5 md:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider">ED</div>
+<div class="mb-5">
+<h3 class="text-lg font-bold mb-2" data-i18n="plan1_name"></h3>
+<p class="text-xs text-slate-500 mb-3" data-i18n="plan1_package"></p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-primary" data-i18n="label_early_bird"></span>
+<span class="text-xl font-black text-primary" data-i18n="plan1_early_price"></span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider" data-i18n="label_regular"></span>
+<span class="text-sm font-bold text-slate-400 line-through" data-i18n="plan1_regular_price"></span>
+</div>
+</div>
+</div>
+<ul class="space-y-3 mb-8 flex-1 text-sm">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_conference"></span></li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_networking_party"></span></li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_day12"></span></li>
+</ul>
+<button onclick="goToDomesticPayment('plan1')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+</div>
+<!-- Director Card -->
+<div class="flex flex-col p-5 md:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
+<div class="mb-5">
+<h3 class="text-lg font-bold mb-2" data-i18n="plan2_name"></h3>
+<p class="text-xs text-slate-500 mb-3" data-i18n="plan2_package"></p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-primary" data-i18n="label_early_bird"></span>
+<span class="text-xl font-black text-primary" data-i18n="plan2_early_price"></span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider" data-i18n="label_regular"></span>
+<span class="text-sm font-bold text-slate-400 line-through" data-i18n="plan2_regular_price"></span>
+</div>
+</div>
+</div>
+<ul class="space-y-3 mb-8 flex-1 text-sm">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_conference"></span></li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_networking_party"></span></li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_day12"></span></li>
+</ul>
+<button onclick="goToDomesticPayment('plan2')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+</div>
+<!-- Member Card -->
+<div class="flex flex-col p-5 md:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
+<div class="mb-5">
+<h3 class="text-lg font-bold mb-2" data-i18n="plan3_name"></h3>
+<p class="text-xs text-slate-500 mb-3" data-i18n="plan3_package"></p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-primary" data-i18n="label_early_bird"></span>
+<span class="text-xl font-black text-primary" data-i18n="plan3_early_price"></span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider" data-i18n="label_regular"></span>
+<span class="text-sm font-bold text-slate-400 line-through" data-i18n="plan3_regular_price"></span>
+</div>
+</div>
+</div>
+<ul class="space-y-3 mb-8 flex-1 text-sm">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_conference"></span></li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-red-400 text-lg">cancel</span> <span class="text-slate-400" data-i18n="feat_no_party"></span></li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_day12"></span></li>
+</ul>
+<button onclick="goToDomesticPayment('plan3')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+</div>
+<!-- Visitor Card -->
+<div class="flex flex-col p-5 md:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
+<div class="mb-5">
+<h3 class="text-lg font-bold mb-2" data-i18n="plan4_name"></h3>
+<p class="text-xs text-slate-500 mb-3" data-i18n="plan4_package"></p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-primary" data-i18n="label_early_bird"></span>
+<span class="text-xl font-black text-primary" data-i18n="plan4_early_price"></span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider" data-i18n="label_regular"></span>
+<span class="text-sm font-bold text-slate-400 line-through" data-i18n="plan4_regular_price"></span>
+</div>
+</div>
+</div>
+<ul class="space-y-3 mb-8 flex-1 text-sm">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_day1_only"></span></li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_lunch_included"></span></li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-red-400 text-lg">cancel</span> <span class="text-slate-400" data-i18n="feat_no_party"></span></li>
+</ul>
+<button onclick="goToDomesticPayment('plan4')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+</div>
+<!-- Networking Party Card -->
+<div class="flex flex-col p-5 md:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
+<div class="mb-5">
+<h3 class="text-lg font-bold mb-2" data-i18n="plan5_name"></h3>
+<p class="text-xs text-slate-500 mb-3" data-i18n="plan5_package"></p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3 space-y-2">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-primary" data-i18n="label_early_bird"></span>
+<span class="text-xl font-black text-primary" data-i18n="plan5_early_price"></span>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-semibold text-slate-400 uppercase tracking-wider" data-i18n="label_regular"></span>
+<span class="text-sm font-bold text-slate-400 line-through" data-i18n="plan5_regular_price"></span>
+</div>
+</div>
+</div>
+<ul class="space-y-3 mb-8 flex-1 text-sm">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_party_only"></span></li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-red-400 text-lg">cancel</span> <span class="text-slate-400" data-i18n="feat_no_conference"></span></li>
+</ul>
+<button onclick="goToDomesticPayment('plan5')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+</div>
+<!-- Booth Card (Domestic) -->
+<div class="flex flex-col p-5 md:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-700 hover:border-primary/50 transition-all relative">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-500 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider flex items-center gap-1"><span class="material-symbols-outlined text-sm">storefront</span> Booth</div>
+<div class="mb-5">
+<h3 class="text-lg font-bold mb-2">부스 전시</h3>
+<p class="text-xs text-slate-500 mb-3">Exhibition Booth (2m × 2m × 2.5m)</p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-3">
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-wider text-amber-600">부가세 포함</span>
+<span class="text-xl font-black text-primary">₩2,200,000</span>
+</div>
+</div>
+</div>
+<ul class="space-y-3 mb-8 flex-1 text-sm">
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> 상단 간판 디자인·설치</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> 프로그램북 광고 게재</li>
+<li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> 셋팅: 행사 당일 새벽 2시~</li>
+</ul>
+<button onclick="openBoothModal('domestic')" class="w-full py-3 rounded-xl font-bold bg-amber-500 text-white hover:bg-primary transition-all shadow-lg shadow-amber-300/30">부스 신청하기</button>
+</div>
+</div>
+<!-- International Pricing Grid (3 types) -->
+<div id="grid-international" class="grid grid-cols-1 md:grid-cols-3 gap-5 md:gap-6 mb-12 md:mb-20 max-w-5xl mx-auto" style="display:none">
+<!-- Executive Director (ED) Card -->
+<div class="flex flex-col p-5 md:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider" data-i18n="badge_ed"></div>
+<div class="mb-6">
+<h3 class="text-xl font-bold mb-3" data-i18n="plan1_name"></h3>
+<p class="text-sm text-slate-500 mb-4" data-i18n="plan1_package"></p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 space-y-3">
+<div>
+<span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-primary block" data-i18n="label_early_bird"></span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-2xl md:text-3xl font-black text-primary" data-i18n="plan1_early_price"></span>
+<span class="text-sm font-bold text-slate-400" data-i18n-local="plan1_early_local"></span>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-700 pt-2">
+<span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider block" data-i18n="label_regular"></span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-base md:text-lg font-bold text-slate-400 line-through" data-i18n="plan1_regular_price"></span>
+<span class="text-sm text-slate-400" data-i18n-local="plan1_regular_local"></span>
+</div>
+</div>
+</div>
+<p class="text-xs text-slate-400 mt-2 text-center" data-i18n="early_bird_deadline"></p>
+</div>
+<ul class="space-y-4 mb-10 flex-1 text-sm">
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_conference"></span></li>
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_networking_party"></span></li>
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_day12"></span></li>
+</ul>
+<button onclick="openRegForm('plan1')" class="plan-select-btn w-full py-4 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+</div>
+<!-- Director & Member Card -->
+<div class="flex flex-col p-5 md:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
+<div class="mb-6">
+<h3 class="text-xl font-bold mb-3" data-i18n="plan2_name"></h3>
+<p class="text-sm text-slate-500 mb-4" data-i18n="plan2_package"></p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 space-y-3">
+<div>
+<span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-primary block" data-i18n="label_early_bird"></span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-2xl md:text-3xl font-black text-primary" data-i18n="plan2_early_price"></span>
+<span class="text-sm font-bold text-slate-400" data-i18n-local="plan2_early_local"></span>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-700 pt-2">
+<span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider block" data-i18n="label_regular"></span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-base md:text-lg font-bold text-slate-400 line-through" data-i18n="plan2_regular_price"></span>
+<span class="text-sm text-slate-400" data-i18n-local="plan2_regular_local"></span>
+</div>
+</div>
+</div>
+<p class="text-xs text-slate-400 mt-2 text-center" data-i18n="early_bird_deadline"></p>
+</div>
+<ul class="space-y-4 mb-10 flex-1 text-sm">
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_conference"></span></li>
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_networking_party"></span></li>
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_day12"></span></li>
+</ul>
+<button onclick="openRegForm('plan2')" class="plan-select-btn w-full py-4 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+</div>
+<!-- Booth Card (International) -->
+<div class="flex flex-col p-5 md:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-700 hover:border-primary/50 transition-all relative">
+<div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-500 text-white text-xs font-bold px-4 py-1 rounded-full uppercase tracking-wider flex items-center gap-1"><span class="material-symbols-outlined text-sm">storefront</span> Booth</div>
+<div class="mb-6">
+<h3 class="text-xl font-bold mb-3" data-i18n="booth_card_name"></h3>
+<p class="text-sm text-slate-500 mb-4" data-i18n="booth_card_desc"></p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 space-y-3">
+<div>
+<span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-amber-600 block" data-i18n="booth_card_vat"></span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-2xl md:text-3xl font-black text-primary" data-i18n="booth_intl_price"></span>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-700 pt-2">
+<span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider block" data-i18n="booth_size_label"></span>
+<span class="text-sm font-bold text-slate-500 mt-1 block">2m × 2m × 2.5m</span>
+</div>
+</div>
+</div>
+<ul class="space-y-4 mb-10 flex-1 text-sm">
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="booth_feat_sign"></span></li>
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="booth_feat_program"></span></li>
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="booth_feat_setup"></span></li>
+</ul>
+<button onclick="openBoothModal('international')" class="w-full py-4 rounded-xl font-bold bg-amber-500 text-white hover:bg-primary transition-all shadow-lg shadow-amber-300/30" data-i18n="booth_apply_btn"></button>
+</div>
+</div>
+<!-- Registration Modal -->
+<div id="reg-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+<div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeRegForm()"></div>
+<div class="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden max-h-[90vh] overflow-y-auto">
+<!-- Modal Header -->
+<div class="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-6 flex items-center justify-between z-10">
+<div>
+<h3 id="modal-title" class="text-xl font-bold"></h3>
+<p id="modal-plan-info" class="text-primary text-sm font-semibold mt-1"></p>
+</div>
+<button onclick="closeRegForm()" class="size-10 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body -->
+<form id="reg-form" class="p-6 space-y-5" onsubmit="submitRegForm(event)">
+<!-- Name -->
+<div>
+<label class="block text-sm font-semibold mb-2" data-i18n="form_name_label"></label>
+<input id="reg-name" type="text" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-i18n-placeholder="form_name_placeholder">
+</div>
+<!-- Nationality -->
+<div>
+<label class="block text-sm font-semibold mb-2" data-i18n="form_nationality_label"></label>
+<input id="reg-nationality" type="text" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-i18n-placeholder="form_nationality_placeholder">
+</div>
+<!-- Email -->
+<div>
+<label class="block text-sm font-semibold mb-2" data-i18n="form_email_label"></label>
+<input id="reg-email" type="email" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-i18n-placeholder="form_email_placeholder">
+</div>
+<!-- Phone -->
+<div>
+<label class="block text-sm font-semibold mb-2" data-i18n="form_phone_label"></label>
+<input id="reg-phone" type="tel" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-i18n-placeholder="form_phone_placeholder">
+</div>
+<!-- Position -->
+<div>
+<label class="block text-sm font-semibold mb-2" data-i18n="form_position_label"></label>
+<select id="reg-position" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm">
+<option value="" data-i18n="form_position_placeholder"></option>
+<option value="ED">Executive Director (ED)</option>
+<option value="DM">Director & Member</option>
+</select>
+</div>
+<!-- Memo -->
+<div>
+<label class="block text-sm font-semibold mb-2" data-i18n="form_memo_label"></label>
+<textarea id="reg-memo" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm resize-none" data-i18n-placeholder="form_memo_placeholder"></textarea>
+</div>
+<!-- Submit -->
+<button type="submit" class="w-full py-4 rounded-xl font-bold bg-primary text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">lock</span>
+<span data-i18n="form_submit"></span>
+</button>
+<p class="text-center text-xs text-slate-400" data-i18n="form_secure_note"></p>
+</form>
+</div>
+</div>
+<!-- Booth Application Modal -->
+<div id="booth-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+<div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeBoothModal()"></div>
+<div class="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden max-h-[90vh] overflow-y-auto" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.1) transparent;">
+<!-- Header -->
+<div class="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-5 flex items-center justify-between z-10">
+<div class="flex items-center gap-3">
+<img src="bni-logo.png" alt="BNI" class="h-8"/>
+<div>
+<h3 id="booth-modal-title" class="text-lg font-bold">부스 참가 신청서</h3>
+<p class="text-xs text-slate-500">제 11회 BNI KOREA National Conference</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<p id="booth-modal-price" class="text-primary text-sm font-bold"></p>
+<button onclick="closeBoothModal()" class="size-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-lg text-slate-400">close</span>
+</button>
+</div>
+</div>
+<form id="booth-form" class="p-5 md:p-6 space-y-5" onsubmit="submitBoothForm(event)">
+<!-- 참가 업체 섹션 -->
+<div>
+<h4 class="text-sm font-bold mb-3 flex items-center gap-2"><span class="text-primary">■</span> <span data-bi="sec_company"></span></h4>
+<div class="space-y-3">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_company"></label>
+<input id="booth-company" type="text" required class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-bi-ph="ph_company">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_owner"></label>
+<input id="booth-owner" type="text" required class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-bi-ph="ph_owner">
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+<div class="sm:col-span-2">
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_address"></label>
+<input id="booth-address" type="text" required class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-bi-ph="ph_address">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_phone"></label>
+<input id="booth-phone" type="tel" required class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-bi-ph="ph_phone">
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_fax"></label>
+<input id="booth-fax" type="tel" class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-bi-ph="ph_fax">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_homepage"></label>
+<input id="booth-homepage" type="text" class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" placeholder="www.example.com">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1">E-Mail *</label>
+<input id="booth-email" type="email" required class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" placeholder="info@company.com">
+</div>
+</div>
+</div>
+</div>
+<!-- 신청자 정보 -->
+<div>
+<h4 class="text-sm font-bold mb-3 flex items-center gap-2"><span class="text-primary">■</span> <span data-bi="sec_applicant"></span></h4>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_applicant_name"></label>
+<input id="booth-applicant-name" type="text" required class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-bi-ph="ph_applicant_name">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_chapter"></label>
+<input id="booth-chapter" type="text" class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-bi-ph="ph_chapter">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_applicant_phone"></label>
+<input id="booth-applicant-phone" type="tel" required class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-bi-ph="ph_applicant_phone">
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-3">
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_applicant_email"></label>
+<input id="booth-applicant-email" type="email" required class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" placeholder="applicant@email.com">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_license"></label>
+<input id="booth-license" type="text" required class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-bi-ph="ph_license">
+</div>
+</div>
+</div>
+<!-- Country (International only) -->
+<div id="booth-country-field">
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_country"></label>
+<input id="booth-country" type="text" class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-bi-ph="ph_country">
+</div>
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1" data-bi="lbl_display_name"></label>
+<input id="booth-display-name" type="text" class="w-full px-3 py-2.5 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-bi-ph="ph_display_name">
+</div>
+</div>
+</div>
+<!-- 안내사항 -->
+<div class="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-xl p-4 text-xs space-y-1.5">
+<p class="font-bold text-amber-800 dark:text-amber-300 mb-2" data-bi="notice_title"></p>
+<p class="text-amber-700 dark:text-amber-400" data-bi-html="notice_price"></p>
+</div>
+<!-- 파일 업로드 -->
+<div>
+<h4 class="text-sm font-bold mb-3 flex items-center gap-2"><span class="text-primary">■</span> <span data-bi="sec_files"></span></h4>
+<div class="space-y-3">
+<!-- 로고 AI파일 -->
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1.5" data-bi="lbl_logo_file"></label>
+<label for="booth-file-logo" class="flex flex-col items-center justify-center w-full py-4 px-4 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/50 hover:border-primary dark:hover:border-primary cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-2xl text-slate-400 mb-1">upload_file</span>
+<span id="booth-file-logo-name" class="text-xs text-slate-500 text-center" data-bi="upload_logo_hint"></span>
+<input id="booth-file-logo" type="file" accept=".ai,.eps,.pdf,.png,.jpg,.jpeg,.svg" class="hidden" onchange="handleBoothFile(this, 'booth-file-logo-name')"/>
+</label>
+</div>
+<!-- 프로그램북 홍보자료 -->
+<div>
+<label class="block text-xs font-semibold text-slate-500 mb-1.5" data-bi="lbl_ad_file"></label>
+<div class="bg-slate-100 dark:bg-slate-800/30 rounded-lg p-3 mb-2 flex items-start gap-2">
+<span class="material-symbols-outlined text-primary text-lg mt-0.5 shrink-0">info</span>
+<div class="text-[11px] text-slate-500 dark:text-slate-400 space-y-1">
+<p class="font-bold text-slate-700 dark:text-slate-300">A5 Landscape = 210mm × 148mm</p>
+<div class="flex items-center gap-3 mt-1.5">
+<div class="border border-slate-300 dark:border-slate-600 rounded bg-white dark:bg-slate-700 flex items-center justify-center" style="width:63px;height:44px;">
+<span class="text-[9px] text-slate-400">210×148</span>
+</div>
+<div class="text-[10px] text-slate-400 leading-relaxed" data-bi-html="ad_orient_guide"></div>
+</div>
+</div>
+</div>
+<label for="booth-file-ad" class="flex flex-col items-center justify-center w-full py-4 px-4 rounded-xl border-2 border-dashed border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-800/50 hover:border-primary dark:hover:border-primary cursor-pointer transition-colors">
+<span class="material-symbols-outlined text-2xl text-slate-400 mb-1">upload_file</span>
+<span id="booth-file-ad-name" class="text-xs text-slate-500 text-center" data-bi="upload_ad_hint"></span>
+<input id="booth-file-ad" type="file" accept=".ai,.eps,.pdf,.png,.jpg,.jpeg,.svg" class="hidden" onchange="handleBoothFile(this, 'booth-file-ad-name')"/>
+</label>
+</div>
+<p class="text-[11px] text-slate-400" data-bi-html="upload_note"></p>
+</div>
+</div>
+<!-- 부스 셋팅 시간 -->
+<div>
+<h4 class="text-sm font-bold mb-3 flex items-center gap-2"><span class="text-primary">■</span> <span data-bi="sec_setup"></span></h4>
+<p class="text-sm text-slate-500 dark:text-slate-400" data-bi="setup_desc"></p>
+</div>
+<!-- F&B 부스 영업신고 -->
+<div id="booth-fnb-section" class="bg-slate-100 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 rounded-xl p-4 text-xs space-y-1.5">
+<p class="font-bold text-slate-700 dark:text-slate-200 mb-2 flex items-center gap-2"><span class="text-primary">■</span> <span data-bi="sec_fnb"></span></p>
+<p class="text-slate-600 dark:text-slate-400" data-bi="fnb_1"></p>
+<p class="text-slate-600 dark:text-slate-400" data-bi-html="fnb_2"></p>
+<p class="text-slate-600 dark:text-slate-400" data-bi="fnb_3"></p>
+<p class="text-slate-600 dark:text-slate-400" data-bi="fnb_4"></p>
+<p class="text-primary font-bold mt-2" data-bi="fnb_warn"></p>
+</div>
+<!-- 부스 사이즈 -->
+<div>
+<h4 class="text-sm font-bold mb-3 flex items-center gap-2"><span class="text-primary">■</span> <span data-bi="sec_size"></span></h4>
+<p class="text-sm text-slate-500 dark:text-slate-400 mb-3" data-bi="size_desc"></p>
+<div onclick="openLayoutViewer()" class="block rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:border-primary transition-colors cursor-pointer group relative">
+<img src="booth-sample.png" alt="Booth" class="w-full object-contain bg-black group-hover:opacity-90 transition-opacity"/>
+<div class="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30">
+<span class="bg-primary text-white text-xs font-bold px-4 py-2 rounded-lg flex items-center gap-1.5"><span class="material-symbols-outlined text-sm">map</span> <span data-bi="btn_layout"></span></span>
+</div>
+</div>
+</div>
+<!-- Submit -->
+<button type="submit" class="w-full py-4 rounded-xl font-bold bg-primary text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">storefront</span>
+<span data-bi="btn_submit"></span>
+</button>
+<p class="text-center text-xs text-slate-400" data-bi="submit_note"></p>
+</form>
+</div>
+</div>
+<!-- Booth Layout Viewer Modal -->
+<div id="layout-viewer" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-4">
+<div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeLayoutViewer()"></div>
+<div class="relative w-full max-w-5xl">
+<div class="flex items-center justify-between mb-3">
+<h3 class="text-white font-bold text-lg flex items-center gap-2"><span class="material-symbols-outlined text-primary">map</span> 부스배치도 Booth Layout</h3>
+<button onclick="closeLayoutViewer()" class="flex items-center gap-2 px-4 py-2 bg-white/10 hover:bg-primary text-white rounded-lg font-semibold text-sm transition-colors">
+<span class="material-symbols-outlined text-lg">arrow_back</span> <span id="layout-back-btn">신청서로 돌아가기</span>
+</button>
+</div>
+<div class="rounded-2xl overflow-hidden border border-slate-700 bg-white">
+<img src="booth-layout-1.png" alt="부스배치도" class="w-full object-contain"/>
+</div>
+<p class="text-center text-xs text-slate-500 mt-3">2026 BNI Korea National Conference · Swiss Grand Hotel Convention Center 4F</p>
+</div>
+</div>
+<!-- Domestic Registration Modal -->
+<div id="domestic-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+<div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeDomesticForm()"></div>
+<div class="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden max-h-[90vh] overflow-y-auto">
+<div class="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-6 flex items-center justify-between z-10">
+<div>
+<h3 id="domestic-modal-title" class="text-xl font-bold">참가자 등록</h3>
+<p id="domestic-modal-plan" class="text-primary text-sm font-semibold mt-1"></p>
+</div>
+<button onclick="closeDomesticForm()" class="size-10 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form id="domestic-form" class="p-6 space-y-5" onsubmit="submitDomesticForm(event)">
+<div>
+<label class="block text-sm font-semibold mb-2">이름 *</label>
+<input id="dom-name" type="text" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" placeholder="홍길동">
+</div>
+<div>
+<label class="block text-sm font-semibold mb-2">이메일 *</label>
+<input id="dom-email" type="email" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" placeholder="example@email.com">
+</div>
+<div>
+<label class="block text-sm font-semibold mb-2">휴대폰 번호 *</label>
+<input id="dom-phone" type="tel" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" placeholder="010-1234-5678">
+</div>
+<div>
+<label class="block text-sm font-semibold mb-2">소속 챕터</label>
+<input id="dom-chapter" type="text" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" placeholder="챕터명">
+</div>
+<div>
+<label class="block text-sm font-semibold mb-2">메모 (행사 주최자에게 전할 말)</label>
+<textarea id="dom-memo" rows="3" class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm resize-none" placeholder="식이 제한, 특별 요청 등을 자유롭게 작성해 주세요."></textarea>
+</div>
+<button type="submit" class="w-full py-4 rounded-xl font-bold bg-primary text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">lock</span>
+<span>결제하기</span>
+</button>
+<p class="text-center text-xs text-slate-400">모든 결제 정보는 SSL 암호화로 안전하게 처리됩니다.</p>
+</form>
+</div>
+</div>
+<!-- Payment Methods Section -->
+<section id="payment-section" class="mb-12 md:mb-20 text-center">
+<h4 class="text-sm font-bold uppercase tracking-[0.2em] text-slate-500 mb-8" data-i18n="payment_title"></h4>
+<div id="payment-domestic" class="hidden flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">account_balance</span> 무통장입금</div>
+<div class="flex items-center gap-2 font-bold text-xl"><span class="material-symbols-outlined text-primary">credit_card</span> 카드결제</div>
+</div>
+<div id="payment-international" class="flex flex-wrap justify-center items-center gap-4 md:gap-10 opacity-60 hover:opacity-100 transition-opacity">
+<div class="flex items-center gap-1 md:gap-2 font-bold text-sm md:text-xl"><span class="material-symbols-outlined text-primary text-lg md:text-2xl">credit_card</span> VISA</div>
+<div class="flex items-center gap-1 md:gap-2 font-bold text-sm md:text-xl"><span class="material-symbols-outlined text-primary text-lg md:text-2xl">payments</span> Mastercard</div>
+<div class="flex items-center gap-1 md:gap-2 font-bold text-sm md:text-xl"><span class="material-symbols-outlined text-primary text-lg md:text-2xl">account_balance_wallet</span> PayPal</div>
+</div>
+</section>
+<!-- FAQ Section -->
+<section class="max-w-5xl mx-auto mb-20">
+<div class="text-center mb-12">
+<h2 class="text-3xl font-bold mb-4" data-i18n="faq_title"></h2>
+<p class="text-slate-500" data-i18n="faq_subtitle"></p>
+</div>
+<div id="faq-container" class="grid gap-4"></div>
+</section>
+<!-- Map/Venue Teaser -->
+<section class="rounded-2xl md:rounded-3xl overflow-hidden bg-slate-900 relative min-h-[280px] md:min-h-[400px] flex items-center justify-center border border-slate-800">
+<div class="absolute inset-0 opacity-40">
+<img alt="Seoul Cityscape at Night" class="w-full h-full object-cover" data-alt="Futuristic night cityscape of Seoul South Korea with neon lights" data-location="Seoul" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuVlcsKhiBai0YBHMqIykaHc-5mm4XW4xREyYOWyze2eHlOTS33hquAXXVNSMW4p0bY7iPl3fs5AKrbzs0I6uzqdlQrROykKhblUZi33xb5BLs1Y-IPKUvOtk9iHIoa3tabLNb-Nr2r1EdduP9PtvWfKl0riB820DP-_dbHVQxElqP4xAFMmqHgRG1F8D7OPZ_EGu8hDTy2lC8xnJE9gXYbyn6hNGaGpWlVdonOpal_8pS6ngG-k_JdqVwZ14BsqHthdH4vv9b144"/>
+</div>
+<div class="relative z-10 text-center px-6">
+<h3 class="text-3xl font-bold text-white mb-4" data-i18n="venue_title"></h3>
+<p class="text-slate-300 mb-8 max-w-lg md:max-w-none md:whitespace-nowrap mx-auto" data-i18n="venue_desc"></p>
+<a href="https://english.visitkorea.or.kr/svc/sub/subWhere.do?menuSn=166" target="_blank" rel="noopener" class="inline-block bg-white text-slate-900 font-bold py-3 px-8 rounded-xl hover:bg-primary hover:text-white transition-all" data-i18n="venue_btn"></a>
+</div>
+</section>
+</main>
+<!-- Floating Buttons -->
+<div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
+<a href="https://wa.me/821023778835" target="_blank" rel="noopener" class="w-12 h-12 rounded-full shadow-lg hover:scale-110 transition-transform flex items-center justify-center" title="WhatsApp 상담">
+<svg viewBox="0 0 32 32" class="w-12 h-12" fill="#25D366"><path d="M16.004 3.2C9.054 3.2 3.4 8.854 3.4 15.804c0 2.218.58 4.384 1.682 6.296L3.2 28.8l6.94-1.82A12.56 12.56 0 0016.004 28.4c6.95 0 12.596-5.646 12.596-12.596S22.954 3.2 16.004 3.2zm0 23.048a10.22 10.22 0 01-5.512-1.6l-.396-.234-4.104 1.076 1.096-4.004-.258-.41a10.18 10.18 0 01-1.566-5.472c0-5.646 4.596-10.242 10.24-10.242 5.646 0 10.242 4.596 10.242 10.242S21.65 26.248 16.004 26.248zm5.616-7.67c-.308-.154-1.82-.898-2.102-.998-.282-.102-.488-.154-.694.154-.206.306-.796.998-.976 1.204-.18.206-.36.232-.668.078-.308-.154-1.3-.48-2.478-1.528-.916-.816-1.534-1.824-1.714-2.132-.18-.308-.02-.474.134-.628.14-.138.308-.36.462-.54.154-.18.206-.308.308-.514.102-.206.052-.386-.026-.54-.078-.154-.694-1.672-.95-2.29-.25-.6-.506-.52-.694-.528l-.592-.01c-.206 0-.54.078-.822.386-.282.308-1.076 1.052-1.076 2.564s1.102 2.974 1.256 3.18c.154.206 2.168 3.31 5.252 4.64.734.316 1.306.506 1.752.648.736.234 1.406.2 1.936.122.59-.088 1.82-.744 2.076-1.462.258-.718.258-1.334.18-1.462-.076-.128-.282-.206-.59-.36z"/></svg>
+</a>
+<a href="http://pf.kakao.com/_xewxmrT/chat" target="_blank" rel="noopener" class="w-12 h-12 rounded-full shadow-lg hover:scale-110 transition-transform" title="카카오톡 상담">
+<img src="kakao logo2.png" alt="카카오톡 상담" class="w-14 h-14 rounded-full object-cover"/>
+</a>
+</div>
+
+<!-- Footer -->
+<footer class="bg-slate-950 border-t border-slate-900 py-12 px-6 lg:px-20">
+<div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-10">
+<div>
+<div class="flex items-center gap-3 mb-4">
+<img src="bni-logo.png" alt="BNI Logo" class="h-6"/>
+<span class="text-lg font-extrabold tracking-tight">Accelerate <span class="text-primary">2026</span></span>
+</div>
+<p class="text-sm text-slate-500 leading-relaxed">제 11회 BNI Korea National Conference<br>당신의 성공을 가속하세요</p>
+</div>
+<div>
+<h5 class="font-bold mb-4 text-sm uppercase tracking-wider">바로가기 Quick Links</h5>
+<ul class="space-y-3 text-sm text-slate-500">
+<li><a href="speakers.html" class="hover:text-primary transition-colors">연사 소개 Speakers</a></li>
+<li><a href="schedule.html" class="hover:text-primary transition-colors">행사 일정 Schedule</a></li>
+<li><a href="ticket.html" class="hover:text-primary transition-colors">참가 등록 Registration</a></li>
+</ul>
+</div>
+<div>
+<h5 class="font-bold mb-4 text-sm uppercase tracking-wider">연락처 Contact</h5>
+<ul class="space-y-3 text-sm text-slate-500">
+<li><a href="mailto:admin@bni-korea.com" class="flex items-center gap-2 hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">mail</span> admin@bni-korea.com</a></li>
+<li><a href="tel:0262618838" class="flex items-center gap-2 hover:text-primary transition-colors"><span class="material-symbols-outlined text-sm">call</span> 02-6261-8838</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-7xl mx-auto mt-10 pt-8 border-t border-slate-900 text-xs text-slate-600">
+<p class="text-center">&copy; 2026 Accelerate BNI Korea National Conference. All rights reserved.</p>
+<p class="text-center mt-1">Created by Joy Byun. <a href="mailto:joy.byun@bnikorea.com" class="hover:text-primary transition-colors">joy.byun@bnikorea.com</a></p>
+</div>
+</footer>
+</div>
+<script>
+const i18n = {
+    ko: {
+        hero_title: '어떤 <span class="text-primary">경험</span>으로 함께 하시겠습니까?',
+        hero_subtitle: '서울에서 열리는 글로벌 비즈니스 컨퍼런스에 함께하세요.',
+        countdown_label: '얼리버드 마감까지',
+        lang_label: '언어 선택:',
+        vat_note: 'VAT 포함',
+        badge_ed: 'ED',
+        plan1_name: 'Executive Director Pass',
+        plan1_package: '컨퍼런스 + 네트워킹 파티 포함',
+        plan1_early_price: '₩550,000',
+        plan1_early_local: '',
+        plan1_regular_price: '₩660,000',
+        plan1_regular_local: '',
+        plan2_name: 'Director Pass',
+        plan2_package: '컨퍼런스 + 네트워킹 파티 포함',
+        plan2_early_price: '₩385,000',
+        plan2_early_local: '',
+        plan2_regular_price: '₩495,000',
+        plan2_regular_local: '',
+        plan3_name: 'BNI K. Member Pass',
+        plan3_package: '컨퍼런스 ONLY',
+        plan3_early_price: '₩308,000',
+        plan3_regular_price: '₩418,000',
+        plan4_name: 'Visitor Pass',
+        plan4_package: 'Day 1 ONLY (점심 포함, 파티 불가)',
+        plan4_early_price: '₩154,000',
+        plan4_regular_price: '₩209,000',
+        plan5_name: 'Networking Party Pass',
+        plan5_package: '파티 ONLY (Day 1 밤)',
+        plan5_early_price: '₩77,000',
+        plan5_regular_price: '₩88,000',
+        feat_day1_only: 'Day 1 참가만',
+        feat_lunch_included: '점심 포함',
+        feat_party_only: '네트워킹 파티 참가',
+        feat_no_party: '네트워킹 파티 불포함',
+        feat_no_conference: '컨퍼런스 불포함',
+        booth_title: '부스 전시 참가',
+        booth_subtitle: '제 11회 BNI KOREA National Conference에서 귀사를 홍보하세요.',
+        booth_card_name: '부스 전시',
+        booth_card_desc: 'Exhibition Booth (2m × 2m × 2.5m)',
+        booth_card_vat: '부가세 포함',
+        booth_feat_sign: '상단 간판 디자인·설치',
+        booth_feat_program: '프로그램북 광고 게재',
+        booth_feat_setup: '셋팅: 행사 당일 새벽 2시~',
+        booth_intl_price: 'USD $1,500',
+        booth_size_label: 'Booth Size',
+        booth_apply_btn: '부스 신청하기',
+        label_early_bird: '얼리버드 (4/20까지)',
+        label_early_bird_line1: '얼리버드',
+        label_early_bird_line2: '(4/20까지)',
+        label_regular: '정상가',
+        early_bird_deadline: '얼리버드 마감: 2026년 4월 20일 23:50',
+        feat_conference: '컨퍼런스 참석',
+        feat_networking_party: '네트워킹 파티',
+        feat_day12: 'Day 1–3 참가',
+        btn_select: '선택하기',
+        payment_title: '결제 수단',
+        faq_title: '등록 자주 묻는 질문',
+        faq_subtitle: 'Accelerate 2026 참가에 대해 궁금한 점을 확인하세요.',
+        venue_title: '장소: 스위스그랜드호텔 서울',
+        venue_desc: '서울의 대표적인 호텔에서 컨퍼런스를 경험하세요.',
+        venue_btn: '교통 안내 보기',
+        form_title: '참가자 등록',
+        form_name_label: '이름 (영문)',
+        form_name_placeholder: 'Hong Gildong',
+        form_nationality_label: '국적',
+        form_nationality_placeholder: 'South Korea',
+        form_email_label: '이메일',
+        form_email_placeholder: 'example@email.com',
+        form_phone_label: '휴대폰 번호',
+        form_phone_placeholder: '+82 10-1234-5678',
+        form_position_label: '직책',
+        form_position_placeholder: '직책을 선택하세요',
+        form_position_ed: 'Executive Director (ED)',
+        form_position_dm: 'Director & Member',
+        form_memo_label: '메모 (행사 주최자에게 전할 말)',
+        form_memo_placeholder: '식이 제한, 특별 요청 등을 자유롭게 작성해 주세요.',
+        form_submit: '결제하기',
+        form_secure_note: '모든 결제 정보는 SSL 암호화로 안전하게 처리됩니다.',
+        faqs: [
+            { icon: 'description', q: '세금계산서 발행이 가능한가요?', a: '네, 무통장 입금 또는 법인카드 결제 후 마이페이지에서 사업자 정보를 입력하시면 전자세금계산서가 발행됩니다.' },
+            { icon: 'sync', q: '환불 정책은 어떻게 되나요?', a: '행사 30일 전까지 전액 환불, 14일 전까지 50% 환불이 가능합니다. 이후에는 환불이 불가합니다.' },
+            { icon: 'badge', q: '현장 등록도 가능한가요?', a: '사전 등록을 권장드리며, 잔여석이 있을 경우 현장 등록도 가능합니다. 현장 등록 시 추가 요금이 발생할 수 있습니다.' }
+        ]
+    },
+    en: {
+        hero_title: 'Choose Your <span class="text-primary">Experience</span>',
+        hero_subtitle: 'Join global industry leaders for two days of innovation and networking in Seoul.',
+        countdown_label: 'Early Bird Ends In',
+        lang_label: 'Preferred Language:',
+        vat_note: 'Prices in USD',
+        badge_ed: 'ED',
+        plan1_name: 'Executive Director Pass',
+        plan1_package: 'Conference + Networking Party',
+        plan1_early_price: 'USD $400',
+        plan1_early_local: '',
+        plan1_regular_price: 'USD $480',
+        plan1_regular_local: '',
+        plan2_name: 'Director & Member Pass',
+        plan2_package: 'Conference + Networking Party',
+        plan2_early_price: 'USD $280',
+        plan2_early_local: '',
+        plan2_regular_price: 'USD $360',
+        plan2_regular_local: '',
+        label_early_bird: 'Early Bird (until Apr 20)',
+        label_early_bird_line1: 'Early Bird',
+        label_early_bird_line2: '(until Apr 20)',
+        label_regular: 'Regular',
+        early_bird_deadline: 'Early Bird ends: April 20, 2026 at 23:50 KST',
+        feat_conference: 'Conference Access',
+        feat_networking_party: 'Networking Party',
+        feat_day12: 'Day 1–3 Included',
+        feat_day1_only: 'Day 1 Only',
+        feat_lunch_included: 'Lunch Included',
+        feat_party_only: 'Networking Party Access',
+        feat_no_party: 'No Networking Party',
+        feat_no_conference: 'No Conference Access',
+        booth_title: 'Booth Exhibition',
+        booth_subtitle: 'Showcase your business at the 11th BNI KOREA National Conference.',
+        booth_card_name: 'Exhibition Booth',
+        booth_card_desc: 'Booth size: 2m × 2m × 2.5m',
+        booth_card_vat: 'Exclusive of VAT',
+        booth_feat_sign: 'Top sign design & installation',
+        booth_feat_program: 'Program book advertisement',
+        booth_feat_setup: 'Setup: Event day from 02:00 AM',
+        booth_intl_price: 'USD $1,500',
+        booth_size_label: 'Booth Size',
+        booth_apply_btn: 'Apply for Booth',
+        btn_select: 'Select Plan',
+        payment_title: 'Secure Payment Partners',
+        faq_title: 'Registration FAQ',
+        faq_subtitle: 'Everything you need to know about joining Accelerate 2026.',
+        venue_title: 'Venue: Swiss Grand Hotel Seoul',
+        venue_desc: "Experience the conference at Swiss Grand Hotel in Seoul, South Korea.",
+        venue_btn: 'View Travel Guide',
+        form_title: 'Attendee Registration',
+        form_name_label: 'Full Name',
+        form_name_placeholder: 'John Smith',
+        form_email_label: 'Email',
+        form_email_placeholder: 'example@email.com',
+        form_nationality_label: 'Nationality',
+        form_nationality_placeholder: 'United States',
+        form_phone_label: 'Cell Phone Number',
+        form_phone_placeholder: '+1 234-567-8900',
+        form_position_label: 'Position',
+        form_position_placeholder: 'Select your position',
+        form_position_ed: 'Executive Director (ED)',
+        form_position_dm: 'Director & Member',
+        form_memo_label: 'Message to the Organizers',
+        form_memo_placeholder: 'Dietary restrictions, special requests, etc.',
+        form_submit: 'Proceed to Payment',
+        form_secure_note: 'All payment information is securely processed with SSL encryption.',
+        faqs: [
+            { icon: 'help', q: 'Do you provide visa support letters for international attendees?', a: 'Yes, upon completion of registration and payment, you can request an invitation letter for visa purposes through your attendee dashboard.' },
+            { icon: 'sync', q: 'What is the refund policy?', a: 'Full refunds are available until 30 days before the event. A 50% refund is available up to 14 days before the start date.' },
+            { icon: 'flight', q: 'Is travel and accommodation included?', a: 'Tickets do not include travel or accommodation. However, we offer exclusive hotel partner discounts accessible through your attendee dashboard.' }
+        ]
+    },
+    ja: {
+        hero_title: 'あなたに最適な<span class="text-primary">プラン</span>をお選びください',
+        hero_subtitle: 'ソウルで開催されるグローバルビジネスカンファレンスにご参加ください。',
+        countdown_label: 'アーリーバード締切まで',
+        lang_label: '言語選択:',
+        vat_note: 'USD表示',
+        badge_ed: 'ED',
+        plan1_name: 'Executive Director Pass',
+        plan1_package: 'カンファレンス＋ネットワーキングパーティー',
+        plan1_early_price: 'USD $400',
+        plan1_early_local: '',
+        plan1_regular_price: 'USD $480',
+        plan1_regular_local: '',
+        plan2_name: 'Director & Member Pass',
+        plan2_package: 'カンファレンス＋ネットワーキングパーティー',
+        plan2_early_price: 'USD $280',
+        plan2_early_local: '',
+        plan2_regular_price: 'USD $360',
+        plan2_regular_local: '',
+        label_early_bird: '早割（4/20まで）',
+        label_early_bird_line1: '早割',
+        label_early_bird_line2: '（4/20まで）',
+        label_regular: '通常価格',
+        early_bird_deadline: '早割締切：2026年4月20日 23:50 KST',
+        feat_conference: 'カンファレンス参加',
+        feat_networking_party: 'ネットワーキングパーティー',
+        feat_day12: 'Day 1–3 参加',
+        feat_day1_only: 'Day 1のみ',
+        feat_lunch_included: 'ランチ込み',
+        feat_party_only: 'パーティーのみ',
+        feat_no_party: 'パーティーなし',
+        feat_no_conference: 'カンファレンスなし',
+        booth_title: 'ブース展示',
+        booth_subtitle: '第11回 BNI KOREA National Conferenceでビジネスをアピール。',
+        booth_card_name: '展示ブース',
+        booth_card_desc: 'ブースサイズ: 2m × 2m × 2.5m',
+        booth_card_vat: 'VAT別途',
+        booth_feat_sign: '上部看板デザイン・設置',
+        booth_feat_program: 'プログラムブック広告掲載',
+        booth_feat_setup: 'セットアップ: 当日AM2:00〜',
+        booth_intl_price: 'USD $1,500',
+        booth_size_label: 'ブースサイズ',
+        booth_apply_btn: 'ブース申請',
+        btn_select: 'プランを選択',
+        payment_title: '決済パートナー',
+        faq_title: '登録に関するよくある質問',
+        faq_subtitle: 'Accelerate 2026への参加について、よくあるご質問をまとめました。',
+        venue_title: '会場：スイスグランドホテルソウル',
+        venue_desc: 'ソウルのスイスグランドホテルでカンファレンスを体験してください。',
+        venue_btn: '交通案内を見る',
+        form_title: '参加者登録',
+        form_name_label: 'お名前（英語表記）',
+        form_name_placeholder: 'Taro Yamada',
+        form_nationality_label: '国籍',
+        form_nationality_placeholder: 'Japan',
+        form_email_label: 'メールアドレス',
+        form_email_placeholder: 'example@email.com',
+        form_phone_label: '携帯番号',
+        form_phone_placeholder: '+81 90-1234-5678',
+        form_position_label: '役職',
+        form_position_placeholder: '役職を選択してください',
+        form_position_ed: 'Executive Director (ED)',
+        form_position_dm: 'Director & Member',
+        form_memo_label: '主催者へのメッセージ',
+        form_memo_placeholder: '食事制限、特別なリクエストなどをご自由にお書きください。',
+        form_submit: 'お支払いへ進む',
+        form_secure_note: 'すべての決済情報はSSL暗号化で安全に処理されます。',
+        faqs: [
+            { icon: 'help', q: '国際参加者向けのビザサポートレターは発行できますか？', a: 'はい、登録とお支払い完了後、参加者ダッシュボードからビザ申請用の招待状をリクエストできます。' },
+            { icon: 'sync', q: 'キャンセル・返金ポリシーは？', a: 'イベント30日前までは全額返金、14日前までは50%返金が可能です。それ以降の返金はできません。' },
+            { icon: 'flight', q: '渡航費や宿泊費は含まれていますか？', a: 'チケットに渡航費・宿泊費は含まれておりません。ただし、参加者ダッシュボードからホテルパートナーの特別割引をご利用いただけます。' }
+        ]
+    },
+    zh: {
+        hero_title: '选择您的<span class="text-primary">参会方案</span>',
+        hero_subtitle: '与全球行业领袖一起，在首尔共度创新与交流盛会。',
+        countdown_label: '早鸟优惠截止倒计时',
+        lang_label: '语言选择:',
+        vat_note: 'USD标价',
+        badge_ed: 'ED',
+        plan1_name: 'Executive Director Pass',
+        plan1_package: '包括商讨会+人脉扩展晚宴',
+        plan1_early_price: 'USD $400',
+        plan1_early_local: '',
+        plan1_regular_price: 'USD $480',
+        plan1_regular_local: '',
+        plan2_name: 'Director & Member Pass',
+        plan2_package: '包括商讨会+人脉扩展晚宴',
+        plan2_early_price: 'USD $280',
+        plan2_early_local: '',
+        plan2_regular_price: 'USD $360',
+        plan2_regular_local: '',
+        label_early_bird: '优惠价（截止4/20）',
+        label_early_bird_line1: '优惠价',
+        label_early_bird_line2: '（截止4/20）',
+        label_regular: '原价',
+        early_bird_deadline: '优惠截止：2026年4月20日 23:50 KST',
+        feat_conference: '大会参与',
+        feat_networking_party: '人脉扩展晚宴',
+        feat_day12: 'Day 1–3 参加',
+        feat_day1_only: '仅Day 1',
+        feat_lunch_included: '含午餐',
+        feat_party_only: '仅晚宴',
+        feat_no_party: '不含晚宴',
+        feat_no_conference: '不含大会',
+        booth_title: '展位展览',
+        booth_subtitle: '在第11届BNI韩国全国大会上展示您的企业。',
+        booth_card_name: '展位展览',
+        booth_card_desc: '展位尺寸: 2m × 2m × 2.5m',
+        booth_card_vat: '不含增值税',
+        booth_feat_sign: '顶部招牌设计与安装',
+        booth_feat_program: '节目册广告刊登',
+        booth_feat_setup: '搭建: 活动当天凌晨2点起',
+        booth_intl_price: 'USD $1,500',
+        booth_size_label: '展位尺寸',
+        booth_apply_btn: '申请展位',
+        btn_select: '选择方案',
+        payment_title: '安全支付合作伙伴',
+        faq_title: '报名常见问题',
+        faq_subtitle: '关于参加 Accelerate 2026 您需要了解的一切。',
+        venue_title: '场馆：瑞士大酒店首尔',
+        venue_desc: '在首尔瑞士大酒店体验本次大会。',
+        venue_btn: '查看交通指南',
+        form_title: '参会者注册',
+        form_name_label: '姓名（英文）',
+        form_name_placeholder: 'Wei Zhang',
+        form_nationality_label: '国籍',
+        form_nationality_placeholder: 'China',
+        form_email_label: '电子邮箱',
+        form_email_placeholder: 'example@email.com',
+        form_phone_label: '手机号码',
+        form_phone_placeholder: '+86 138-0000-0000',
+        form_position_label: '职位',
+        form_position_placeholder: '请选择您的职位',
+        form_position_ed: 'Executive Director (ED)',
+        form_position_dm: 'Director & Member',
+        form_memo_label: '给主办方的留言',
+        form_memo_placeholder: '饮食限制、特殊需求等，请随时告诉我们。',
+        form_submit: '前往支付',
+        form_secure_note: '所有支付信息均通过SSL加密安全处理。',
+        faqs: [
+            { icon: 'help', q: '是否提供国际参会者签证邀请函？', a: '是的，完成注册和付款后，您可以通过参会者面板申请签证邀请函。' },
+            { icon: 'sync', q: '退款政策是什么？', a: '活动前30天可全额退款，活动前14天可退还50%。之后不予退款。' },
+            { icon: 'flight', q: '票价是否包含交通和住宿？', a: '门票不包含交通和住宿费用。但我们提供合作酒店的专属折扣，可通过参会者面板获取。' }
+        ]
+    }
+};
+
+let currentTab = 'domestic';
+let currentLang = 'en';
+
+function applyTranslations(lang) {
+    const t = i18n[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) {
+            if (key === 'hero_title') {
+                el.innerHTML = t[key];
+            } else {
+                el.textContent = t[key];
+            }
+        }
+    });
+    document.querySelectorAll('[data-i18n-local]').forEach(el => {
+        const key = el.getAttribute('data-i18n-local');
+        const localPrice = t[key];
+        if (localPrice) {
+            el.textContent = '/ ' + localPrice;
+            el.style.display = '';
+        } else {
+            el.textContent = '';
+            el.style.display = 'none';
+        }
+    });
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key] !== undefined) {
+            el.placeholder = t[key];
+        }
+    });
+    renderFAQs(t.faqs);
+}
+
+function renderFAQs(faqs) {
+    const container = document.getElementById('faq-container');
+    container.innerHTML = faqs.map(f => `
+        <div class="p-6 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800">
+            <h4 class="font-bold mb-2 flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">${f.icon}</span>
+                ${f.q}
+            </h4>
+            <p class="text-sm text-slate-500 dark:text-slate-400">${f.a}</p>
+        </div>
+    `).join('');
+}
+
+function switchTab(tab) {
+    currentTab = tab;
+    const domestic = document.getElementById('tab-domestic');
+    const international = document.getElementById('tab-international');
+    const langControls = document.getElementById('language-controls');
+    const payDomestic = document.getElementById('payment-domestic');
+    const payInternational = document.getElementById('payment-international');
+    const activeClass = 'w-1/2 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-2 border-primary text-slate-900 dark:text-white text-center';
+    const inactiveClass = 'w-1/2 py-3 md:py-4 text-sm md:text-lg font-bold transition-all border-b-2 border-transparent text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-center';
+
+    const gridDomestic = document.getElementById('grid-domestic');
+    const gridInternational = document.getElementById('grid-international');
+
+    if (tab === 'domestic') {
+        if (domestic) domestic.className = activeClass;
+        if (international) international.className = inactiveClass;
+        if (langControls) langControls.className = 'hidden';
+        if (payDomestic) payDomestic.className = 'flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity';
+        if (payInternational) payInternational.className = 'hidden';
+        if (gridDomestic) gridDomestic.style.display = '';
+        if (gridInternational) gridInternational.style.display = 'none';
+        applyTranslations('ko');
+    } else {
+        if (international) international.className = activeClass;
+        if (domestic) domestic.className = inactiveClass;
+        if (langControls) langControls.className = 'flex flex-col md:flex-row md:flex-wrap md:items-center md:justify-between gap-3 md:gap-4 mb-6 md:mb-8 p-3 md:p-4 bg-slate-100 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 max-w-5xl mx-auto';
+        if (payDomestic) payDomestic.className = 'hidden';
+        if (payInternational) payInternational.className = 'flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity';
+        if (gridDomestic) gridDomestic.style.display = 'none';
+        if (gridInternational) gridInternational.style.display = '';
+        applyTranslations(currentLang);
+    }
+}
+
+function switchLang(lang) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (btn.getAttribute('data-lang') === lang) {
+            btn.className = 'lang-btn px-4 py-1.5 text-xs font-bold bg-white dark:bg-slate-700 rounded shadow-sm';
+        } else {
+            btn.className = 'lang-btn px-4 py-1.5 text-xs font-bold text-slate-500 hover:text-slate-700 dark:hover:text-slate-300';
+        }
+    });
+    applyTranslations(lang);
+}
+
+let selectedPlan = '';
+
+function openRegForm(planKey) {
+    if (currentTab === 'domestic') return;
+    selectedPlan = planKey;
+    const lang = currentLang;
+    const t = i18n[lang];
+    const modal = document.getElementById('reg-modal');
+    document.getElementById('modal-title').textContent = t.form_title;
+    const planName = t[planKey + '_name'];
+    const planPrice = t[planKey + '_early_price'] || t[planKey + '_price'] || '';
+    const planLocal = t[planKey + '_early_local'] || t[planKey + '_local'] || '';
+    document.getElementById('modal-plan-info').textContent = planName + ' — ' + planPrice + (planLocal ? ' / ' + planLocal : '');
+    // Re-apply translations inside modal
+    modal.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key] !== undefined) el.textContent = t[key];
+    });
+    modal.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key] !== undefined) el.placeholder = t[key];
+    });
+    document.getElementById('reg-form').reset();
+    // 직책 select 옵션 번역
+    const posSelect = document.getElementById('reg-position');
+    posSelect.options[0].textContent = t.form_position_placeholder;
+    posSelect.options[1].textContent = t.form_position_ed;
+    posSelect.options[2].textContent = t.form_position_dm;
+    // 언어별 국가번호 자동 입력
+    const countryCode = { en: '+1 ', ja: '+81 ', zh: '+86 ', ko: '+82 ' };
+    document.getElementById('reg-phone').value = countryCode[lang] || '+';
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeRegForm() {
+    document.getElementById('reg-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwsWG8bhFok--WSpIwniqrr0gbm87EHmbQ7ghEaQqPAKEjTtW1sC0dOR0fg2-flIhY/exec';
+
+const PAYMENT_URLS = {
+    en: { ED: 'https://global.bnikoreastore.com/surl/P/763', DM: 'https://global.bnikoreastore.com/surl/P/764', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' },
+    zh: { ED: 'https://global.bnikoreastore.com/surl/P/765', DM: 'https://global.bnikoreastore.com/surl/P/766', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' },
+    ja: { ED: 'https://global.bnikoreastore.com/surl/P/767', DM: 'https://global.bnikoreastore.com/surl/P/768', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' }
+};
+
+function submitRegForm(e) {
+    e.preventDefault();
+    const t = i18n[currentLang];
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn.innerHTML;
+
+    if (!SCRIPT_URL) {
+        alert('System is not configured yet. Please contact the organizer.');
+        return;
+    }
+
+    // Loading state
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
+
+    const position = document.getElementById('reg-position').value;
+    const payload = {
+        name: document.getElementById('reg-name').value,
+        nationality: document.getElementById('reg-nationality').value,
+        email: document.getElementById('reg-email').value,
+        phone: document.getElementById('reg-phone').value,
+        position: position,
+        memo: document.getElementById('reg-memo').value,
+        plan: t[selectedPlan + '_name'],
+        planPrice: (t[selectedPlan + '_early_price'] || t[selectedPlan + '_price'] || '') + ((t[selectedPlan + '_early_local'] || t[selectedPlan + '_local']) ? ' / ' + (t[selectedPlan + '_early_local'] || t[selectedPlan + '_local']) : ''),
+        lang: currentLang,
+        timestamp: new Date().toISOString()
+    };
+
+    // URLSearchParams로 전송 (CORS 안전 + Apps Script 호환)
+    const params = new URLSearchParams(payload);
+
+    // 시트 저장은 백그라운드로 전송 (응답 기다리지 않음)
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
+    }).catch(() => {});
+
+    // 즉시 결제 페이지로 이동
+    closeRegForm();
+    const lang = currentLang;
+    const planToPayment = { plan1: 'ED', plan2: 'DM' };
+    const paymentKey = planToPayment[selectedPlan] || position;
+    const paymentUrl = PAYMENT_URLS[lang] && PAYMENT_URLS[lang][paymentKey];
+    if (paymentUrl) {
+        showToast(
+            currentLang === 'ja' ? '登録完了！決済ページへ移動します...' :
+            currentLang === 'zh' ? '注册成功！正在跳转至支付页面...' :
+            currentLang === 'ko' ? '등록 완료! 결제 페이지로 이동합니다...' :
+            'Registration submitted! Redirecting to payment...'
+        );
+        setTimeout(() => { window.location.href = paymentUrl; }, 800);
+    }
+}
+
+function showToast(message, isError = false) {
+    const toast = document.createElement('div');
+    toast.className = `fixed bottom-6 left-4 right-4 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-auto z-[200] px-5 py-4 rounded-xl text-white font-semibold text-sm shadow-2xl flex items-start gap-3 transition-all ${isError ? 'bg-red-600' : 'bg-emerald-600'}`;
+    toast.innerHTML = `<span class="material-symbols-outlined mt-0.5">${isError ? 'error' : 'check_circle'}</span> <span>${message}</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 4000);
+}
+
+// === Domestic Registration ===
+let selectedDomesticPlan = '';
+
+const DOMESTIC_PLAN_INFO = {
+    plan1: { name: 'Executive Director Pass', price: '₩550,000', regular: '₩660,000', position: 'ED' },
+    plan2: { name: 'Director Pass', price: '₩385,000', regular: '₩495,000', position: 'Director' },
+    plan3: { name: 'BNI K. Member Pass', price: '₩308,000', regular: '₩418,000', position: 'Member' },
+    plan4: { name: 'Visitor Pass', price: '₩154,000', regular: '₩209,000', position: 'Visitor' },
+    plan5: { name: 'Networking Party Pass', price: '₩77,000', regular: '₩88,000', position: 'Party' }
+};
+
+const PAYMENT_URLS_DOMESTIC = {
+    plan1: 'https://pay.bnikorea.com/linkpay/1761823365098x656799742114005900',
+    plan2: 'https://pay.bnikorea.com/linkpay/1774064039569x245235155175626880',
+    plan3: 'https://pay.bnikorea.com/linkpay/1774064184819x438965745434837440',
+    plan4: 'https://pay.bnikorea.com/linkpay/1774064270019x783728607895810600',
+    plan5: 'https://pay.bnikorea.com/linkpay/1774064270019x783728607895810600'
+};
+
+function goToDomesticPayment(planKey) {
+    // TODO: 결제 링크 오픈 시 아래 주석 해제
+    // const paymentUrl = PAYMENT_URLS_DOMESTIC[planKey];
+    // if (paymentUrl) { window.location.href = paymentUrl; return; }
+    showToast('국내 참가 등록은 준비 중입니다. 곧 오픈 예정이니 잠시만 기다려 주세요!', true);
+    return;
+    // 아래 기존 폼 코드는 사용하지 않음
+    selectedDomesticPlan = planKey;
+    const info = DOMESTIC_PLAN_INFO[planKey];
+    document.getElementById('domestic-modal-title').textContent = '참가자 등록';
+    const priceText = info.regular ? info.name + ' — 얼리버드 ' + info.price + ' (정상가 ' + info.regular + ')' : info.name + ' — ' + info.price;
+    document.getElementById('domestic-modal-plan').textContent = priceText;
+    document.getElementById('domestic-form').reset();
+    document.getElementById('domestic-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeDomesticForm() {
+    document.getElementById('domestic-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+function submitDomesticForm(e) {
+    e.preventDefault();
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
+
+    const info = DOMESTIC_PLAN_INFO[selectedDomesticPlan];
+    const payload = {
+        name: document.getElementById('dom-name').value,
+        nationality: 'Korea',
+        email: document.getElementById('dom-email').value,
+        phone: document.getElementById('dom-phone').value,
+        position: info.position,
+        chapter: document.getElementById('dom-chapter').value,
+        memo: document.getElementById('dom-memo').value,
+        plan: info.name,
+        planPrice: info.price,
+        lang: 'ko',
+        type: 'domestic',
+        timestamp: new Date().toISOString()
+    };
+
+    const params = new URLSearchParams(payload);
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: params.toString()
+    })
+    .then(() => {
+        closeDomesticForm();
+        const paymentUrl = PAYMENT_URLS_DOMESTIC[selectedDomesticPlan];
+        if (paymentUrl) {
+            showToast('등록 완료! 결제 페이지로 이동합니다...');
+            setTimeout(() => { window.location.href = paymentUrl; }, 1500);
+        } else {
+            showToast('등록이 완료되었습니다! 결제 안내 이메일을 확인해 주세요.');
+        }
+    })
+    .catch(() => {
+        closeDomesticForm();
+        showToast('오류가 발생했습니다. 다시 시도해 주세요.', true);
+    })
+    .finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHTML;
+    });
+}
+
+// === Booth File Upload ===
+function handleBoothFile(input, labelId) {
+    const label = document.getElementById(labelId);
+    if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const sizeMB = (file.size / 1024 / 1024).toFixed(1);
+        if (file.size > 10 * 1024 * 1024) {
+            label.innerHTML = '<span class="text-red-500 font-semibold">파일 크기 초과 (최대 10MB) — admin@bni-korea.com으로 별도 송부해 주세요</span>';
+            input.value = '';
+            return;
+        }
+        label.innerHTML = `<span class="text-emerald-500 font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-sm">check_circle</span> ${file.name} (${sizeMB}MB)</span>`;
+    } else {
+        label.textContent = labelId.includes('logo') ? '클릭하여 로고 파일을 업로드하세요 (AI, PNG, JPG, PDF)' : '클릭하여 홍보자료를 업로드하세요 (AI, PNG, JPG, PDF)';
+    }
+}
+
+function fileToBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
+
+// === Booth i18n ===
+const boothI18n = {
+    ko: {
+        modal_title: '부스 참가 신청서', sec_company: '참가 업체', lbl_company: '회사명 *', ph_company: '회사명 입력',
+        lbl_owner: '대표자명 *', ph_owner: '대표자명 입력', lbl_address: '주소 *', ph_address: '우편번호 포함 주소',
+        lbl_phone: '대표전화 *', ph_phone: '02-0000-0000', lbl_fax: '팩스', ph_fax: '02-0000-0000',
+        lbl_homepage: '홈페이지', sec_applicant: '신청자 정보', lbl_applicant_name: '신청자명 *', ph_applicant_name: '이름',
+        lbl_chapter: '챕터', ph_chapter: '챕터명', lbl_applicant_phone: '전화(HP) *', ph_applicant_phone: '010-0000-0000',
+        lbl_applicant_email: '신청자 이메일 *', lbl_license: '사업자등록번호 *', ph_license: '000-00-00000',
+        lbl_country: '국가', ph_country: 'South Korea', lbl_display_name: '부스 표기명', ph_display_name: '미입력 시 회사명 사용',
+        notice_title: '※ 신청 안내', notice_price: '• 부스 신청 금액은 <strong>2,200,000원(부가세 포함)</strong>입니다.',
+        sec_files: '파일 첨부', lbl_logo_file: '업체 로고 AI파일 *', upload_logo_hint: '클릭하여 로고 파일을 업로드하세요 (AI, PNG, JPG, PDF)',
+        lbl_ad_file: '프로그램북 홍보자료 AI파일', upload_ad_hint: '클릭하여 홍보자료를 업로드하세요 (AI, PNG, JPG, PDF)',
+        ad_orient_guide: '← 반드시 <strong class="text-primary">가로 방향</strong>으로 제작해 주세요<br>세로(Portrait) 파일은 사용 불가합니다',
+        upload_note: '※ 파일당 최대 10MB · 업로드 불가 시 <strong>admin@bni-korea.com</strong>으로 별도 송부',
+        sec_setup: '부스 셋팅 시간', setup_desc: '행사 당일 새벽 2시부터 가능 (그 이전 요청 시 개별 논의)',
+        sec_fnb: 'F&B 부스 영업신고 (필수)', fnb_1: '• 일반 음식점으로 신고가 되어있는 업체만 가능 (화기 제외 조리 가능)',
+        fnb_2: '• 정부24 홈페이지 <strong>\'한시적 영업신고\'</strong> 진행', fnb_3: '• 개인 사업자: 영업신고증 / 부스 참가 확인서 첨부',
+        fnb_4: '• 법인 사업자: 영업신고증 / 부스 참가 확인서 / 법인 등기부등본 / 인감증명서 첨부',
+        fnb_warn: '※ 현장에서 식·음료 시식 불가. 완제품 판매만 가능',
+        sec_size: '부스 사이즈', size_desc: '2m × 2m × 2.5m 사이즈 부스 제공 (상단 간판 디자인·설치 지원)',
+        btn_layout: '부스배치도 보기', btn_submit: '부스 신청 제출', submit_note: '신청 후 결제 안내가 이메일로 발송됩니다.'
+    },
+    en: {
+        modal_title: 'Booth Application', sec_company: 'Exhibitor Information', lbl_company: 'Company Name *', ph_company: 'Enter company name',
+        lbl_owner: 'Owner Name *', ph_owner: 'Enter owner name', lbl_address: 'Address *', ph_address: 'Full address with zip code',
+        lbl_phone: 'Phone *', ph_phone: '+1 000-000-0000', lbl_fax: 'Fax', ph_fax: '+1 000-000-0000',
+        lbl_homepage: 'Website', sec_applicant: 'Applicant Information', lbl_applicant_name: 'Applicant Name *', ph_applicant_name: 'Full name',
+        lbl_chapter: 'BNI Chapter', ph_chapter: 'Chapter name', lbl_applicant_phone: 'Phone *', ph_applicant_phone: '+1 000-000-0000',
+        lbl_applicant_email: 'Applicant Email *', lbl_license: 'Business License No. *', ph_license: '000-00-00000',
+        lbl_country: 'Country *', ph_country: 'United States', lbl_display_name: 'Name for the Booth', ph_display_name: 'Leave blank to use company name',
+        notice_title: '※ Application Notice', notice_price: '• Booth fee: <strong>USD $1,500</strong> (exclusive of VAT)',
+        sec_files: 'File Attachments', lbl_logo_file: 'Company Logo (AI file) *', upload_logo_hint: 'Click to upload your logo (AI, PNG, JPG, PDF)',
+        lbl_ad_file: 'Program Book Ad (AI file)', upload_ad_hint: 'Click to upload your ad material (AI, PNG, JPG, PDF)',
+        ad_orient_guide: '← Must be in <strong class="text-primary">landscape orientation</strong><br>Portrait files are not accepted',
+        upload_note: '※ Max 10MB per file · If upload fails, send to <strong>admin@bni-korea.com</strong>',
+        sec_setup: 'Booth Setup Time', setup_desc: 'Available from 2:00 AM on the event day (contact us for earlier access)',
+        sec_fnb: 'F&B Booth License (Required)', fnb_1: '• Only businesses registered as food establishments are eligible',
+        fnb_2: '• Temporary food service registration required via <strong>gov.kr</strong>', fnb_3: '• Sole proprietor: food license + booth confirmation letter',
+        fnb_4: '• Corporation: food license + booth confirmation + corporate registration + seal certificate',
+        fnb_warn: '※ No food/beverage sampling on-site. Packaged products only.',
+        sec_size: 'Booth Size', size_desc: '2m × 2m × 2.5m booth provided (top signage design & installation included)',
+        btn_layout: 'View Booth Layout', btn_submit: 'Submit Application', submit_note: 'Payment instructions will be sent via email after submission.'
+    },
+    ja: {
+        modal_title: 'ブース参加申請書', sec_company: '出展企業情報', lbl_company: '会社名 *', ph_company: '会社名を入力',
+        lbl_owner: '代表者名 *', ph_owner: '代表者名を入力', lbl_address: '住所 *', ph_address: '郵便番号を含む住所',
+        lbl_phone: '代表電話 *', ph_phone: '+81 00-0000-0000', lbl_fax: 'FAX', ph_fax: '+81 00-0000-0000',
+        lbl_homepage: 'ホームページ', sec_applicant: '申請者情報', lbl_applicant_name: '申請者名 *', ph_applicant_name: 'お名前',
+        lbl_chapter: 'BNIチャプター', ph_chapter: 'チャプター名', lbl_applicant_phone: '電話番号 *', ph_applicant_phone: '+81 90-0000-0000',
+        lbl_applicant_email: '申請者メール *', lbl_license: '事業者登録番号 *', ph_license: '000-00-00000',
+        lbl_country: '国籍 *', ph_country: 'Japan', lbl_display_name: 'ブース表示名', ph_display_name: '未入力の場合は会社名を使用',
+        notice_title: '※ 申請案内', notice_price: '• ブース申請金額: <strong>USD $1,500</strong>（VAT別途）',
+        sec_files: 'ファイル添付', lbl_logo_file: '企業ロゴ AIファイル *', upload_logo_hint: 'クリックしてロゴをアップロード (AI, PNG, JPG, PDF)',
+        lbl_ad_file: 'プログラムブック広告 AIファイル', upload_ad_hint: 'クリックして広告資料をアップロード (AI, PNG, JPG, PDF)',
+        ad_orient_guide: '← 必ず<strong class="text-primary">横向き</strong>で作成してください<br>縦向き（Portrait）は使用不可',
+        upload_note: '※ ファイルは最大10MB · アップロード不可の場合は <strong>admin@bni-korea.com</strong> へ送付',
+        sec_setup: 'ブース設営時間', setup_desc: 'イベント当日午前2時から可能（それ以前のご要望は個別相談）',
+        sec_fnb: 'F&Bブース営業届出（必須）', fnb_1: '• 飲食店として届出済みの事業者のみ可能',
+        fnb_2: '• 政府サイトで<strong>「臨時営業届出」</strong>を実施', fnb_3: '• 個人事業者：営業届出証＋ブース参加確認書',
+        fnb_4: '• 法人：営業届出証＋ブース参加確認書＋法人登記簿＋印鑑証明書',
+        fnb_warn: '※ 会場での試食・試飲不可。完成品の販売のみ可能。',
+        sec_size: 'ブースサイズ', size_desc: '2m × 2m × 2.5m ブース提供（上部看板デザイン・設置対応）',
+        btn_layout: 'ブース配置図を見る', btn_submit: '申請書を提出', submit_note: '申請後、お支払い案内がメールで送信されます。'
+    },
+    zh: {
+        modal_title: '展位参展申请', sec_company: '参展企业信息', lbl_company: '公司名称 *', ph_company: '输入公司名称',
+        lbl_owner: '法人代表 *', ph_owner: '输入法人代表姓名', lbl_address: '地址 *', ph_address: '含邮编的完整地址',
+        lbl_phone: '联系电话 *', ph_phone: '+86 000-0000-0000', lbl_fax: '传真', ph_fax: '+86 000-0000-0000',
+        lbl_homepage: '官方网站', sec_applicant: '申请人信息', lbl_applicant_name: '申请人姓名 *', ph_applicant_name: '姓名',
+        lbl_chapter: 'BNI分会', ph_chapter: '分会名称', lbl_applicant_phone: '手机号 *', ph_applicant_phone: '+86 000-0000-0000',
+        lbl_applicant_email: '申请人邮箱 *', lbl_license: '营业执照号 *', ph_license: '000-00-00000',
+        lbl_country: '国家 *', ph_country: 'China', lbl_display_name: '展位名称', ph_display_name: '留空则使用公司名称',
+        notice_title: '※ 申请须知', notice_price: '• 展位费用：<strong>USD $1,500</strong>（不含增值税）',
+        sec_files: '文件附件', lbl_logo_file: '企业LOGO AI文件 *', upload_logo_hint: '点击上传LOGO文件 (AI, PNG, JPG, PDF)',
+        lbl_ad_file: '节目册广告 AI文件', upload_ad_hint: '点击上传广告资料 (AI, PNG, JPG, PDF)',
+        ad_orient_guide: '← 必须使用<strong class="text-primary">横版</strong>制作<br>竖版（Portrait）文件无法使用',
+        upload_note: '※ 每个文件最大10MB · 无法上传时请发送至 <strong>admin@bni-korea.com</strong>',
+        sec_setup: '展位搭建时间', setup_desc: '活动当天凌晨2点开始（如需提前请另行协商）',
+        sec_fnb: 'F&B展位营业登记（必须）', fnb_1: '• 仅限已登记为餐饮企业的商家',
+        fnb_2: '• 需在政府网站办理<strong>"临时营业登记"</strong>', fnb_3: '• 个体户：营业登记证 + 展位参展确认书',
+        fnb_4: '• 法人企业：营业登记证 + 展位确认书 + 公司注册证明 + 印章证明',
+        fnb_warn: '※ 现场禁止试吃试饮，仅允许销售成品。',
+        sec_size: '展位尺寸', size_desc: '提供 2m × 2m × 2.5m 展位（含顶部招牌设计与安装）',
+        btn_layout: '查看展位布局', btn_submit: '提交申请', submit_note: '提交后，付款说明将通过邮件发送。'
+    }
+};
+
+function applyBoothI18n(lang) {
+    const t = boothI18n[lang];
+    if (!t) return;
+    document.getElementById('booth-modal-title').textContent = t.modal_title;
+    document.querySelectorAll('[data-bi]').forEach(el => {
+        const key = el.getAttribute('data-bi');
+        if (t[key] !== undefined) el.textContent = t[key];
+    });
+    document.querySelectorAll('[data-bi-html]').forEach(el => {
+        const key = el.getAttribute('data-bi-html');
+        if (t[key] !== undefined) el.innerHTML = t[key];
+    });
+    document.querySelectorAll('[data-bi-ph]').forEach(el => {
+        const key = el.getAttribute('data-bi-ph');
+        if (t[key] !== undefined) el.placeholder = t[key];
+    });
+}
+
+// === Booth Application ===
+let boothType = 'domestic';
+
+function openBoothModal(type) {
+    boothType = type;
+    const countryField = document.getElementById('booth-country-field');
+    const fnbSection = document.getElementById('booth-fnb-section');
+    const lang = type === 'domestic' ? 'ko' : currentLang;
+    applyBoothI18n(lang);
+    if (type === 'domestic') {
+        document.getElementById('booth-modal-price').textContent = '₩2,200,000 (부가세 포함)';
+        countryField.style.display = 'none';
+        if (fnbSection) fnbSection.style.display = '';
+    } else {
+        document.getElementById('booth-modal-price').textContent = 'USD $1,500';
+        countryField.style.display = '';
+        if (fnbSection) fnbSection.style.display = 'none';
+    }
+    document.getElementById('booth-form').reset();
+    // Reset file upload labels
+    const logoLabel = document.getElementById('booth-file-logo-name');
+    const adLabel = document.getElementById('booth-file-ad-name');
+    if (logoLabel) logoLabel.textContent = boothI18n[lang].upload_logo_hint;
+    if (adLabel) adLabel.textContent = boothI18n[lang].upload_ad_hint;
+    document.getElementById('booth-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeBoothModal() {
+    document.getElementById('booth-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+async function submitBoothForm(e) {
+    e.preventDefault();
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalHTML = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span>';
+
+    // 저장 중 팝업 표시
+    const savingLang = boothType === 'domestic' ? 'ko' : (currentLang || 'en');
+    const savingMsg = {
+        ko: '제출하신 신청서를 저장하고 있습니다.\n잠시만 기다려주세요!\n\n최대 1~2분 소요될 수 있습니다.',
+        en: 'Saving your application.\nPlease wait a moment!\n\nThis may take up to 1-2 minutes.',
+        ja: '申請書を保存しています。\n少々お待ちください！\n\n最大1〜2分かかる場合があります。',
+        zh: '正在保存您的申请表。\n请稍候！\n\n最多可能需要1-2分钟。'
+    };
+    const savingOverlay = document.createElement('div');
+    savingOverlay.id = 'saving-overlay';
+    savingOverlay.className = 'fixed inset-0 z-[300] bg-black/60 backdrop-blur-sm flex items-center justify-center';
+    savingOverlay.innerHTML = '<div class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-2xl text-center max-w-xs mx-4">'
+        + '<span class="material-symbols-outlined text-primary text-4xl animate-spin mb-4 block">progress_activity</span>'
+        + '<p class="font-bold text-sm whitespace-pre-line">' + (savingMsg[savingLang] || savingMsg.en) + '</p>'
+        + '</div>';
+    document.body.appendChild(savingOverlay);
+
+    const payload = {
+        type: 'booth',
+        boothType: boothType,
+        company: document.getElementById('booth-company').value,
+        displayName: document.getElementById('booth-display-name').value,
+        owner: document.getElementById('booth-owner').value,
+        address: document.getElementById('booth-address').value,
+        phone: document.getElementById('booth-phone').value,
+        fax: document.getElementById('booth-fax').value,
+        homepage: document.getElementById('booth-homepage').value,
+        email: document.getElementById('booth-email').value,
+        applicantName: document.getElementById('booth-applicant-name').value,
+        applicantPhone: document.getElementById('booth-applicant-phone').value,
+        applicantEmail: document.getElementById('booth-applicant-email').value,
+        country: document.getElementById('booth-country').value,
+        chapter: document.getElementById('booth-chapter').value,
+        license: document.getElementById('booth-license').value,
+        price: boothType === 'domestic' ? '₩2,200,000' : 'USD $1,500',
+        timestamp: new Date().toISOString()
+    };
+
+    // 파일 base64 변환
+    const logoInput = document.getElementById('booth-file-logo');
+    const adInput = document.getElementById('booth-file-ad');
+    try {
+        if (logoInput.files[0]) {
+            payload.logoFileName = logoInput.files[0].name;
+            payload.logoFileBase64 = await fileToBase64(logoInput.files[0]);
+        }
+        if (adInput.files[0]) {
+            payload.adFileName = adInput.files[0].name;
+            payload.adFileBase64 = await fileToBase64(adInput.files[0]);
+        }
+    } catch (err) {
+        console.error('File read error:', err);
+    }
+
+    // 폼 데이터 + 파일 함께 전송 후 결제 이동
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(payload)
+    }).then(() => {
+        var overlay = document.getElementById('saving-overlay');
+        if (overlay) overlay.remove();
+        closeBoothModal();
+        if (boothType === 'domestic') {
+            showToast('부스 신청이 완료되었습니다! 결제 페이지로 이동합니다...');
+            setTimeout(() => { window.location.href = 'https://pay.bnikorea.com/linkpay/1774064635225x621795363979827700'; }, 800);
+        } else {
+            const boothPayUrl = PAYMENT_URLS[currentLang] && PAYMENT_URLS[currentLang]['BOOTH'];
+            if (boothPayUrl) {
+                showToast(
+                    currentLang === 'ja' ? '申請完了！決済ページへ移動します...' :
+                    currentLang === 'zh' ? '申请成功！正在跳转至支付页面...' :
+                    'Application submitted! Redirecting to payment...'
+                );
+                setTimeout(() => { window.location.href = boothPayUrl; }, 800);
+            } else {
+                showToast('Booth application submitted! Payment instructions will be sent via email.');
+            }
+        }
+    }).catch(() => {
+        var overlay = document.getElementById('saving-overlay');
+        if (overlay) overlay.remove();
+        closeBoothModal();
+        showToast(boothType === 'domestic'
+            ? '오류가 발생했습니다. 다시 시도해 주세요.'
+            : 'An error occurred. Please try again.', true);
+    }).finally(() => {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalHTML;
+    });
+}
+
+const layoutBackText = { ko: '신청서로 돌아가기', en: 'Back to Application', ja: '申請書に戻る', zh: '返回申请表' };
+
+function openLayoutViewer() {
+    const lang = boothType === 'domestic' ? 'ko' : currentLang;
+    document.getElementById('layout-back-btn').textContent = layoutBackText[lang] || layoutBackText.en;
+    document.getElementById('layout-viewer').classList.remove('hidden');
+}
+function closeLayoutViewer() {
+    document.getElementById('layout-viewer').classList.add('hidden');
+}
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        if (!document.getElementById('layout-viewer').classList.contains('hidden')) {
+            closeLayoutViewer();
+        } else {
+            closeRegForm(); closeDomesticForm(); closeBoothModal();
+        }
+    }
+});
+
+// Initialize with domestic (Korean)
+// Early Bird Flip Countdown (deadline: April 20, 2026 23:50:00 KST)
+// Build 0-9 flip items for a single digit
+function buildDigit(ul) {
+    ul.innerHTML = '';
+    for (let i = 0; i <= 9; i++) {
+        const li = document.createElement('li');
+        li.innerHTML = `<a href="#"><div class="up"><div class="shadow"></div><div class="inn">${i}</div></div><div class="down"><div class="shadow"></div><div class="inn">${i}</div></div></a>`;
+        ul.appendChild(li);
+    }
+}
+
+// Flip a single-digit <ul> to digit 0-9
+function flipDigit(ul, digit) {
+    const items = ul.querySelectorAll('li');
+    const prev = ul._prev;
+    if (prev === digit) return;
+    ul._prev = digit;
+
+    items.forEach(li => li.classList.remove('before', 'active'));
+    ul.classList.remove('play');
+    void ul.offsetWidth;
+
+    if (prev !== undefined && items[prev]) items[prev].classList.add('before');
+    if (items[digit]) items[digit].classList.add('active');
+    ul.classList.add('play');
+}
+
+// Init all 8 digit flip cards
+const digits = {};
+['mo-t','mo-o','dy-t','dy-o','hr-t','hr-o','mn-t','mn-o','sc-t','sc-o'].forEach(id => {
+    const ul = document.getElementById('fc-' + id);
+    buildDigit(ul);
+    ul._prev = undefined;
+    digits[id] = ul;
+});
+
+function updateCountdown() {
+    const deadline = new Date('2026-04-20T23:50:00+09:00').getTime();
+    const diff = deadline - Date.now();
+    if (diff <= 0) {
+        Object.values(digits).forEach(ul => flipDigit(ul, 0));
+        return;
+    }
+    const totalSecs = Math.floor(diff / 1000);
+    const totalHours = Math.floor(totalSecs / 3600);
+    const totalDays = Math.floor(totalHours / 24);
+    const mo = String(Math.floor(totalDays / 30)).padStart(2, '0');
+    const dy = String(totalDays % 30).padStart(2, '0');
+    const hr = String(totalHours % 24).padStart(2, '0');
+    const mn = String(Math.floor(totalSecs % 3600 / 60)).padStart(2, '0');
+    const sc = String(totalSecs % 60).padStart(2, '0');
+
+    flipDigit(digits['mo-t'], +mo[0]);
+    flipDigit(digits['mo-o'], +mo[1]);
+    flipDigit(digits['dy-t'], +dy[0]);
+    flipDigit(digits['dy-o'], +dy[1]);
+    flipDigit(digits['hr-t'], +hr[0]);
+    flipDigit(digits['hr-o'], +hr[1]);
+    flipDigit(digits['mn-t'], +mn[0]);
+    flipDigit(digits['mn-o'], +mn[1]);
+    flipDigit(digits['sc-t'], +sc[0]);
+    flipDigit(digits['sc-o'], +sc[1]);
+}
+setInterval(updateCountdown, 1000);
+
+document.addEventListener('DOMContentLoaded', () => {
+    switchTab('international');
+    updateCountdown();
+});
+</script>
+</body></html>

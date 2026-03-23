@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ACCELERATE 2026 | Global Business Strategy Conference</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#d31d2c",
+                        "background-light": "#f5f7f8",
+                        "background-dark": "#101922",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                },
+            },
+        }</script>
+<style>        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(211, 29, 44, 0.2) 0%, rgba(16, 25, 34, 1) 100%);
+        }</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<!-- Top Navigation Bar -->
+<header class="sticky top-0 z-50 w-full border-b border-slate-200 dark:border-slate-800 bg-background-light/80 dark:bg-background-dark/80 backdrop-blur-md">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex items-center justify-between h-16 sm:h-20">
+<div class="flex items-center gap-2">
+<a href="index.html"><span class="material-symbols-outlined text-primary text-3xl">speed</span></a>
+<a href="index.html" class="text-xl font-black tracking-tighter uppercase italic hover:text-primary transition-colors">ACCELERATE</a>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-sm font-medium text-primary border-b-2 border-primary pb-1" href="index.html">Home</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="speakers.html">Speakers</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="event.html">Schedule</a>
+<a class="text-sm font-medium hover:text-primary transition-colors" href="pricing.html">Pricing</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="bg-primary hover:bg-primary/90 text-white px-6 py-2.5 rounded-lg text-sm font-bold transition-all shadow-lg shadow-primary/20">
+                        Register Now
+                    </button>
+</div>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative min-h-[85vh] flex items-center justify-center overflow-hidden">
+<div class="absolute inset-0 z-0 bg-slate-950">
+<canvas id="network-canvas" class="absolute inset-0 w-full h-full"></canvas>
+<div class="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-transparent to-slate-950/60 z-10"></div>
+</div>
+<div class="relative z-20 max-w-5xl mx-auto px-4 text-center">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-bold tracking-widest uppercase mb-6">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+</span>
+                    Live in Seoul • Jun 2026
+                </div>
+<h1 class="text-6xl md:text-8xl lg:text-9xl font-black tracking-tighter text-white mb-6 uppercase italic">
+                    ACCELERATE <span class="text-primary">2026</span>
+</h1>
+<p class="text-lg md:text-xl text-slate-300 max-w-2xl mx-auto mb-10 leading-relaxed">
+                    The premier global conference for innovation, strategy, and rapid business growth. Join 5,000+ industry leaders redefining the future.
+                </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="w-full sm:w-auto px-10 py-4 bg-primary text-white rounded-xl text-lg font-bold hover:scale-105 transition-transform shadow-xl shadow-primary/40">
+                        Register Now
+                    </button>
+<a href="event.html" class="w-full sm:w-auto px-10 py-4 bg-white/10 text-white border border-white/20 backdrop-blur-sm rounded-xl text-lg font-bold hover:bg-white/20 transition-all text-center">
+                        View Schedule
+                    </a>
+</div>
+</div>
+<!-- Stats Overlay -->
+<div class="absolute bottom-0 left-0 w-full bg-gradient-to-t from-background-dark to-transparent pt-20 pb-10">
+<div class="max-w-7xl mx-auto px-4 grid grid-cols-2 md:grid-cols-4 gap-8">
+<div class="text-center">
+<div class="text-3xl font-black text-white">50+</div>
+<div class="text-xs uppercase tracking-widest text-slate-400 font-bold">Keynote Speakers</div>
+</div>
+<div class="text-center">
+<div class="text-3xl font-black text-white">3000+</div>
+<div class="text-xs uppercase tracking-widest text-slate-400 font-bold">Attendees</div>
+</div>
+<div class="text-center">
+<div class="text-3xl font-black text-white">12</div>
+<div class="text-xs uppercase tracking-widest text-slate-400 font-bold">Global Hubs</div>
+</div>
+<div class="text-center">
+<div class="text-3xl font-black text-white">40</div>
+<div class="text-xs uppercase tracking-widest text-slate-400 font-bold">Workshops</div>
+</div>
+</div>
+</div>
+</section>
+<!-- About Section -->
+<section class="py-24 bg-background-light dark:bg-background-dark" id="about">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+<div>
+<h2 class="text-sm font-bold text-primary tracking-[0.2em] uppercase mb-4">The Vision</h2>
+<h3 class="text-4xl md:text-5xl font-black mb-6 leading-tight">Redefining Global Strategy for a Digital Era</h3>
+<p class="text-slate-600 dark:text-slate-400 text-lg mb-8 leading-relaxed">
+                            Accelerate 2026 is more than a conference. It's an ecosystem of forward-thinkers, tech pioneers, and strategic masterminds coming together to solve the most pressing challenges of our decade.
+                        </p>
+<div class="space-y-6">
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">lightbulb</span>
+</div>
+<div>
+<h4 class="font-bold text-xl mb-1">Unmatched Innovation</h4>
+<p class="text-slate-500 dark:text-slate-400">Deep dives into AI, Quantum Computing, and the next wave of disruptive tech.</p>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex-shrink-0 w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">insights</span>
+</div>
+<div>
+<h4 class="font-bold text-xl mb-1">Strategic Frameworks</h4>
+<p class="text-slate-500 dark:text-slate-400">Proven methodologies for scaling businesses in volatile global markets.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="relative">
+<div class="aspect-square rounded-2xl overflow-hidden shadow-2xl">
+<img class="w-full h-full object-cover" data-alt="Modern corporate office team collaborating in a high-tech environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdrNu5RU-BZ6S-en6E2nJ2JsnpxO80csU1lUZfVSm91eQreWkhRNRUyPESbKDdbXyNmNhlfUbfrvBHig2NLQwrZNW6TK9NZyQGbNOcZ5KaJC5Mxw1TCjsVIi60xf-dIwwdmxNbvD1q9VYhKyxMMDZC6Jx1nhQcCmO-lFj0ZuGtoeGWukJhUI7IfFha7npVj3O170kslJi-_jKjvHf1zEuNw155yPHFrkBke3uS4Ug9Vs6PPivMKM1qvzo3NOrTZdfw_ZcJcV9kSSI"/>
+</div>
+<div class="absolute -bottom-6 -left-6 bg-primary p-8 rounded-2xl shadow-xl hidden md:block">
+<p class="text-white font-black text-4xl">11th</p>
+<p class="text-white/80 text-sm font-bold uppercase tracking-wider">Annual Edition</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Speakers Section -->
+<section class="py-24 bg-slate-100 dark:bg-slate-900/50" id="speakers">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+<div>
+<h2 class="text-sm font-bold text-primary tracking-[0.2em] uppercase mb-4">Keynote Speakers</h2>
+<h3 class="text-4xl font-black">Learn from the Pioneers</h3>
+</div>
+<a href="speakers.html" class="group flex items-center gap-2 text-primary font-bold">
+                        View All Speakers
+                        <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+<!-- Speaker 1 -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-4">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" data-alt="Professional headshot of Sarah Chen, CEO of TechVision" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9ywtmKXBwICMigEoP-YDUJr0WASVyBUYg9bz3q10mHmZRfRR9uvSHnnDsF7x75bood8X2dUdZ94AqvmVhxvubYB9b_dkU-gOWbJh2Xa20pZ3e7JfCLpURwr-INL3JgxRTsBO5gW4L02peF1FZYAd-jeFSx1ZSP819Mqd4hNYznvMJpyxKgAPw5LY60-NUkq_NoTgcqzKDhc9I4TxYDXztWRFdWvWBMvuqiprRhe6hNsy_rIIdO88c2_mohiBvL11QOI1UhLwO2J4"/>
+<div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent translate-y-full group-hover:translate-y-0 transition-transform">
+<div class="flex gap-3 justify-center">
+<span class="material-symbols-outlined text-white cursor-pointer hover:text-primary">language</span>
+<span class="material-symbols-outlined text-white cursor-pointer hover:text-primary">share</span>
+</div>
+</div>
+</div>
+<h4 class="text-xl font-bold">Sarah Chen</h4>
+<p class="text-primary text-sm font-semibold uppercase tracking-wider">CEO, TechVision</p>
+</div>
+<!-- Speaker 2 -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-4">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" data-alt="Professional headshot of Dr. Marcus Thorne, Futurist and Author" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfKiwmac-ZcspilcVkyzLlrxSToTmPuUXYjwvLa7_02kQSc7HkR9lA90gpFaavkZKvmjdvI3xEamz9JbojA6nQ5t8aJupyWmuDMFMbSThfug8Eq-bV0XB9nc8uuSTZjshdasgDnypR1B3fF2sQpFfq7IJ7dQAen9TooDqABmb8jqlS1-PERjSPkRHDtIFBfCcDNxS-U1BCiJC0e6RHG2BB4PVXWVZw_a4erTVQgmKRxx2YorhKECEFkVtpDYtG9PxxtrIsU0350ds"/>
+<div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent translate-y-full group-hover:translate-y-0 transition-transform">
+<div class="flex gap-3 justify-center">
+<span class="material-symbols-outlined text-white cursor-pointer hover:text-primary">language</span>
+<span class="material-symbols-outlined text-white cursor-pointer hover:text-primary">share</span>
+</div>
+</div>
+</div>
+<h4 class="text-xl font-bold">Dr. Marcus Thorne</h4>
+<p class="text-primary text-sm font-semibold uppercase tracking-wider">Futurist &amp; Author</p>
+</div>
+<!-- Speaker 3 -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-4">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" data-alt="Professional headshot of Elena Rodriguez, VP Strategy at GlobalCorp" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBQ3Kb3qdcTYEjyYuzEFMnLdXY6IMkX5uhuOwW1DswKOmlk4PLW4rC8MjxiPHapsBVqHBgE7ntZYEgBV_MhHlFJyO16uHQRM2xoNxiFb9oVCHTQoBm0xGW0nM4b9PjL3fJWsjNSw8OZ-ZoP-btnaLjhSBLS1ODqRYKo0pzAYQH7PiNuVgylrA8-Bmh_jYDOEMiOeNd9SDc_hvunqvO4h640aQ73DIYd-_tbnLvD3Atc0En3OyHNwQ_JHMl9AvB06Oax9NiL69M7g6c"/>
+<div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent translate-y-full group-hover:translate-y-0 transition-transform">
+<div class="flex gap-3 justify-center">
+<span class="material-symbols-outlined text-white cursor-pointer hover:text-primary">language</span>
+<span class="material-symbols-outlined text-white cursor-pointer hover:text-primary">share</span>
+</div>
+</div>
+</div>
+<h4 class="text-xl font-bold">Elena Rodriguez</h4>
+<p class="text-primary text-sm font-semibold uppercase tracking-wider">VP Strategy, GlobalCorp</p>
+</div>
+<!-- Speaker 4 -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-xl overflow-hidden mb-4">
+<img class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105" data-alt="Professional headshot of James Wilson, Head of AI at InnovateX" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCju8_CSaCYli7XeUi4obAUDwm4lyN3LPXUh0P0y8WiWHuFRc_3xOfJnk7vbL6WjlcCSSNH1ukWcp2wT2Vow1sB7YOpXu37KF5OhuyS8ru08Og15Bul3kYB1X8ItNQeAEOG8jaJ2Q9v64-sdhe-1_JnxXgeDu3bWmgW_-LuVdBggbXOD0ngzbo0B6eUXbrmEPP2a3kE6mpOn2KoSm7ozHbFaBnzy61cWyV4vZvjivY8VgQldhr3n2cdQ7AI9GLMi94Y3V7x3uFyOvE"/>
+<div class="absolute bottom-0 left-0 w-full p-4 bg-gradient-to-t from-black/80 to-transparent translate-y-full group-hover:translate-y-0 transition-transform">
+<div class="flex gap-3 justify-center">
+<span class="material-symbols-outlined text-white cursor-pointer hover:text-primary">language</span>
+<span class="material-symbols-outlined text-white cursor-pointer hover:text-primary">share</span>
+</div>
+</div>
+</div>
+<h4 class="text-xl font-bold">James Wilson</h4>
+<p class="text-primary text-sm font-semibold uppercase tracking-wider">Head of AI, InnovateX</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Schedule Section -->
+<section class="py-24 bg-background-light dark:bg-background-dark" id="schedule">
+<div class="max-w-4xl mx-auto px-4 sm:px-6">
+<div class="text-center mb-16">
+<h2 class="text-sm font-bold text-primary tracking-[0.2em] uppercase mb-4">The Agenda</h2>
+<h3 class="text-4xl font-black">Main Event Highlights</h3>
+</div>
+<div class="space-y-4">
+<!-- Event 1 -->
+<div class="group relative flex flex-col md:flex-row gap-6 p-6 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all">
+<div class="md:w-32 flex-shrink-0">
+<p class="text-primary font-black text-xl">09:00 AM</p>
+<p class="text-slate-500 dark:text-slate-500 text-xs font-bold uppercase tracking-widest mt-1">Opening</p>
+</div>
+<div class="flex-grow">
+<h4 class="text-xl font-bold mb-2">Future of the Global Economy</h4>
+<p class="text-slate-600 dark:text-slate-400">Opening keynote addressing macro-economic shifts and digital transformation in emerging markets.</p>
+</div>
+<div class="md:w-32 flex-shrink-0 flex items-center md:justify-end">
+<span class="material-symbols-outlined text-primary">sensors</span>
+</div>
+</div>
+<!-- Event 2 -->
+<div class="group relative flex flex-col md:flex-row gap-6 p-6 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all">
+<div class="md:w-32 flex-shrink-0">
+<p class="text-primary font-black text-xl">11:30 AM</p>
+<p class="text-slate-500 dark:text-slate-500 text-xs font-bold uppercase tracking-widest mt-1">Deep Dive</p>
+</div>
+<div class="flex-grow">
+<h4 class="text-xl font-bold mb-2">Scaling AI Infrastructure</h4>
+<p class="text-slate-600 dark:text-slate-400">Technical workshop on implementing large-scale AI models within corporate frameworks.</p>
+</div>
+<div class="md:w-32 flex-shrink-0 flex items-center md:justify-end">
+<span class="material-symbols-outlined text-primary">architecture</span>
+</div>
+</div>
+<!-- Event 3 -->
+<div class="group relative flex flex-col md:flex-row gap-6 p-6 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all">
+<div class="md:w-32 flex-shrink-0">
+<p class="text-primary font-black text-xl">02:00 PM</p>
+<p class="text-slate-500 dark:text-slate-500 text-xs font-bold uppercase tracking-widest mt-1">Networking</p>
+</div>
+<div class="flex-grow">
+<h4 class="text-xl font-bold mb-2">Investor Roundtable</h4>
+<p class="text-slate-600 dark:text-slate-400">Exclusive lunch and networking session with leading venture capitalists and angel investors.</p>
+</div>
+<div class="md:w-32 flex-shrink-0 flex items-center md:justify-end">
+<span class="material-symbols-outlined text-primary">groups</span>
+</div>
+</div>
+<!-- Event 4 -->
+<div class="group relative flex flex-col md:flex-row gap-6 p-6 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary/50 transition-all">
+<div class="md:w-32 flex-shrink-0">
+<p class="text-primary font-black text-xl">05:00 PM</p>
+<p class="text-slate-500 dark:text-slate-500 text-xs font-bold uppercase tracking-widest mt-1">Closing</p>
+</div>
+<div class="flex-grow">
+<h4 class="text-xl font-bold mb-2">The 2030 Roadmap</h4>
+<p class="text-slate-600 dark:text-slate-400">Final panel discussion and vision setting for the next decade of sustainable business growth.</p>
+</div>
+<div class="md:w-32 flex-shrink-0 flex items-center md:justify-end">
+<span class="material-symbols-outlined text-primary">rocket_launch</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- CTA Section -->
+<section class="py-24 relative overflow-hidden">
+<div class="absolute inset-0 z-0" style="background-color: #d31d2c;">
+<div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 40px 40px;"></div>
+</div>
+<div class="relative z-10 max-w-4xl mx-auto px-4 text-center">
+<h2 class="text-4xl md:text-6xl font-black text-white mb-8 uppercase italic italic tracking-tighter leading-none">Ready to Accelerate?</h2>
+<p class="text-white/80 text-lg md:text-xl mb-12 max-w-2xl mx-auto">
+                    Limited early bird tickets available. Secure your spot among the leaders of tomorrow.
+                </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+<button class="w-full sm:w-auto px-12 py-5 bg-white text-primary rounded-xl text-xl font-black hover:bg-slate-100 transition-colors shadow-2xl" style="color: #d31d2c;">
+                        Claim Your Ticket
+                    </button>
+<a class="text-white font-bold border-b-2 border-white/40 hover:border-white transition-all py-1" href="pricing.html">View Pricing Plans</a>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-slate-950 text-white py-16">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+<div class="col-span-1 md:col-span-2">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary text-3xl">speed</span>
+<h2 class="text-2xl font-black tracking-tighter uppercase italic">ACCELERATE</h2>
+</div>
+<p class="text-slate-400 max-w-sm mb-8">
+                        The world's leading conference for digital transformation and strategic growth. Founded in 2011.
+                    </p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">public</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">alternate_email</span>
+</a>
+<a class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors" href="#">
+<span class="material-symbols-outlined text-sm">podcasts</span>
+</a>
+</div>
+</div>
+<div>
+<h4 class="font-bold text-lg mb-6">Conference</h4>
+<ul class="space-y-4 text-slate-400">
+<li><a class="hover:text-primary transition-colors" href="speakers.html">Speakers</a></li>
+<li><a class="hover:text-primary transition-colors" href="event.html">Agenda</a></li>
+<li><a class="hover:text-primary transition-colors" href="event.html">Venue</a></li>
+<li><a class="hover:text-primary transition-colors" href="pricing.html">Tickets</a></li>
+</ul>
+</div>
+<div>
+<h4 class="font-bold text-lg mb-6">Resources</h4>
+<ul class="space-y-4 text-slate-400">
+<li><a class="hover:text-primary transition-colors" href="#">Partnership</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Press Kit</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">FAQs</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+</div>
+<div class="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-slate-500 text-sm">
+<p>© 2025 Accelerate Conference Group. All rights reserved.</p>
+<div class="flex gap-8">
+<a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</footer>
+<script>
+(function() {
+    const canvas = document.getElementById('network-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let w, h, particles, mouse = { x: null, y: null, radius: 150 };
+
+    function resize() {
+        w = canvas.width = canvas.offsetWidth;
+        h = canvas.height = canvas.offsetHeight;
+    }
+
+    function createParticles() {
+        const count = Math.floor((w * h) / 5000);
+        particles = [];
+        for (let i = 0; i < count; i++) {
+            particles.push({
+                x: Math.random() * w,
+                y: Math.random() * h,
+                vx: (Math.random() - 0.5) * 0.4,
+                vy: (Math.random() - 0.5) * 0.4,
+                r: Math.random() * 2.5 + 1.5,
+                pulse: Math.random() * Math.PI * 2
+            });
+        }
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, w, h);
+        const time = Date.now() * 0.001;
+
+        for (let i = 0; i < particles.length; i++) {
+            const p = particles[i];
+            p.x += p.vx;
+            p.y += p.vy;
+            p.pulse += 0.02;
+
+            if (p.x < 0) p.x = w;
+            if (p.x > w) p.x = 0;
+            if (p.y < 0) p.y = h;
+            if (p.y > h) p.y = 0;
+
+            // Mouse repulsion
+            if (mouse.x !== null) {
+                const dx = p.x - mouse.x;
+                const dy = p.y - mouse.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < mouse.radius) {
+                    const force = (mouse.radius - dist) / mouse.radius * 0.03;
+                    p.vx += dx * force;
+                    p.vy += dy * force;
+                }
+            }
+
+            // Speed limit
+            const speed = Math.sqrt(p.vx * p.vx + p.vy * p.vy);
+            if (speed > 1.2) {
+                p.vx *= 0.98;
+                p.vy *= 0.98;
+            }
+
+            // Draw particle with pulse
+            const glow = 0.5 + Math.sin(p.pulse) * 0.3;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(207, 31, 46, ${glow})`;
+            ctx.fill();
+
+            // Outer glow
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r + 2, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(207, 31, 46, ${glow * 0.15})`;
+            ctx.fill();
+
+            // Draw connections
+            for (let j = i + 1; j < particles.length; j++) {
+                const p2 = particles[j];
+                const dx = p.x - p2.x;
+                const dy = p.y - p2.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const maxDist = 180;
+
+                if (dist < maxDist) {
+                    const alpha = (1 - dist / maxDist) * 0.6;
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.strokeStyle = `rgba(207, 31, 46, ${alpha})`;
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
+
+                    // Draw small dot at midpoint for chain effect
+                    if (dist < maxDist * 0.6) {
+                        const mx = (p.x + p2.x) / 2;
+                        const my = (p.y + p2.y) / 2;
+                        ctx.beginPath();
+                        ctx.arc(mx, my, 0.8, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(207, 31, 46, ${alpha * 0.5})`;
+                        ctx.fill();
+                    }
+                }
+            }
+
+            // Mouse connections
+            if (mouse.x !== null) {
+                const dx = p.x - mouse.x;
+                const dy = p.y - mouse.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 250) {
+                    const alpha = (1 - dist / 250) * 0.7;
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(mouse.x, mouse.y);
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
+                    ctx.lineWidth = 1.2;
+                    ctx.stroke();
+                }
+            }
+        }
+        requestAnimationFrame(draw);
+    }
+
+    canvas.addEventListener('mousemove', function(e) {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+    });
+
+    canvas.addEventListener('mouseleave', function() {
+        mouse.x = null;
+        mouse.y = null;
+    });
+
+    window.addEventListener('resize', function() {
+        resize();
+        createParticles();
+    });
+
+    resize();
+    createParticles();
+    draw();
+})();
+</script>
+</body></html>
