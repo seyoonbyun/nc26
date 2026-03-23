@@ -554,17 +554,33 @@ function toggleMobileMenu() {
 <div id="booth-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
 <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closeBoothModal()"></div>
 <div class="relative w-full max-w-2xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden max-h-[90vh] overflow-y-auto" style="scrollbar-width:thin;scrollbar-color:rgba(255,255,255,0.1) transparent;">
-<!-- Header -->
-<div class="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-5 z-10">
+<!-- Header: PC 가로 -->
+<div class="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-5 z-10 hidden md:flex items-center justify-between">
+<div class="flex items-center gap-3">
+<img src="bni-logo.png" alt="BNI" class="h-8"/>
+<div>
+<h3 id="booth-modal-title-pc" class="text-lg font-bold">부스 참가 신청서</h3>
+<p class="text-xs text-slate-500">제 11회 BNI KOREA National Conference</p>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<p id="booth-modal-price-pc" class="text-primary text-sm font-bold"></p>
+<button onclick="closeBoothModal()" class="size-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
+<span class="material-symbols-outlined text-lg text-slate-400">close</span>
+</button>
+</div>
+</div>
+<!-- Header: 모바일 세로 -->
+<div class="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-5 z-10 md:hidden">
 <div class="flex items-center justify-between mb-3">
 <img src="bni-logo.png" alt="BNI" class="h-8"/>
 <button onclick="closeBoothModal()" class="size-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
 <span class="material-symbols-outlined text-lg text-slate-400">close</span>
 </button>
 </div>
-<h3 id="booth-modal-title" class="text-lg font-bold">부스 참가 신청서</h3>
-<p class="text-xs text-slate-500 mb-1">제 11회 BNI KOREA National Conference</p>
-<p id="booth-modal-price" class="text-primary text-sm font-bold"></p>
+<h3 id="booth-modal-title-mo" class="text-lg font-bold text-center">부스 참가 신청서</h3>
+<p class="text-xs text-slate-500 mb-1 text-center">제 11회 BNI KOREA National Conference</p>
+<p id="booth-modal-price-mo" class="text-primary text-sm font-bold text-right"></p>
 </div>
 <form id="booth-form" class="p-5 md:p-6 space-y-5" onsubmit="submitBoothForm(event)">
 <!-- 참가 업체 섹션 -->
@@ -1582,7 +1598,8 @@ const boothI18n = {
 function applyBoothI18n(lang) {
     const t = boothI18n[lang];
     if (!t) return;
-    document.getElementById('booth-modal-title').textContent = t.modal_title;
+    document.getElementById('booth-modal-title-pc').textContent = t.modal_title;
+    document.getElementById('booth-modal-title-mo').textContent = t.modal_title;
     document.querySelectorAll('[data-bi]').forEach(el => {
         const key = el.getAttribute('data-bi');
         if (t[key] !== undefined) el.textContent = t[key];
@@ -1607,11 +1624,13 @@ function openBoothModal(type) {
     const lang = type === 'domestic' ? 'ko' : currentLang;
     applyBoothI18n(lang);
     if (type === 'domestic') {
-        document.getElementById('booth-modal-price').textContent = '₩2,200,000 (부가세 포함)';
+        document.getElementById('booth-modal-price-pc').textContent = '₩2,200,000 (부가세 포함)';
+        document.getElementById('booth-modal-price-mo').textContent = '₩2,200,000 (부가세 포함)';
         countryField.style.display = 'none';
         if (fnbSection) fnbSection.style.display = '';
     } else {
-        document.getElementById('booth-modal-price').textContent = 'USD $1,500';
+        document.getElementById('booth-modal-price-pc').textContent = 'USD $1,500';
+        document.getElementById('booth-modal-price-mo').textContent = 'USD $1,500';
         countryField.style.display = '';
         if (fnbSection) fnbSection.style.display = 'none';
     }
