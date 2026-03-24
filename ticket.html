@@ -1320,7 +1320,7 @@ function closeRegForm() {
     document.body.style.overflow = '';
 }
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwsWG8bhFok--WSpIwniqrr0gbm87EHmbQ7ghEaQqPAKEjTtW1sC0dOR0fg2-flIhY/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziX8oEZxXSG47FazB4KBGZcsYrQ6Vfgp-UW0cD7QCV5q8di0WQeFyZ4CHuQqRi5jk/exec';
 
 const PAYMENT_URLS = {
     en: { ED: 'https://global.bnikoreastore.com/surl/P/763', DM: 'https://global.bnikoreastore.com/surl/P/764', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' },
@@ -1487,8 +1487,8 @@ function handleBoothFile(input, labelId) {
     if (input.files && input.files[0]) {
         const file = input.files[0];
         const sizeMB = (file.size / 1024 / 1024).toFixed(1);
-        if (file.size > 10 * 1024 * 1024) {
-            label.innerHTML = '<span class="text-red-500 font-semibold">파일 크기 초과 (최대 10MB) — admin@bni-korea.com으로 별도 송부해 주세요</span>';
+        if (file.size > 5 * 1024 * 1024) {
+            label.innerHTML = '<span class="text-red-500 font-semibold">파일 크기 초과 (최대 5MB) — admin@bni-korea.com으로 별도 송부해 주세요</span>';
             input.value = '';
             return;
         }
@@ -1507,6 +1507,25 @@ function fileToBase64(file) {
     });
 }
 
+function showFileSizeAlert(message, email) {
+    return new Promise(resolve => {
+        const overlay = document.createElement('div');
+        overlay.className = 'fixed inset-0 z-[310] bg-black/60 backdrop-blur-sm flex items-center justify-center';
+        overlay.innerHTML = '<div class="bg-white dark:bg-slate-900 rounded-2xl p-8 shadow-2xl max-w-sm mx-4 text-center">'
+            + '<span class="material-symbols-outlined text-amber-500 text-5xl mb-4 block">warning</span>'
+            + '<p class="font-bold text-sm whitespace-pre-line mb-6">' + message + '</p>'
+            + '<a href="mailto:' + email + '" class="inline-block mb-3 px-5 py-2.5 bg-primary text-white text-sm font-bold rounded-full hover:opacity-90 transition">'
+            + '<span class="material-symbols-outlined text-base align-middle mr-1">mail</span>이메일 보내기</a>'
+            + '<br><button class="px-5 py-2 text-xs text-slate-500 hover:text-slate-700 underline underline-offset-2" id="file-alert-close">확인</button>'
+            + '</div>';
+        document.body.appendChild(overlay);
+        document.getElementById('file-alert-close').addEventListener('click', () => {
+            overlay.remove();
+            resolve();
+        });
+    });
+}
+
 // === Booth i18n ===
 const boothI18n = {
     ko: {
@@ -1521,7 +1540,7 @@ const boothI18n = {
         sec_files: '파일 첨부', lbl_logo_file: '업체 로고 AI파일 *', upload_logo_hint: '클릭하여 로고 파일을 업로드하세요 (AI, PNG, JPG, PDF)',
         lbl_ad_file: '프로그램북 홍보자료 AI파일', upload_ad_hint: '클릭하여 홍보자료를 업로드하세요 (AI, PNG, JPG, PDF)',
         ad_orient_guide: '← 반드시 <strong class="text-primary">가로 방향</strong>으로 제작해 주세요<br>세로(Portrait) 파일은 사용 불가합니다',
-        upload_note: '※ 파일당 최대 10MB · 업로드 불가 시 <strong>admin@bni-korea.com</strong>으로 별도 송부',
+        upload_note: '※ 파일당 최대 5MB · 업로드 불가 시 <strong>admin@bni-korea.com</strong>으로 별도 송부',
         sec_setup: '부스 셋팅 시간', setup_desc: '행사 당일 새벽 2시부터 가능 (그 이전 요청 시 개별 논의)',
         sec_fnb: 'F&B 부스 영업신고 (필수)', fnb_1: '• 일반 음식점으로 신고가 되어있는 업체만 가능 (화기 제외 조리 가능)',
         fnb_2: '• 정부24 홈페이지 <strong>\'한시적 영업신고\'</strong> 진행', fnb_3: '• 개인 사업자: 영업신고증 / 부스 참가 확인서 첨부',
@@ -1542,7 +1561,7 @@ const boothI18n = {
         sec_files: 'File Attachments', lbl_logo_file: 'Company Logo (AI file) *', upload_logo_hint: 'Click to upload your logo (AI, PNG, JPG, PDF)',
         lbl_ad_file: 'Program Book Ad (AI file)', upload_ad_hint: 'Click to upload your ad material (AI, PNG, JPG, PDF)',
         ad_orient_guide: '← Must be in <strong class="text-primary">landscape orientation</strong><br>Portrait files are not accepted',
-        upload_note: '※ Max 10MB per file · If upload fails, send to <strong>admin@bni-korea.com</strong>',
+        upload_note: '※ Max 5MB per file · If upload fails, send to <strong>admin@bni-korea.com</strong>',
         sec_setup: 'Booth Setup Time', setup_desc: 'Available from 2:00 AM on the event day (contact us for earlier access)',
         sec_fnb: 'F&B Booth License (Required)', fnb_1: '• Only businesses registered as food establishments are eligible',
         fnb_2: '• Temporary food service registration required via <strong>gov.kr</strong>', fnb_3: '• Sole proprietor: food license + booth confirmation letter',
@@ -1563,7 +1582,7 @@ const boothI18n = {
         sec_files: 'ファイル添付', lbl_logo_file: '企業ロゴ AIファイル *', upload_logo_hint: 'クリックしてロゴをアップロード (AI, PNG, JPG, PDF)',
         lbl_ad_file: 'プログラムブック広告 AIファイル', upload_ad_hint: 'クリックして広告資料をアップロード (AI, PNG, JPG, PDF)',
         ad_orient_guide: '← 必ず<strong class="text-primary">横向き</strong>で作成してください<br>縦向き（Portrait）は使用不可',
-        upload_note: '※ ファイルは最大10MB · アップロード不可の場合は <strong>admin@bni-korea.com</strong> へ送付',
+        upload_note: '※ ファイルは最大5MB · アップロード不可の場合は <strong>admin@bni-korea.com</strong> へ送付',
         sec_setup: 'ブース設営時間', setup_desc: 'イベント当日午前2時から可能（それ以前のご要望は個別相談）',
         sec_fnb: 'F&Bブース営業届出（必須）', fnb_1: '• 飲食店として届出済みの事業者のみ可能',
         fnb_2: '• 政府サイトで<strong>「臨時営業届出」</strong>を実施', fnb_3: '• 個人事業者：営業届出証＋ブース参加確認書',
@@ -1584,7 +1603,7 @@ const boothI18n = {
         sec_files: '文件附件', lbl_logo_file: '企业LOGO AI文件 *', upload_logo_hint: '点击上传LOGO文件 (AI, PNG, JPG, PDF)',
         lbl_ad_file: '节目册广告 AI文件', upload_ad_hint: '点击上传广告资料 (AI, PNG, JPG, PDF)',
         ad_orient_guide: '← 必须使用<strong class="text-primary">横版</strong>制作<br>竖版（Portrait）文件无法使用',
-        upload_note: '※ 每个文件最大10MB · 无法上传时请发送至 <strong>admin@bni-korea.com</strong>',
+        upload_note: '※ 每个文件最大5MB · 无法上传时请发送至 <strong>admin@bni-korea.com</strong>',
         sec_setup: '展位搭建时间', setup_desc: '活动当天凌晨2点开始（如需提前请另行协商）',
         sec_fnb: 'F&B展位营业登记（必须）', fnb_1: '• 仅限已登记为餐饮企业的商家',
         fnb_2: '• 需在政府网站办理<strong>"临时营业登记"</strong>', fnb_3: '• 个体户：营业登记证 + 展位参展确认书',
@@ -1659,10 +1678,10 @@ async function submitBoothForm(e) {
     // 저장 중 팝업 표시
     const savingLang = boothType === 'domestic' ? 'ko' : (currentLang || 'en');
     const savingMsg = {
-        ko: '제출하신 신청서를 저장하고 있습니다.\n잠시만 기다려주세요!\n\n최대 1~2분 소요될 수 있습니다.',
-        en: 'Saving your application.\nPlease wait a moment!\n\nThis may take up to 1-2 minutes.',
-        ja: '申請書を保存しています。\n少々お待ちください！\n\n最大1〜2分かかる場合があります。',
-        zh: '正在保存您的申请表。\n请稍候！\n\n最多可能需要1-2分钟。'
+        ko: '제출하신 신청서를 저장하고 있습니다.\n잠시만 기다려주세요!',
+        en: 'Saving your application.\nPlease wait a moment!',
+        ja: '申請書を保存しています。\n少々お待ちください！',
+        zh: '正在保存您的申请表。\n请稍候！'
     };
     const savingOverlay = document.createElement('div');
     savingOverlay.id = 'saving-overlay';
@@ -1694,29 +1713,80 @@ async function submitBoothForm(e) {
         timestamp: new Date().toISOString()
     };
 
-    // 파일 base64 변환
-    const logoInput = document.getElementById('booth-file-logo');
-    const adInput = document.getElementById('booth-file-ad');
     try {
-        if (logoInput.files[0]) {
-            payload.logoFileName = logoInput.files[0].name;
-            payload.logoFileBase64 = await fileToBase64(logoInput.files[0]);
-        }
-        if (adInput.files[0]) {
-            payload.adFileName = adInput.files[0].name;
-            payload.adFileBase64 = await fileToBase64(adInput.files[0]);
-        }
-    } catch (err) {
-        console.error('File read error:', err);
-    }
+        // Step 1: 폼 데이터만 먼저 전송 (파일 제외 → 빠름)
+        await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'text/plain' },
+            body: JSON.stringify(payload)
+        });
 
-    // 폼 데이터 + 파일 함께 전송 후 결제 이동
-    fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(payload)
-    }).then(() => {
+        // Step 2: 파일 크기 체크 후 업로드 또는 이메일 안내
+        const FILE_SIZE_LIMIT = 5 * 1024 * 1024; // 5MB
+        const logoInput = document.getElementById('booth-file-logo');
+        const adInput = document.getElementById('booth-file-ad');
+        const oversizedFiles = [];
+
+        if (logoInput.files[0] || adInput.files[0]) {
+            const filePayload = {
+                type: 'booth-files',
+                boothType: boothType,
+                company: payload.company
+            };
+            try {
+                if (logoInput.files[0]) {
+                    if (logoInput.files[0].size > FILE_SIZE_LIMIT) {
+                        oversizedFiles.push(logoInput.files[0].name);
+                    } else {
+                        filePayload.logoFileName = logoInput.files[0].name;
+                        filePayload.logoFileBase64 = await fileToBase64(logoInput.files[0]);
+                    }
+                }
+                if (adInput.files[0]) {
+                    if (adInput.files[0].size > FILE_SIZE_LIMIT) {
+                        oversizedFiles.push(adInput.files[0].name);
+                    } else {
+                        filePayload.adFileName = adInput.files[0].name;
+                        filePayload.adFileBase64 = await fileToBase64(adInput.files[0]);
+                    }
+                }
+            } catch (err) {
+                console.error('File read error:', err);
+            }
+            if (filePayload.logoFileBase64 || filePayload.adFileBase64) {
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(filePayload)
+                });
+            }
+        }
+
+        // 용량 초과 파일이 있으면 안내 팝업 표시
+        if (oversizedFiles.length > 0) {
+            const emailAddr = 'admin@bni-korea.com';
+            const fileSizeMB = (FILE_SIZE_LIMIT / 1024 / 1024) + 'MB';
+            const oversizedMsg = {
+                ko: '다음 파일이 ' + fileSizeMB + ' 용량 제한을 초과하여\n자동 저장되지 않았습니다.\n\n'
+                    + oversizedFiles.map(f => '• ' + f).join('\n')
+                    + '\n\n해당 파일은 ' + emailAddr + ' 으로\n별도 발송해 주세요.',
+                en: 'The following file(s) exceed the ' + fileSizeMB + ' size limit\nand could not be saved automatically.\n\n'
+                    + oversizedFiles.map(f => '• ' + f).join('\n')
+                    + '\n\nPlease send them separately to\n' + emailAddr,
+                ja: '以下のファイルは' + fileSizeMB + 'の容量制限を超えたため\n自動保存されませんでした。\n\n'
+                    + oversizedFiles.map(f => '• ' + f).join('\n')
+                    + '\n\n' + emailAddr + ' へ別途お送りください。',
+                zh: '以下文件超过' + fileSizeMB + '大小限制，\n无法自动保存。\n\n'
+                    + oversizedFiles.map(f => '• ' + f).join('\n')
+                    + '\n\n请将文件发送至 ' + emailAddr
+            };
+            const alertLang = boothType === 'domestic' ? 'ko' : (currentLang || 'en');
+            await showFileSizeAlert(oversizedMsg[alertLang] || oversizedMsg.en, emailAddr);
+        }
+
+        // Step 3: 결제 페이지로 이동
         var overlay = document.getElementById('saving-overlay');
         if (overlay) overlay.remove();
         closeBoothModal();
@@ -1736,17 +1806,17 @@ async function submitBoothForm(e) {
                 showToast('Booth application submitted! Payment instructions will be sent via email.');
             }
         }
-    }).catch(() => {
+    } catch (err) {
         var overlay = document.getElementById('saving-overlay');
         if (overlay) overlay.remove();
         closeBoothModal();
         showToast(boothType === 'domestic'
             ? '오류가 발생했습니다. 다시 시도해 주세요.'
             : 'An error occurred. Please try again.', true);
-    }).finally(() => {
+    } finally {
         submitBtn.disabled = false;
         submitBtn.innerHTML = originalHTML;
-    });
+    }
 }
 
 const layoutBackText = { ko: '신청서로 돌아가기', en: 'Back to Application', ja: '申請書に戻る', zh: '返回申请表' };

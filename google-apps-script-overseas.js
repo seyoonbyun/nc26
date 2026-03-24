@@ -73,17 +73,21 @@ function doPost(e) {
 
     // 파일 별도 수신 (booth-files)
     if (p.type === 'booth-files') {
-      var sheet = SS.getSheetByName('Booth');
+      var sheetName = (p.boothType === 'domestic') ? 'Booth_Kor' : 'Booth';
+      var sheet = SS.getSheetByName(sheetName);
       if (sheet) {
         var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
         var logoCol = headers.indexOf('Logo File') + 1;
         var adCol = headers.indexOf('Ad File') + 1;
         // 해당 회사의 마지막 행 찾기
         var companyCol = headers.indexOf('Company') + 1;
-        var data = sheet.getRange(2, companyCol, sheet.getLastRow() - 1, 1).getValues();
+        var lastRow = sheet.getLastRow();
         var targetRow = -1;
-        for (var i = data.length - 1; i >= 0; i--) {
-          if (data[i][0] === p.company) { targetRow = i + 2; break; }
+        if (lastRow > 1) {
+          var data = sheet.getRange(2, companyCol, lastRow - 1, 1).getValues();
+          for (var i = data.length - 1; i >= 0; i--) {
+            if (data[i][0] === p.company) { targetRow = i + 2; break; }
+          }
         }
         if (targetRow > 0) {
           if (p.logoFileBase64 && logoCol > 0) {
