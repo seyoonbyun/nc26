@@ -237,7 +237,7 @@ function getOrCreateFolder(folderName) {
 }
 
 // =============================================================
-// doGet — 인증코드 검증 API
+// doGet — Party code verification API
 // =============================================================
 function doGet(e) {
   if (e && e.parameter && e.parameter.action === 'verifyPartyCode') {
@@ -250,7 +250,7 @@ function doGet(e) {
 }
 
 // =============================================================
-// onEdit 트리거 — 해외 결제 확인 이메일 (Tickets, Booth, Booth_Kor)
+// onEdit trigger — Overseas payment confirmation email (Tickets, Booth, Booth_Kor)
 // =============================================================
 function onEditInstallable(e) {
   try {
@@ -281,15 +281,15 @@ function onEditInstallable(e) {
 }
 
 // =============================================================
-// 시간 기반 트리거 — "Ticket & Booth_Kor.pay" 시트 스캔
+// Time-based trigger — Scan "Ticket & Booth_Kor.pay" sheet
 //
-// 1) 인증코드 발급: A열=BNI K. Member Pass + L열=결제 완료 → 코드 생성 + 이메일 발송
-// 2) Used 처리: A열=Networking Party Pass + L열=결제 완료 → PartyCodes Used 기록
+// 1) Issue code: A=BNI K. Member Pass + L=Payment Complete -> generate code + send email
+// 2) Mark Used: A=Networking Party Pass + L=Payment Complete -> update PartyCodes Used
 //
-// 트리거 등록: 편집기 > 트리거 > 트리거 추가
-//   - 함수: scanAndSendPartyCodes
-//   - 이벤트 소스: 시간 기반
-//   - 트리거 유형: 분 타이머 (5분마다 권장)
+// Trigger setup: Editor > Triggers > Add trigger
+//   - Function: scanAndSendPartyCodes
+//   - Event source: Time-driven
+//   - Type: Minutes timer (1 min recommended)
 // =============================================================
 function scanAndSendPartyCodes() {
   Logger.log('scanAndSendPartyCodes 시작');
@@ -351,7 +351,7 @@ function scanAndSendPartyCodes() {
 }
 
 // =============================================================
-// Networking Party Pass 인증코드 관련 함수
+// Networking Party Pass - Code generation & verification
 // =============================================================
 
 function getOrCreatePartyCodeSheet() {
@@ -404,12 +404,12 @@ function verifyPartyCode(code) {
   for (var i = 1; i < data.length; i++) {
     if (data[i][0] === code) {
       if (data[i][4]) {
-        // Used 처리됨 = Networking Party Pass 결제 완료
+        // Used = Networking Party Pass payment completed
         result.valid = false;
         result.message = 'used';
         break;
       }
-      // 유효한 코드 — 결제 페이지 이동 허용 (Used 처리하지 않음)
+      // Valid code — allow payment page redirect (no Used marking on input)
       result.valid = true;
       result.name = data[i][2];
       break;
@@ -422,7 +422,7 @@ function verifyPartyCode(code) {
 }
 
 function sendPartyCodeEmail(email, name, code) {
-  var subject = '【Accelerate 2026】Networking Party Pass 구매 인증코드';
+  var subject = '[Accelerate 2026] Networking Party Pass 구매 인증코드';
 
   var body = '<!DOCTYPE html>'
     + '<html><head><meta charset="utf-8"/></head>'
@@ -451,7 +451,7 @@ function sendPartyCodeEmail(email, name, code) {
     + '<div style="background:#fff8f8;border-left:4px solid #cf1f2e;padding:16px 20px;border-radius:0 8px 8px 0;margin-bottom:28px;">'
     + '<p style="margin:0;font-size:13px;color:#333;line-height:1.8;">'
     + '<strong>\uC0AC\uC6A9 \uBC29\uBC95:</strong><br/>'
-    + '1. <a href="https://nc26.bni-korea.com/ticket.html" style="color:#cf1f2e;">nc26.bni-korea.com/ticket.html</a> \uC811\uC18D<br/>'
+    + '1. <a href="https://www.nc26-bnikorea.com" style="color:#cf1f2e;">www.nc26-bnikorea.com</a> \uC811\uC18D<br/>'
     + '2. Networking Party Pass \uCE74\uB4DC\uC758 <strong>\u201C\uC778\uC99D\uCF54\uB4DC \uC785\uB825\u201D</strong> \uBC84\uD2BC \uD074\uB9AD<br/>'
     + '3. \uC704 \uCF54\uB4DC \uC785\uB825 \uD6C4 \uACB0\uC81C \uC9C4\uD589</p>'
     + '</div>'
@@ -470,7 +470,7 @@ function sendPartyCodeEmail(email, name, code) {
 }
 
 // =============================================================
-// 기존 이메일 발송 함수 (해외 티켓 / 부스)
+// Email functions (Overseas ticket / Booth)
 // =============================================================
 
 function sendTicketConfirmationEmail(headers, row) {
