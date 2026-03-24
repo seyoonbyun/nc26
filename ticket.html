@@ -378,7 +378,8 @@ function toggleMobileMenu() {
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_party_only"></span></li>
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-red-400 text-lg">cancel</span> <span class="text-slate-400" data-i18n="feat_no_conference"></span></li>
 </ul>
-<button onclick="goToDomesticPayment('plan5')" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+<button onclick="openPartyCodeModal()" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all flex items-center justify-center gap-2"><span class="material-symbols-outlined text-lg">vpn_key</span> <span>인증코드 입력</span></button>
+<p class="text-center text-[10px] text-slate-400 mt-2">BNI K. Member Pass 구매자 전용</p>
 </div>
 <!-- Booth Card (Domestic) -->
 <div class="flex flex-col p-5 md:p-7 rounded-2xl bg-white dark:bg-slate-900 border border-amber-300 dark:border-amber-700 hover:border-primary/50 transition-all relative">
@@ -796,6 +797,34 @@ function toggleMobileMenu() {
 </button>
 <p class="text-center text-xs text-slate-400">모든 결제 정보는 SSL 암호화로 안전하게 처리됩니다.</p>
 </form>
+</div>
+</div>
+<!-- Party Code Verification Modal -->
+<div id="party-code-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+<div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="closePartyCodeModal()"></div>
+<div class="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden">
+<div class="bg-gradient-to-r from-primary to-primary/80 p-6 text-center">
+<span class="material-symbols-outlined text-white text-4xl mb-2">vpn_key</span>
+<h3 class="text-xl font-bold text-white">Networking Party Pass</h3>
+<p class="text-white/80 text-sm mt-1">BNI K. Member Pass 구매자 전용</p>
+</div>
+<div class="p-6">
+<p class="text-sm text-slate-600 dark:text-slate-400 mb-4 leading-relaxed">BNI K. Member Pass 결제 완료 후 이메일로 발송된 <strong>인증코드</strong>를 입력해 주세요.</p>
+<div class="relative mb-4">
+<input id="party-code-input" type="text" maxlength="11" class="w-full px-4 py-4 rounded-xl bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-center text-lg font-mono font-bold tracking-[4px] uppercase placeholder:tracking-normal placeholder:font-normal placeholder:text-sm" placeholder="NP-XXXXXXXX">
+</div>
+<p id="party-code-error" class="hidden text-red-500 text-xs text-center mb-3"></p>
+<button id="party-code-submit" onclick="verifyPartyCode()" class="w-full py-4 rounded-xl font-bold bg-primary text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined">verified</span>
+<span>인증 후 결제하기</span>
+</button>
+<div class="mt-4 p-3 bg-slate-50 dark:bg-slate-800 rounded-lg">
+<p class="text-[11px] text-slate-400 text-center leading-relaxed">인증코드를 받지 못하셨나요?<br/><a href="mailto:admin@bni-korea.com" class="text-primary hover:underline">admin@bni-korea.com</a>으로 문의해 주세요.</p>
+</div>
+</div>
+<button onclick="closePartyCodeModal()" class="absolute top-4 right-4 size-8 flex items-center justify-center rounded-lg hover:bg-white/20 transition-colors">
+<span class="material-symbols-outlined text-white">close</span>
+</button>
 </div>
 </div>
 <!-- Payment Methods Section -->
@@ -1320,7 +1349,7 @@ function closeRegForm() {
     document.body.style.overflow = '';
 }
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbziX8oEZxXSG47FazB4KBGZcsYrQ6Vfgp-UW0cD7QCV5q8di0WQeFyZ4CHuQqRi5jk/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwNVTzjoy7ArM8njbIfGYNFBKNuLBRlbsbl5dxGAhgrD5r-u3Lu2TSsLwUUOLs6cCg/exec';
 
 const PAYMENT_URLS = {
     en: { ED: 'https://global.bnikoreastore.com/surl/P/763', DM: 'https://global.bnikoreastore.com/surl/P/764', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' },
@@ -1430,6 +1459,79 @@ function closeDomesticForm() {
     document.getElementById('domestic-modal').classList.add('hidden');
     document.body.style.overflow = '';
 }
+
+// === Networking Party Pass 인증코드 검증 ===
+function openPartyCodeModal() {
+    document.getElementById('party-code-input').value = '';
+    document.getElementById('party-code-error').classList.add('hidden');
+    document.getElementById('party-code-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('party-code-input').focus(), 100);
+}
+
+function closePartyCodeModal() {
+    document.getElementById('party-code-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+function verifyPartyCode() {
+    const input = document.getElementById('party-code-input');
+    const errorEl = document.getElementById('party-code-error');
+    const submitBtn = document.getElementById('party-code-submit');
+    const code = input.value.trim().toUpperCase();
+
+    if (!code) {
+        errorEl.textContent = '인증코드를 입력해 주세요.';
+        errorEl.classList.remove('hidden');
+        input.focus();
+        return;
+    }
+
+    // 버튼 로딩 상태
+    const originalHTML = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> <span>확인 중...</span>';
+    errorEl.classList.add('hidden');
+
+    fetch(SCRIPT_URL + '?action=verifyPartyCode&code=' + encodeURIComponent(code))
+        .then(res => res.json())
+        .then(data => {
+            if (data.valid) {
+                closePartyCodeModal();
+                showToast('인증 완료! 결제 페이지로 이동합니다...');
+                setTimeout(() => {
+                    window.location.href = PAYMENT_URLS_DOMESTIC.plan5;
+                }, 1500);
+            } else {
+                if (data.message === 'used') {
+                    errorEl.textContent = '이미 사용된 인증코드입니다. 문의: admin@bni-korea.com';
+                } else {
+                    errorEl.textContent = '유효하지 않은 인증코드입니다. 다시 확인해 주세요.';
+                }
+                errorEl.classList.remove('hidden');
+                input.focus();
+                input.select();
+            }
+        })
+        .catch(() => {
+            errorEl.textContent = '서버 연결 오류입니다. 잠시 후 다시 시도해 주세요.';
+            errorEl.classList.remove('hidden');
+        })
+        .finally(() => {
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalHTML;
+        });
+}
+
+// Enter 키로 인증코드 제출
+document.addEventListener('DOMContentLoaded', () => {
+    const partyInput = document.getElementById('party-code-input');
+    if (partyInput) {
+        partyInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') { e.preventDefault(); verifyPartyCode(); }
+        });
+    }
+});
 
 function submitDomesticForm(e) {
     e.preventDefault();
