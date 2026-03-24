@@ -1504,7 +1504,7 @@ function verifyPartyCode() {
                 }, 1500);
             } else {
                 if (data.message === 'used') {
-                    errorEl.textContent = '이미 사용된 인증코드입니다. 문의: admin@bni-korea.com';
+                    errorEl.innerHTML = '이미 사용된 인증코드입니다. 문의: <a href="http://pf.kakao.com/_xewxmrT" target="_blank" class="text-primary hover:underline font-semibold">BNI코리아 내셔널 오피스</a>';
                 } else {
                     errorEl.textContent = '유효하지 않은 인증코드입니다. 다시 확인해 주세요.';
                 }
