@@ -211,11 +211,6 @@ function toggleMobileMenu() {
 <p class="text-sm font-bold text-primary uppercase tracking-widest mb-5" data-i18n="countdown_label"></p>
 <div class="flex items-start justify-center flex-wrap gap-y-4">
 <div class="flex flex-col items-center">
-<div class="flex gap-[3px]"><ul class="flip" id="fc-mo-t"></ul><ul class="flip" id="fc-mo-o"></ul></div>
-<span class="text-[9px] md:text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-2">Months</span>
-</div>
-<span class="text-lg md:text-xl font-black text-slate-600 mx-1 md:mx-2" style="margin-top:18px;">:</span>
-<div class="flex flex-col items-center">
 <div class="flex gap-[3px]"><ul class="flip" id="fc-dy-t"></ul><ul class="flip" id="fc-dy-o"></ul></div>
 <span class="text-[9px] md:text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-2">Days</span>
 </div>
@@ -857,7 +852,13 @@ function toggleMobileMenu() {
 <div class="relative z-10 text-center px-6">
 <h3 class="text-3xl font-bold text-white mb-4" data-i18n="venue_title"></h3>
 <p class="text-slate-300 mb-8 max-w-lg md:max-w-none md:whitespace-nowrap mx-auto" data-i18n="venue_desc"></p>
-<a href="https://english.visitkorea.or.kr/svc/sub/subWhere.do?menuSn=166" target="_blank" rel="noopener" class="inline-block bg-white text-slate-900 font-bold py-3 px-8 rounded-xl hover:bg-primary hover:text-white transition-all" data-i18n="venue_btn"></a>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center sm:items-start">
+<a href="https://english.visitkorea.or.kr/svc/sub/subWhere.do?menuSn=166" target="_blank" rel="noopener" class="inline-flex justify-center items-center w-full sm:w-60 bg-white text-slate-900 font-bold py-3 px-6 rounded-xl hover:bg-primary hover:text-white transition-all" data-i18n="venue_btn"></a>
+<div class="flex flex-col items-center gap-2 w-full sm:w-60">
+<a href="https://bit.ly/3IYkwQA" target="_blank" rel="noopener" class="inline-flex justify-center items-center gap-2 w-full bg-primary text-white font-bold py-3 px-6 rounded-xl hover:bg-white hover:text-slate-900 transition-all"><span class="material-symbols-outlined text-lg">hotel</span><span data-i18n="venue_hotel_btn"></span></a>
+<span class="text-xs text-slate-300" data-i18n="venue_hotel_note"></span>
+</div>
+</div>
 </div>
 </section>
 </main>
@@ -965,6 +966,8 @@ const i18n = {
         venue_title: '스위스그랜드호텔 서울',
         venue_desc: '서울의 대표적인 호텔에서 컨퍼런스를 경험하세요.',
         venue_btn: '주변 관광지 정보 보기',
+        venue_hotel_btn: '호텔 예약하기',
+        venue_hotel_note: '※ BNI 특가로 예약하기',
         form_title: '참가자 등록',
         form_name_label: '이름 (영문)',
         form_name_placeholder: 'Hong Gildong',
@@ -1039,6 +1042,8 @@ const i18n = {
         venue_title: 'Venue: Swiss Grand Hotel Seoul',
         venue_desc: "Experience the conference at Swiss Grand Hotel in Seoul, South Korea.",
         venue_btn: 'View Travel Guide',
+        venue_hotel_btn: 'Book Hotel',
+        venue_hotel_note: '※ Book at BNI special rate',
         form_title: 'Attendee Registration',
         form_name_label: 'Full Name',
         form_name_placeholder: 'John Smith',
@@ -1113,6 +1118,8 @@ const i18n = {
         venue_title: '会場：スイスグランドホテルソウル',
         venue_desc: 'ソウルのスイスグランドホテルでカンファレンスを体験してください。',
         venue_btn: '交通案内を見る',
+        venue_hotel_btn: 'ホテル予約',
+        venue_hotel_note: '※ BNI特別料金で予約',
         form_title: '参加者登録',
         form_name_label: 'お名前（英語表記）',
         form_name_placeholder: 'Taro Yamada',
@@ -1187,6 +1194,8 @@ const i18n = {
         venue_title: '场馆：瑞士大酒店首尔',
         venue_desc: '在首尔瑞士大酒店体验本次大会。',
         venue_btn: '查看交通指南',
+        venue_hotel_btn: '预订酒店',
+        venue_hotel_note: '※ 以BNI特价预订',
         form_title: '参会者注册',
         form_name_label: '姓名（英文）',
         form_name_placeholder: 'Wei Zhang',
@@ -1972,7 +1981,7 @@ function flipDigit(ul, digit) {
 
 // Init all 8 digit flip cards
 const digits = {};
-['mo-t','mo-o','dy-t','dy-o','hr-t','hr-o','mn-t','mn-o','sc-t','sc-o'].forEach(id => {
+['dy-t','dy-o','hr-t','hr-o','mn-t','mn-o','sc-t','sc-o'].forEach(id => {
     const ul = document.getElementById('fc-' + id);
     buildDigit(ul);
     ul._prev = undefined;
@@ -1989,14 +1998,11 @@ function updateCountdown() {
     const totalSecs = Math.floor(diff / 1000);
     const totalHours = Math.floor(totalSecs / 3600);
     const totalDays = Math.floor(totalHours / 24);
-    const mo = String(Math.floor(totalDays / 30)).padStart(2, '0');
-    const dy = String(totalDays % 30).padStart(2, '0');
+    const dy = String(totalDays).padStart(2, '0');
     const hr = String(totalHours % 24).padStart(2, '0');
     const mn = String(Math.floor(totalSecs % 3600 / 60)).padStart(2, '0');
     const sc = String(totalSecs % 60).padStart(2, '0');
 
-    flipDigit(digits['mo-t'], +mo[0]);
-    flipDigit(digits['mo-o'], +mo[1]);
     flipDigit(digits['dy-t'], +dy[0]);
     flipDigit(digits['dy-o'], +dy[1]);
     flipDigit(digits['hr-t'], +hr[0]);

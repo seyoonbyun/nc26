@@ -197,11 +197,6 @@ Accelerate Your Success !
 <!-- Countdown (Flip) -->
 <div class="mt-12 flex items-start justify-center flex-wrap gap-y-4">
 <div class="flex flex-col items-center">
-<div class="flex gap-[3px]"><ul class="flip" id="fc-mo-t"></ul><ul class="flip" id="fc-mo-o"></ul></div>
-<span class="text-[9px] md:text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-2">Months</span>
-</div>
-<span class="text-lg md:text-xl font-black text-slate-600 mx-1 md:mx-2" style="margin-top:18px;">:</span>
-<div class="flex flex-col items-center">
 <div class="flex gap-[3px]"><ul class="flip" id="fc-dy-t"></ul><ul class="flip" id="fc-dy-o"></ul></div>
 <span class="text-[9px] md:text-[10px] text-slate-500 font-semibold uppercase tracking-wider mt-2">Days</span>
 </div>
@@ -414,17 +409,24 @@ Accelerate Your Success !
 <!-- Venue -->
 <section class="py-16 md:py-24 px-6">
 <div class="max-w-5xl mx-auto">
-<a href="https://www.swissgrand.co.kr/ko/about-hotel#hotel_location" target="_blank" rel="noopener" class="block rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 relative min-h-[300px] flex items-center justify-center hover:border-primary/50 transition-all cursor-pointer group">
-<div class="absolute inset-0 opacity-30 group-hover:opacity-40 transition-opacity">
+<div class="rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 relative min-h-[300px] flex items-center justify-center py-12">
+<div class="absolute inset-0 opacity-30">
 <img alt="Seoul Cityscape" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuVlcsKhiBai0YBHMqIykaHc-5mm4XW4xREyYOWyze2eHlOTS33hquAXXVNSMW4p0bY7iPl3fs5AKrbzs0I6uzqdlQrROykKhblUZi33xb5BLs1Y-IPKUvOtk9iHIoa3tabLNb-Nr2r1EdduP9PtvWfKl0riB820DP-_dbHVQxElqP4xAFMmqHgRG1F8D7OPZ_EGu8hDTy2lC8xnJE9gXYbyn6hNGaGpWlVdonOpal_8pS6ngG-k_JdqVwZ14BsqHthdH4vv9b144"/>
 </div>
 <div class="relative z-10 text-center px-6">
 <span class="material-symbols-outlined text-primary text-4xl mb-4 block">location_on</span>
-<h3 class="text-2xl md:text-3xl font-bold mb-3 group-hover:text-primary transition-colors">스위스그랜드호텔 서울 Swiss Grand Hotel Seoul</h3>
+<h3 class="text-2xl md:text-3xl font-bold mb-3">스위스그랜드호텔 서울 Swiss Grand Hotel Seoul</h3>
 <p class="text-slate-300 mb-2">서울 서대문구 연세로 353</p>
-<p class="text-slate-400 text-sm">2026년 6월 1–2일</p>
+<p class="text-slate-400 text-sm mb-6">2026년 6월 1–2일</p>
+<div class="flex flex-col sm:flex-row gap-4 justify-center items-center sm:items-start">
+<a href="https://www.swissgrand.co.kr/ko/about-hotel#hotel_location" target="_blank" rel="noopener" class="inline-flex justify-center items-center w-full sm:w-60 bg-white text-slate-900 font-bold py-3 px-6 rounded-xl hover:bg-primary hover:text-white transition-all">위치 보기</a>
+<div class="flex flex-col items-center gap-2 w-full sm:w-60">
+<a href="https://bit.ly/3IYkwQA" target="_blank" rel="noopener" class="inline-flex justify-center items-center gap-2 w-full bg-primary text-white font-bold py-3 px-6 rounded-xl hover:bg-white hover:text-slate-900 transition-all"><span class="material-symbols-outlined text-lg">hotel</span><span>호텔 예약하기</span></a>
+<span class="text-xs text-slate-300">※ BNI 프로모션 혜택누리기!</span>
 </div>
-</a>
+</div>
+</div>
+</div>
 </div>
 </section>
 </main>
@@ -566,7 +568,7 @@ function flipDigit(ul, digit) {
     ul.classList.add('play');
 }
 const hDigits = {};
-['mo-t','mo-o','dy-t','dy-o','hr-t','hr-o','mn-t','mn-o','sc-t','sc-o'].forEach(id => {
+['dy-t','dy-o','hr-t','hr-o','mn-t','mn-o','sc-t','sc-o'].forEach(id => {
     const ul = document.getElementById('fc-' + id);
     buildDigit(ul);
     hDigits[id] = ul;
@@ -578,12 +580,10 @@ function updateCountdown() {
     const totalSecs = Math.floor(diff / 1000);
     const totalHours = Math.floor(totalSecs / 3600);
     const totalDays = Math.floor(totalHours / 24);
-    const mo = String(Math.floor(totalDays / 30)).padStart(2, '0');
-    const dy = String(totalDays % 30).padStart(2, '0');
+    const dy = String(totalDays).padStart(2, '0');
     const hr = String(totalHours % 24).padStart(2, '0');
     const mn = String(Math.floor(totalSecs % 3600 / 60)).padStart(2, '0');
     const sc = String(totalSecs % 60).padStart(2, '0');
-    flipDigit(hDigits['mo-t'], +mo[0]); flipDigit(hDigits['mo-o'], +mo[1]);
     flipDigit(hDigits['dy-t'], +dy[0]); flipDigit(hDigits['dy-o'], +dy[1]);
     flipDigit(hDigits['hr-t'], +hr[0]); flipDigit(hDigits['hr-o'], +hr[1]);
     flipDigit(hDigits['mn-t'], +mn[0]); flipDigit(hDigits['mn-o'], +mn[1]);
