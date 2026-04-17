@@ -21,7 +21,7 @@ var BOOTH_KOR_HEADERS = [
   'License', 'Price', 'Logo File', 'Ad File', 'Status'
 ];
 
-var PARTY_CODE_HEADERS = ['Code', 'Email', 'Name', 'Created', 'Used'];
+var PARTY_CODE_HEADERS = ['Code', 'Email', 'Name', 'Created', 'Used', 'Reserved', 'Duplicate'];
 
 function getOrCreateSheet(name, headers) {
   var sheet = SS.getSheetByName(name);
@@ -240,13 +240,118 @@ function getOrCreateFolder(folderName) {
 // doGet — Party code verification API
 // =============================================================
 function doGet(e) {
-  if (e && e.parameter && e.parameter.action === 'verifyPartyCode') {
+  var action = e && e.parameter && e.parameter.action;
+
+  if (action === 'verifyPartyCode') {
     return verifyPartyCode(e.parameter.code);
   }
+
+  // ----- 관리자 API (PropertiesService에 저장된 ADMIN_KEY 필요) -----
+  if (action === 'adminBackfill')    return adminGuard(e, function() { backfillPartyCodeUsed(); return { status: 'ok', action: 'adminBackfill' }; });
+  if (action === 'adminReadSheet')   return adminGuard(e, function() { return adminReadSheet(e.parameter); });
+  if (action === 'adminUpdateCell')  return adminGuard(e, function() { return adminUpdateCell(e.parameter); });
+  if (action === 'adminSetUsed')     return adminGuard(e, function() { return adminSetUsed(e.parameter); });
+  if (action === 'adminListSheets')  return adminGuard(e, function() { return adminListSheets(); });
+  if (action === 'adminRunScan')     return adminGuard(e, function() { scanAndSendPartyCodes(); return { status: 'ok', action: 'adminRunScan' }; });
 
   return ContentService.createTextOutput(
     JSON.stringify({ status: 'ok', message: 'NC26 Overseas API is running.' })
   ).setMimeType(ContentService.MimeType.JSON);
+}
+
+// =============================================================
+// 관리자 API — Claude가 WebFetch로 시트를 직접 읽고 쓰기 위한 엔드포인트
+//
+// 사용 전 1회 세팅: Apps Script 편집기에서 setupAdminKey() 실행 → 로그로 키 확인
+// =============================================================
+function jsonOut_(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function adminGuard(e, fn) {
+  try {
+    var storedKey = PropertiesService.getScriptProperties().getProperty('ADMIN_KEY');
+    var providedKey = e && e.parameter && e.parameter.key;
+    if (!storedKey) return jsonOut_({ status: 'error', message: 'ADMIN_KEY not set. Run setupAdminKey() first.' });
+    if (providedKey !== storedKey) return jsonOut_({ status: 'error', message: 'unauthorized' });
+    var result = fn();
+    return jsonOut_(result && result.status ? result : { status: 'ok', result: result });
+  } catch (err) {
+    return jsonOut_({ status: 'error', message: String(err && err.message || err) });
+  }
+}
+
+// Apps Script 편집기에서 1회 수동 실행 → 생성된 키를 로그에서 복사해 Claude에게 전달
+function setupAdminKey() {
+  var key = 'nc26-' + Utilities.getUuid();
+  PropertiesService.getScriptProperties().setProperty('ADMIN_KEY', key);
+  Logger.log('ADMIN_KEY 설정 완료.');
+  Logger.log('이 키를 Claude에게 전달하세요 ↓');
+  Logger.log(key);
+  return key;
+}
+
+function rotateAdminKey() { return setupAdminKey(); }
+
+function revokeAdminKey() {
+  PropertiesService.getScriptProperties().deleteProperty('ADMIN_KEY');
+  Logger.log('ADMIN_KEY 삭제됨.');
+}
+
+function adminListSheets() {
+  var sheets = SS.getSheets().map(function(s) {
+    return { name: s.getName(), rows: s.getLastRow(), cols: s.getLastColumn() };
+  });
+  return { sheets: sheets };
+}
+
+function adminReadSheet(params) {
+  var name = params.sheet;
+  if (!name) return { status: 'error', message: 'sheet required' };
+  var sheet = SS.getSheetByName(name);
+  if (!sheet) return { status: 'error', message: 'sheet not found: ' + name };
+
+  var lastRow = sheet.getLastRow();
+  var lastCol = sheet.getLastColumn();
+  if (lastRow === 0) return { status: 'ok', sheet: name, rows: 0, data: [] };
+
+  var startRow = parseInt(params.startRow || '1', 10);
+  var limit = parseInt(params.limit || String(lastRow), 10);
+  var numRows = Math.min(lastRow - startRow + 1, limit);
+  if (numRows <= 0) return { status: 'ok', sheet: name, rows: 0, data: [] };
+
+  var data = sheet.getRange(startRow, 1, numRows, lastCol).getDisplayValues();
+  return { status: 'ok', sheet: name, startRow: startRow, rows: numRows, cols: lastCol, data: data };
+}
+
+function adminUpdateCell(params) {
+  var name = params.sheet;
+  var row = parseInt(params.row, 10);
+  var col = parseInt(params.col, 10);
+  if (!name || !row || !col) return { status: 'error', message: 'sheet, row, col required' };
+  var sheet = SS.getSheetByName(name);
+  if (!sheet) return { status: 'error', message: 'sheet not found' };
+  sheet.getRange(row, col).setValue(params.value != null ? params.value : '');
+  return { status: 'ok', sheet: name, row: row, col: col, value: params.value };
+}
+
+// PartyCodes 특정 코드 행의 Used / Duplicate 값을 직접 기록
+function adminSetUsed(params) {
+  var code = String(params.code || '').trim().toUpperCase();
+  if (!code) return { status: 'error', message: 'code required' };
+  var sheet = getOrCreatePartyCodeSheet();
+  var data = sheet.getDataRange().getValues();
+  for (var i = 1; i < data.length; i++) {
+    if (String(data[i][0]).toUpperCase() === code) {
+      var row = i + 1;
+      if (params.used !== undefined) sheet.getRange(row, 5).setValue(params.used);
+      if (params.reserved !== undefined) sheet.getRange(row, 6).setValue(params.reserved);
+      if (params.duplicate !== undefined) sheet.getRange(row, 7).setValue(params.duplicate);
+      return { status: 'ok', code: code, row: row };
+    }
+  }
+  return { status: 'error', message: 'code not found: ' + code };
 }
 
 // =============================================================
@@ -283,50 +388,67 @@ function onEditInstallable(e) {
 // =============================================================
 // Time-based trigger — Scan "Ticket & Booth_Kor.pay" sheet
 //
-// 1) Issue code: A=BNI K. Member Pass + L=Payment Complete -> generate code + send email
-// 2) Mark Used: A=Networking Party Pass + L=Payment Complete -> update PartyCodes Used
+// 1) Issue code: A=BNI K. Member Pass + L=결제완료 -> generate code + send email
+// 2) Mark Used: A=Networking Party Pass + L=결제완료 -> update PartyCodes Used
 //
 // Trigger setup: Editor > Triggers > Add trigger
 //   - Function: scanAndSendPartyCodes
 //   - Event source: Time-driven
 //   - Type: Minutes timer (1 min recommended)
 // =============================================================
+
+// "결제 완료" / "결제완료" 모두 허용 (공백·대소문자 무시)
+function isPaymentComplete(v) {
+  if (v === null || v === undefined) return false;
+  var s = String(v).replace(/\s+/g, '').toLowerCase();
+  return s === '결제완료' || s === 'paid' || s === '완료';
+}
+
+function normalizeEmail(v) {
+  if (!v) return '';
+  return String(v).trim().toLowerCase();
+}
+
 function scanAndSendPartyCodes() {
   Logger.log('scanAndSendPartyCodes 시작');
   var sheet = SS.getSheetByName('Ticket & Booth_Kor.pay');
-  if (!sheet) { Logger.log('시트 없음'); return; }
+  if (!sheet) { Logger.log('시트 없음: Ticket & Booth_Kor.pay'); return; }
 
   var lastRow = sheet.getLastRow();
   if (lastRow <= 1) { Logger.log('데이터 없음'); return; }
 
-  var data = sheet.getRange(2, 1, lastRow - 1, 12).getDisplayValues();
+  var lastCol = Math.max(sheet.getLastColumn(), 12);
+  var data = sheet.getRange(2, 1, lastRow - 1, lastCol).getDisplayValues();
   var codeSheet = getOrCreatePartyCodeSheet();
   var codeData = codeSheet.getDataRange().getValues();
 
+  // PartyCodes의 Email(B열) 기준으로 인덱스 매핑 (정규화하여 저장)
   var issuedEmails = {};
   for (var i = 1; i < codeData.length; i++) {
-    if (codeData[i][1]) issuedEmails[codeData[i][1]] = i;
+    var em = normalizeEmail(codeData[i][1]);
+    if (em) issuedEmails[em] = i;
   }
 
   var sentCount = 0;
   var usedCount = 0;
 
   for (var r = 0; r < data.length; r++) {
-    var title = data[r][0];
+    var title = String(data[r][0] || '').trim();
     var name = data[r][1];
     var email = data[r][2];
     var statusPayment = data[r][11];
+    var normEmail = normalizeEmail(email);
 
-    if (!email || statusPayment !== '결제 완료') continue;
+    if (!normEmail || !isPaymentComplete(statusPayment)) continue;
 
     if (title === 'BNI K. Member Pass') {
-      if (issuedEmails[email] !== undefined) continue;
+      if (issuedEmails[normEmail] !== undefined) continue;
 
       var code = generatePartyCode();
       var timestamp = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
       Logger.log('발급: ' + email + ' 코드: ' + code);
-      codeSheet.appendRow([code, email, name, timestamp, '']);
-      issuedEmails[email] = codeSheet.getLastRow() - 1;
+      codeSheet.appendRow([code, email, name, timestamp, '', '', '']);
+      issuedEmails[normEmail] = codeSheet.getLastRow() - 1;
 
       sendPartyCodeEmail(email, name, code);
       Logger.log('이메일 발송 완료: ' + email);
@@ -334,20 +456,108 @@ function scanAndSendPartyCodes() {
     }
 
     if (title === 'Networking Party Pass') {
-      var codeRowIdx = issuedEmails[email];
-      if (codeRowIdx === undefined) continue;
+      var codeRowIdx = issuedEmails[normEmail];
+      if (codeRowIdx === undefined) {
+        Logger.log('Used 스킵 (해당 이메일의 발급 코드 없음): ' + email);
+        continue;
+      }
 
+      // E열 Used에 첫 결제완료 시각 기록. 이미 있으면 중복이므로 G열(Duplicate)에 기록.
+      // (F열 Reserved는 verifyPartyCode가 락 용도로 사용하며 건드리지 않음)
+      var payRow = r + 2; // .pay 시트 실제 행번호
       var usedCell = codeSheet.getRange(codeRowIdx + 1, 5);
-      if (usedCell.getValue()) continue;
-
       var timestamp = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
-      usedCell.setValue(timestamp);
-      Logger.log('Used 처리: ' + email);
-      usedCount++;
+
+      if (!usedCell.getValue()) {
+        usedCell.setValue(timestamp);
+        Logger.log('Used 처리: ' + email + ' @ ' + timestamp + ' (.pay 행 ' + payRow + ')');
+        usedCount++;
+      } else {
+        // 중복 결제 발생 — Duplicate(G)에 행번호 누적
+        var dupCell = codeSheet.getRange(codeRowIdx + 1, 7);
+        var existing = String(dupCell.getValue() || '');
+        var tag = '.pay 행 ' + payRow;
+        if (existing.indexOf(tag) === -1) {
+          dupCell.setValue(existing ? (existing + ' / ' + tag + ' @ ' + timestamp)
+                                    : ('중복 구매 / ' + tag + ' @ ' + timestamp));
+          Logger.log('Duplicate 감지: ' + email + ' (.pay 행 ' + payRow + ')');
+        }
+      }
     }
   }
 
   Logger.log('완료: ' + sentCount + '건 발급, ' + usedCount + '건 Used');
+}
+
+// =============================================================
+// 수동 백필 / 진단 도구
+// - Apps Script 편집기에서 함수 선택 후 "실행" 버튼으로 호출
+// - Ticket & Booth_Kor.pay 시트의 Networking Party Pass 결제완료 행을 전부 훑어서
+//   PartyCodes의 Used(E) / Duplicate(G)에 채워 넣음
+// - 같은 이메일로 2회 이상 구매된 경우 첫 건은 Used, 나머지는 Duplicate(G)에 시트 행번호로 기록
+// =============================================================
+function backfillPartyCodeUsed() {
+  Logger.log('backfillPartyCodeUsed 시작');
+  var sheet = SS.getSheetByName('Ticket & Booth_Kor.pay');
+  if (!sheet) { Logger.log('시트 없음'); return; }
+  var codeSheet = getOrCreatePartyCodeSheet();
+
+  var lastRow = sheet.getLastRow();
+  if (lastRow <= 1) { Logger.log('.pay 데이터 없음'); return; }
+
+  var data = sheet.getRange(2, 1, lastRow - 1, Math.max(sheet.getLastColumn(), 12)).getDisplayValues();
+  var codeData = codeSheet.getDataRange().getValues();
+
+  // PartyCodes: email → 시트 행번호
+  var emailToRow = {};
+  for (var i = 1; i < codeData.length; i++) {
+    var em = normalizeEmail(codeData[i][1]);
+    if (em) emailToRow[em] = i + 1;
+  }
+
+  // .pay 시트를 훑어 이메일별 Networking Party Pass 결제완료 행번호 수집
+  var hitsByEmail = {};
+  for (var r = 0; r < data.length; r++) {
+    var title = String(data[r][0] || '').trim();
+    if (title !== 'Networking Party Pass') continue;
+    var normEmail = normalizeEmail(data[r][2]);
+    if (!normEmail) continue;
+    if (!isPaymentComplete(data[r][11])) continue;
+
+    if (!hitsByEmail[normEmail]) hitsByEmail[normEmail] = [];
+    hitsByEmail[normEmail].push(r + 2); // .pay 시트의 실제 행번호
+  }
+
+  var updated = 0;
+  var dupMarked = 0;
+  var ts = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
+
+  Object.keys(hitsByEmail).forEach(function(em) {
+    var rows = hitsByEmail[em]; // [rowA, rowB, ...]
+    var targetRow = emailToRow[em];
+    if (!targetRow) { Logger.log('PartyCodes에 코드 없음: ' + em); return; }
+
+    var usedCell = codeSheet.getRange(targetRow, 5);
+    var dupCell = codeSheet.getRange(targetRow, 7);
+
+    if (!usedCell.getValue()) {
+      usedCell.setValue(ts);
+      updated++;
+      Logger.log('Used 백필: ' + em + ' @ ' + ts + ' (.pay 행 ' + rows[0] + ')');
+    }
+
+    if (rows.length > 1) {
+      var existing = String(dupCell.getValue() || '');
+      var note = rows.length + '회 구매 (중복) / .pay 행: ' + rows.join(', ');
+      if (existing !== note) {
+        dupCell.setValue(note);
+        dupMarked++;
+        Logger.log('Duplicate 표시: ' + em + ' → ' + note);
+      }
+    }
+  });
+
+  Logger.log('백필 완료: Used ' + updated + '건, Duplicate ' + dupMarked + '건');
 }
 
 // =============================================================
@@ -363,7 +573,19 @@ function getOrCreatePartyCodeSheet() {
     sheet.getRange(1, 1, 1, PARTY_CODE_HEADERS.length).setBackground('#cf1f2e');
     sheet.getRange(1, 1, 1, PARTY_CODE_HEADERS.length).setFontColor('#ffffff');
     sheet.setFrozenRows(1);
+    return sheet;
   }
+  // 기존 시트에 Reserved(F) / Duplicate(G) 헤더가 없으면 보정
+  var headerRow = sheet.getRange(1, 1, 1, PARTY_CODE_HEADERS.length).getValues()[0];
+  var applyHeader = function(col, label) {
+    var cell = sheet.getRange(1, col);
+    cell.setValue(label);
+    cell.setFontWeight('bold');
+    cell.setBackground('#cf1f2e');
+    cell.setFontColor('#ffffff');
+  };
+  if (!headerRow[5]) applyHeader(6, 'Reserved');
+  if (!headerRow[6]) applyHeader(7, 'Duplicate');
   return sheet;
 }
 
@@ -378,47 +600,58 @@ function generatePartyCode() {
 
 /**
  * 인증코드 검증 API (ticket.html에서 호출)
- * - 코드가 존재하고 Used가 비어있으면 valid → 결제 페이지로 이동 허용
- * - Used가 있으면 이미 Networking Party Pass 결제 완료된 코드
- * - 코드 입력 자체로는 Used 처리하지 않음 (횟수 제한 없음)
+ *
+ * 동작:
+ *   - 코드가 없으면 valid:false
+ *   - Used(E) 또는 Reserved(F)에 값이 있으면 → 이미 사용된 코드 (message:'used')
+ *   - 둘 다 비어있으면 → Reserved(F)에 현재 시각 즉시 기록(락) + valid:true 반환
+ *
+ * LockService로 동시 요청을 직렬화하여 중복 결제 차단.
+ * 최종 결제완료 시점은 scanAndSendPartyCodes가 Used(E)에 덮어씀.
  */
 function verifyPartyCode(code) {
   var result = { valid: false };
+  var out = function(r) {
+    return ContentService
+      .createTextOutput(JSON.stringify(r))
+      .setMimeType(ContentService.MimeType.JSON);
+  };
 
-  if (!code) {
-    return ContentService.createTextOutput(
-      JSON.stringify(result)
-    ).setMimeType(ContentService.MimeType.JSON);
+  if (!code) return out(result);
+  code = String(code).trim().toUpperCase();
+
+  var lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(10000);
+  } catch (err) {
+    return out(result);
   }
 
-  code = code.trim().toUpperCase();
+  try {
+    var sheet = getOrCreatePartyCodeSheet();
+    var data = sheet.getDataRange().getValues();
+    for (var i = 1; i < data.length; i++) {
+      if (data[i][0] !== code) continue;
 
-  var sheet = SS.getSheetByName('PartyCodes');
-  if (!sheet) {
-    return ContentService.createTextOutput(
-      JSON.stringify(result)
-    ).setMimeType(ContentService.MimeType.JSON);
-  }
-
-  var data = sheet.getDataRange().getValues();
-  for (var i = 1; i < data.length; i++) {
-    if (data[i][0] === code) {
-      if (data[i][4]) {
-        // Used = Networking Party Pass payment completed
+      var used = data[i][4];
+      var reserved = data[i][5];
+      if (used || reserved) {
         result.valid = false;
         result.message = 'used';
-        break;
+        return out(result);
       }
-      // Valid code — allow payment page redirect (no Used marking on input)
+
+      var ts = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
+      sheet.getRange(i + 1, 6).setValue(ts); // F열 = Reserved
+      SpreadsheetApp.flush();
       result.valid = true;
       result.name = data[i][2];
-      break;
+      return out(result);
     }
+    return out(result);
+  } finally {
+    lock.releaseLock();
   }
-
-  return ContentService.createTextOutput(
-    JSON.stringify(result)
-  ).setMimeType(ContentService.MimeType.JSON);
 }
 
 function sendPartyCodeEmail(email, name, code) {

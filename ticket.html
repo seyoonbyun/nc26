@@ -951,11 +951,11 @@ const i18n = {
         booth_intl_price: 'USD $1,500',
         booth_size_label: 'Booth Size',
         booth_apply_btn: '부스 신청하기',
-        label_early_bird: '얼리버드 (4/20까지)',
+        label_early_bird: '얼리버드 (5/11까지)',
         label_early_bird_line1: '얼리버드',
-        label_early_bird_line2: '(4/20까지)',
+        label_early_bird_line2: '(5/11까지)',
         label_regular: '정상가',
-        early_bird_deadline: '얼리버드 마감: 2026년 4월 20일 23:50',
+        early_bird_deadline: '얼리버드 마감: 2026년 5월 11일 23:50',
         feat_conference: '컨퍼런스 참석',
         feat_networking_party: '네트워킹 파티',
         feat_day12: 'Day 1–3 참가',
@@ -1011,11 +1011,11 @@ const i18n = {
         plan2_early_local: '',
         plan2_regular_price: 'USD $360',
         plan2_regular_local: '',
-        label_early_bird: 'Early Bird (until Apr 20)',
+        label_early_bird: 'Early Bird (until May 11)',
         label_early_bird_line1: 'Early Bird',
-        label_early_bird_line2: '(until Apr 20)',
+        label_early_bird_line2: '(until May 11)',
         label_regular: 'Regular',
-        early_bird_deadline: 'Early Bird ends: April 20, 2026 at 23:50 KST',
+        early_bird_deadline: 'Early Bird ends: May 11, 2026 at 23:50 KST',
         feat_conference: 'Conference Access',
         feat_networking_party: 'Networking Party',
         feat_day12: 'Day 1–3 Included',
@@ -1087,11 +1087,11 @@ const i18n = {
         plan2_early_local: '',
         plan2_regular_price: 'USD $360',
         plan2_regular_local: '',
-        label_early_bird: '早割（4/20まで）',
+        label_early_bird: '早割（5/11まで）',
         label_early_bird_line1: '早割',
-        label_early_bird_line2: '（4/20まで）',
+        label_early_bird_line2: '（5/11まで）',
         label_regular: '通常価格',
-        early_bird_deadline: '早割締切：2026年4月20日 23:50 KST',
+        early_bird_deadline: '早割締切：2026年5月11日 23:50 KST',
         feat_conference: 'カンファレンス参加',
         feat_networking_party: 'ネットワーキングパーティー',
         feat_day12: 'Day 1–3 参加',
@@ -1163,11 +1163,11 @@ const i18n = {
         plan2_early_local: '',
         plan2_regular_price: 'USD $360',
         plan2_regular_local: '',
-        label_early_bird: '优惠价（截止4/20）',
+        label_early_bird: '优惠价（截止5/11）',
         label_early_bird_line1: '优惠价',
-        label_early_bird_line2: '（截止4/20）',
+        label_early_bird_line2: '（截止5/11）',
         label_regular: '原价',
-        early_bird_deadline: '优惠截止：2026年4月20日 23:50 KST',
+        early_bird_deadline: '优惠截止：2026年5月11日 23:50 KST',
         feat_conference: '大会参与',
         feat_networking_party: '人脉扩展晚宴',
         feat_day12: 'Day 1–3 参加',
@@ -1424,6 +1424,45 @@ function submitRegForm(e) {
     }
 }
 
+function showVisitorWarningAndRedirect(paymentUrl) {
+    if (document.getElementById('visitor-warning-modal')) return;
+    const modal = document.createElement('div');
+    modal.id = 'visitor-warning-modal';
+    modal.className = 'fixed inset-0 z-[300] flex items-center justify-center p-4';
+    modal.innerHTML = `
+        <div class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+        <div class="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-2xl shadow-2xl overflow-hidden">
+            <div class="bg-gradient-to-br from-amber-500 to-red-500 p-6 text-center">
+                <span class="material-symbols-outlined text-5xl text-white">warning</span>
+                <h3 class="text-xl font-black text-white mt-2">Visitor 전용 패스 안내</h3>
+            </div>
+            <div class="p-6">
+                <p class="text-slate-800 dark:text-slate-100 text-sm leading-relaxed mb-4">
+                    <strong class="text-primary">Visitor Pass</strong>는 BNI멤버가 아닌 <strong>Visitor 전용 패스</strong>입니다!<br/><br/>
+                    Visitor가 아닌 <strong>멤버 대표님 구매 티켓은 자동취소</strong>되는 점<br/>구매 전 꼭 참고 부탁드립니다!
+                </p>
+                <div class="flex items-center justify-center gap-2 text-xs text-slate-500">
+                    <span class="material-symbols-outlined text-base animate-pulse">hourglass_top</span>
+                    <span><span id="visitor-warning-countdown">5</span>초 후 결제 페이지로 이동합니다...</span>
+                </div>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    document.body.style.overflow = 'hidden';
+    let remaining = 5;
+    const countEl = () => document.getElementById('visitor-warning-countdown');
+    const timer = setInterval(() => {
+        remaining--;
+        const el = countEl();
+        if (el) el.textContent = String(Math.max(0, remaining));
+        if (remaining <= 0) {
+            clearInterval(timer);
+            window.location.href = paymentUrl;
+        }
+    }, 1000);
+}
+
 function showToast(message, isError = false) {
     const toast = document.createElement('div');
     toast.className = `fixed bottom-6 left-4 right-4 md:left-1/2 md:right-auto md:-translate-x-1/2 md:w-auto z-[200] px-5 py-4 rounded-xl text-white font-semibold text-sm shadow-2xl flex items-start gap-3 transition-all ${isError ? 'bg-red-600' : 'bg-emerald-600'}`;
@@ -1453,6 +1492,10 @@ const PAYMENT_URLS_DOMESTIC = {
 
 function goToDomesticPayment(planKey) {
     const paymentUrl = PAYMENT_URLS_DOMESTIC[planKey];
+    if (planKey === 'plan4' && paymentUrl) {
+        showVisitorWarningAndRedirect(paymentUrl);
+        return;
+    }
     if (paymentUrl) { window.location.href = paymentUrl; return; }
     // 아래 기존 폼 코드는 사용하지 않음
     selectedDomesticPlan = planKey;
@@ -1514,7 +1557,7 @@ function verifyPartyCode() {
                 }, 1500);
             } else {
                 if (data.message === 'used') {
-                    errorEl.innerHTML = '이미 사용된 인증코드입니다. 문의: <a href="http://pf.kakao.com/_xewxmrT" target="_blank" class="text-primary hover:underline font-semibold">BNI코리아 내셔널 오피스</a>';
+                    errorEl.innerHTML = '이미 사용된 인증코드입니다.<br/>재구매를 원하시면 <strong>BNI K. Member Pass</strong>를 다시 구매해 주세요.<br/>문의: <a href="http://pf.kakao.com/_xewxmrT" target="_blank" class="text-primary hover:underline font-semibold">BNI코리아 내셔널 오피스</a>';
                 } else {
                     errorEl.textContent = '유효하지 않은 인증코드입니다. 다시 확인해 주세요.';
                 }
@@ -1953,7 +1996,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // Initialize with domestic (Korean)
-// Early Bird Flip Countdown (deadline: April 20, 2026 23:50:00 KST)
+// Early Bird Flip Countdown (deadline: May 11, 2026 23:50:00 KST)
 // Build 0-9 flip items for a single digit
 function buildDigit(ul) {
     ul.innerHTML = '';
@@ -1990,7 +2033,7 @@ const digits = {};
 });
 
 function updateCountdown() {
-    const deadline = new Date('2026-04-20T23:50:00+09:00').getTime();
+    const deadline = new Date('2026-05-11T23:50:00+09:00').getTime();
     const diff = deadline - Date.now();
     if (diff <= 0) {
         Object.values(digits).forEach(ul => flipDigit(ul, 0));
