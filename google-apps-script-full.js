@@ -8,20 +8,22 @@ var TICKET_HEADERS = [
 ];
 
 var BOOTH_HEADERS = [
-  'Timestamp', 'Company', 'Display Name', 'Owner', 'Address',
+  'Timestamp', 'Booth No', 'Company', 'Display Name', 'Owner', 'Address',
   'Phone', 'Fax', 'Homepage', 'Email',
   'Applicant Name', 'Applicant Phone', 'Applicant Email',
   'Country', 'Chapter', 'License', 'Price', 'Logo File', 'Ad File', 'Status'
 ];
 
 var BOOTH_KOR_HEADERS = [
-  'Timestamp', 'Company', 'Owner', 'Address',
+  'Timestamp', 'Booth No', 'Company', 'Owner', 'Address',
   'Phone', 'Fax', 'Homepage', 'Email',
   'Applicant Name', 'Chapter', 'Applicant Phone', 'Applicant Email',
   'License', 'Price', 'Logo File', 'Ad File', 'Status'
 ];
 
-var PARTY_CODE_HEADERS = ['Code', 'Email', 'Name', 'Created', 'Used', 'Reserved', 'Duplicate'];
+var ADMIN_BOOTHS = { 'A19': 'BNI Korea' };
+
+var PARTY_CODE_HEADERS = ['Code', 'Email', 'Name', 'Created', 'Used', 'Reserved'];
 
 function getOrCreateSheet(name, headers) {
   var sheet = SS.getSheetByName(name);
@@ -48,6 +50,23 @@ function formatTimestamp(ts) {
   } catch (err) {
     return ts || '';
   }
+}
+
+// Google 일시 서버 에러에 대응하기 위한 지수 백오프 재시도 래퍼.
+// Sheets/Gmail API 호출을 이걸로 감싸면 503/timeout 등 transient 에러가
+// 대부분 자동 복구됨.
+function retryable(label, fn) {
+  var delays = [500, 1500, 4000, 8000];
+  var lastErr;
+  for (var i = 0; i <= delays.length; i++) {
+    try { return fn(); }
+    catch (err) {
+      lastErr = err;
+      Logger.log('retry[' + label + '] attempt ' + (i + 1) + ' failed: ' + (err && err.message));
+      if (i < delays.length) Utilities.sleep(delays[i]);
+    }
+  }
+  throw lastErr;
 }
 
 function setHyperlink(sheet, row, col, url, label) {
@@ -123,6 +142,7 @@ function doPost(e) {
         var sheet = getOrCreateSheet('Booth_Kor', BOOTH_KOR_HEADERS);
         sheet.appendRow([
           formatTimestamp(p.timestamp),
+          p.boothNo || '',
           p.company || '',
           p.owner || '',
           p.address || '',
@@ -142,16 +162,17 @@ function doPost(e) {
         ]);
 
         var newRow = sheet.getLastRow();
-        if (p.homepage) setHyperlink(sheet, newRow, 7, p.homepage, p.homepage);
-        if (p.email) setHyperlink(sheet, newRow, 8, 'mailto:' + p.email, p.email);
-        if (p.applicantEmail) setHyperlink(sheet, newRow, 12, 'mailto:' + p.applicantEmail, p.applicantEmail);
-        if (logoUrl) setHyperlink(sheet, newRow, 15, logoUrl, logoName);
-        if (adUrl) setHyperlink(sheet, newRow, 16, adUrl, adName);
+        if (p.homepage) setHyperlink(sheet, newRow, 8, p.homepage, p.homepage);
+        if (p.email) setHyperlink(sheet, newRow, 9, 'mailto:' + p.email, p.email);
+        if (p.applicantEmail) setHyperlink(sheet, newRow, 13, 'mailto:' + p.applicantEmail, p.applicantEmail);
+        if (logoUrl) setHyperlink(sheet, newRow, 16, logoUrl, logoName);
+        if (adUrl) setHyperlink(sheet, newRow, 17, adUrl, adName);
 
       } else {
         var sheet = getOrCreateSheet('Booth', BOOTH_HEADERS);
         sheet.appendRow([
           formatTimestamp(p.timestamp),
+          p.boothNo || '',
           p.company || '',
           p.displayName || '',
           p.owner || '',
@@ -173,11 +194,11 @@ function doPost(e) {
         ]);
 
         var newRow = sheet.getLastRow();
-        if (p.homepage) setHyperlink(sheet, newRow, 8, p.homepage, p.homepage);
-        if (p.email) setHyperlink(sheet, newRow, 9, 'mailto:' + p.email, p.email);
-        if (p.applicantEmail) setHyperlink(sheet, newRow, 12, 'mailto:' + p.applicantEmail, p.applicantEmail);
-        if (logoUrl) setHyperlink(sheet, newRow, 17, logoUrl, logoName);
-        if (adUrl) setHyperlink(sheet, newRow, 18, adUrl, adName);
+        if (p.homepage) setHyperlink(sheet, newRow, 9, p.homepage, p.homepage);
+        if (p.email) setHyperlink(sheet, newRow, 10, 'mailto:' + p.email, p.email);
+        if (p.applicantEmail) setHyperlink(sheet, newRow, 13, 'mailto:' + p.applicantEmail, p.applicantEmail);
+        if (logoUrl) setHyperlink(sheet, newRow, 18, logoUrl, logoName);
+        if (adUrl) setHyperlink(sheet, newRow, 19, adUrl, adName);
       }
 
     } else {
@@ -246,10 +267,15 @@ function doGet(e) {
     return verifyPartyCode(e.parameter.code);
   }
 
+  if (action === 'getBoothStatus') {
+    return getBoothStatus();
+  }
+
   // ----- 관리자 API (PropertiesService에 저장된 ADMIN_KEY 필요) -----
   if (action === 'adminBackfill')    return adminGuard(e, function() { backfillPartyCodeUsed(); return { status: 'ok', action: 'adminBackfill' }; });
   if (action === 'adminReadSheet')   return adminGuard(e, function() { return adminReadSheet(e.parameter); });
   if (action === 'adminUpdateCell')  return adminGuard(e, function() { return adminUpdateCell(e.parameter); });
+  if (action === 'adminDeleteRow')   return adminGuard(e, function() { return adminDeleteRow(e.parameter); });
   if (action === 'adminSetUsed')     return adminGuard(e, function() { return adminSetUsed(e.parameter); });
   if (action === 'adminListSheets')  return adminGuard(e, function() { return adminListSheets(); });
   if (action === 'adminRunScan')     return adminGuard(e, function() { scanAndSendPartyCodes(); return { status: 'ok', action: 'adminRunScan' }; });
@@ -257,6 +283,46 @@ function doGet(e) {
   return ContentService.createTextOutput(
     JSON.stringify({ status: 'ok', message: 'NC26 Overseas API is running.' })
   ).setMimeType(ContentService.MimeType.JSON);
+}
+
+// =============================================================
+// Booth status API — 배치도 판매 현황 조회 (public, 인증 불필요)
+//   Status == 'Paid' 인 행만 sold 로 반환
+//   ADMIN_BOOTHS 에 정의된 부스는 항상 admin 으로 포함
+// =============================================================
+function getBoothStatus() {
+  var result = { status: 'ok', sold: [], admin: [] };
+  try {
+    ['Booth_Kor', 'Booth'].forEach(function(sheetName) {
+      var sheet = SS.getSheetByName(sheetName);
+      if (!sheet || sheet.getLastRow() <= 1) return;
+      var lastRow = sheet.getLastRow();
+      var lastCol = sheet.getLastColumn();
+      var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
+      var boothCol = headers.indexOf('Booth No') + 1;
+      var companyCol = headers.indexOf('Company') + 1;
+      var statusCol = headers.indexOf('Status') + 1;
+      if (!boothCol || !companyCol || !statusCol) return;
+      var data = sheet.getRange(2, 1, lastRow - 1, lastCol).getValues();
+      for (var i = 0; i < data.length; i++) {
+        var boothNo = String(data[i][boothCol - 1] || '').trim();
+        var company = String(data[i][companyCol - 1] || '').trim();
+        var status = String(data[i][statusCol - 1] || '').trim();
+        if (!boothNo) continue;
+        if (status.toLowerCase() === 'paid') {
+          result.sold.push({ booth: boothNo, company: company });
+        }
+      }
+    });
+    Object.keys(ADMIN_BOOTHS).forEach(function(b) {
+      result.admin.push({ booth: b, company: ADMIN_BOOTHS[b] });
+    });
+  } catch (err) {
+    result.status = 'error';
+    result.message = String(err && err.message || err);
+  }
+  return ContentService.createTextOutput(JSON.stringify(result))
+    .setMimeType(ContentService.MimeType.JSON);
 }
 
 // =============================================================
@@ -336,7 +402,18 @@ function adminUpdateCell(params) {
   return { status: 'ok', sheet: name, row: row, col: col, value: params.value };
 }
 
-// PartyCodes 특정 코드 행의 Used / Duplicate 값을 직접 기록
+function adminDeleteRow(params) {
+  var name = params.sheet;
+  var row = parseInt(params.row, 10);
+  if (!name || !row || row < 2) return { status: 'error', message: 'sheet, row (>=2) required' };
+  var sheet = SS.getSheetByName(name);
+  if (!sheet) return { status: 'error', message: 'sheet not found' };
+  if (row > sheet.getLastRow()) return { status: 'error', message: 'row out of range' };
+  sheet.deleteRow(row);
+  return { status: 'ok', sheet: name, deletedRow: row };
+}
+
+// PartyCodes 특정 코드 행의 Used / Reserved 값을 직접 기록
 function adminSetUsed(params) {
   var code = String(params.code || '').trim().toUpperCase();
   if (!code) return { status: 'error', message: 'code required' };
@@ -347,7 +424,6 @@ function adminSetUsed(params) {
       var row = i + 1;
       if (params.used !== undefined) sheet.getRange(row, 5).setValue(params.used);
       if (params.reserved !== undefined) sheet.getRange(row, 6).setValue(params.reserved);
-      if (params.duplicate !== undefined) sheet.getRange(row, 7).setValue(params.duplicate);
       return { status: 'ok', code: code, row: row };
     }
   }
@@ -409,92 +485,100 @@ function normalizeEmail(v) {
   return String(v).trim().toLowerCase();
 }
 
+// 핵심 프로세스 딱 두 가지:
+//   Case 1. Ticket & Booth_Kor.pay 에 BNI K. Member Pass + 결제 완료 → PartyCodes 에 코드 발급 + 메일 발송
+//   Case 2. Ticket & Booth_Kor.pay 에 Networking Party Pass + 결제 완료 → PartyCodes 의 해당 이메일 Used 에 시각 기록
+// 나머지(중복 감지·태깅 등)는 전부 제거. 이 두 동작만 무조건 정확하게 돌린다.
 function scanAndSendPartyCodes() {
-  Logger.log('scanAndSendPartyCodes 시작');
-  var sheet = SS.getSheetByName('Ticket & Booth_Kor.pay');
-  if (!sheet) { Logger.log('시트 없음: Ticket & Booth_Kor.pay'); return; }
-
-  var lastRow = sheet.getLastRow();
-  if (lastRow <= 1) { Logger.log('데이터 없음'); return; }
-
-  var lastCol = Math.max(sheet.getLastColumn(), 12);
-  var data = sheet.getRange(2, 1, lastRow - 1, lastCol).getDisplayValues();
-  var codeSheet = getOrCreatePartyCodeSheet();
-  var codeData = codeSheet.getDataRange().getValues();
-
-  // PartyCodes의 Email(B열) 기준으로 인덱스 매핑 (정규화하여 저장)
-  var issuedEmails = {};
-  for (var i = 1; i < codeData.length; i++) {
-    var em = normalizeEmail(codeData[i][1]);
-    if (em) issuedEmails[em] = i;
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(0)) {
+    Logger.log('scanAndSendPartyCodes 스킵: 다른 실행 진행 중');
+    return;
   }
 
-  var sentCount = 0;
-  var usedCount = 0;
+  try {
+    SpreadsheetApp.flush();
 
-  for (var r = 0; r < data.length; r++) {
-    var title = String(data[r][0] || '').trim();
-    var name = data[r][1];
-    var email = data[r][2];
-    var statusPayment = data[r][11];
-    var normEmail = normalizeEmail(email);
+    var paySheet = SS.getSheetByName('Ticket & Booth_Kor.pay');
+    if (!paySheet) { Logger.log('시트 없음: Ticket & Booth_Kor.pay'); return; }
+    if (paySheet.getLastRow() <= 1) { Logger.log('Ticket & Booth_Kor.pay 데이터 없음'); return; }
 
-    if (!normEmail || !isPaymentComplete(statusPayment)) continue;
+    var codeSheet = getOrCreatePartyCodeSheet();
 
-    if (title === 'BNI K. Member Pass') {
-      if (issuedEmails[normEmail] !== undefined) continue;
+    var payCols = Math.max(paySheet.getLastColumn(), 12);
+    var payData = paySheet.getRange(2, 1, paySheet.getLastRow() - 1, payCols).getDisplayValues();
+    var codeData = codeSheet.getDataRange().getValues();
 
-      var code = generatePartyCode();
-      var timestamp = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
-      Logger.log('발급: ' + email + ' 코드: ' + code);
-      codeSheet.appendRow([code, email, name, timestamp, '', '', '']);
-      issuedEmails[normEmail] = codeSheet.getLastRow() - 1;
-
-      sendPartyCodeEmail(email, name, code);
-      Logger.log('이메일 발송 완료: ' + email);
-      sentCount++;
+    // PartyCodes: email → codeData 인덱스 (sheet row = idx + 1)
+    var codeByEmail = {};
+    for (var i = 1; i < codeData.length; i++) {
+      var em = normalizeEmail(codeData[i][1]);
+      if (em) codeByEmail[em] = i;
     }
 
-    if (title === 'Networking Party Pass') {
-      var codeRowIdx = issuedEmails[normEmail];
-      if (codeRowIdx === undefined) {
-        Logger.log('Used 스킵 (해당 이메일의 발급 코드 없음): ' + email);
+    var issued = 0;
+    var used = 0;
+
+    for (var r = 0; r < payData.length; r++) {
+      var title = String(payData[r][0] || '').trim();
+      var name = payData[r][1];
+      var email = payData[r][2];
+      var status = payData[r][11];
+      var normEmail = normalizeEmail(email);
+
+      if (!normEmail || !isPaymentComplete(status)) continue;
+
+      // ── Case 1: BNI K. Member Pass + 결제 완료 → 코드 발급 + 메일 발송
+      if (title === 'BNI K. Member Pass') {
+        if (codeByEmail[normEmail] !== undefined) continue; // 이미 발급됨 → 스킵
+
+        var code = generatePartyCode();
+        var issuedAt = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
+        codeSheet.appendRow([code, email, name, issuedAt, '', '', '']);
+        SpreadsheetApp.flush();
+
+        var newIdx = codeSheet.getLastRow() - 1;
+        codeByEmail[normEmail] = newIdx;
+        codeData[newIdx] = [code, email, name, issuedAt, '', '', ''];
+
+        try {
+          sendPartyCodeEmail(email, name, code);
+          Logger.log('코드 발급+메일 발송: ' + email + ' / ' + code);
+          issued++;
+        } catch (err) {
+          Logger.log('메일 발송 실패(코드는 생성됨): ' + email + ' — ' + (err && err.message));
+        }
         continue;
       }
 
-      // E열 Used에 첫 결제완료 시각 기록. 이미 있으면 중복이므로 G열(Duplicate)에 기록.
-      // (F열 Reserved는 verifyPartyCode가 락 용도로 사용하며 건드리지 않음)
-      var payRow = r + 2; // .pay 시트 실제 행번호
-      var usedCell = codeSheet.getRange(codeRowIdx + 1, 5);
-      var timestamp = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
-
-      if (!usedCell.getValue()) {
-        usedCell.setValue(timestamp);
-        Logger.log('Used 처리: ' + email + ' @ ' + timestamp + ' (.pay 행 ' + payRow + ')');
-        usedCount++;
-      } else {
-        // 중복 결제 발생 — Duplicate(G)에 행번호 누적
-        var dupCell = codeSheet.getRange(codeRowIdx + 1, 7);
-        var existing = String(dupCell.getValue() || '');
-        var tag = '.pay 행 ' + payRow;
-        if (existing.indexOf(tag) === -1) {
-          dupCell.setValue(existing ? (existing + ' / ' + tag + ' @ ' + timestamp)
-                                    : ('중복 구매 / ' + tag + ' @ ' + timestamp));
-          Logger.log('Duplicate 감지: ' + email + ' (.pay 행 ' + payRow + ')');
+      // ── Case 2: Networking Party Pass + 결제 완료 → Used 기록
+      if (title === 'Networking Party Pass') {
+        var idx = codeByEmail[normEmail];
+        if (idx === undefined) {
+          Logger.log('경고: 코드 없는 이메일이 Networking Party Pass 결제완료 → ' + email + ' (.pay 행 ' + (r + 2) + ')');
+          continue;
         }
+        if (codeData[idx][4]) continue; // Used 이미 있음 → 멱등 스킵
+
+        var usedAt = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
+        codeSheet.getRange(idx + 1, 5).setValue(usedAt);
+        codeData[idx][4] = usedAt;
+        Logger.log('Used 기록: ' + email + ' @ ' + usedAt);
+        used++;
       }
     }
-  }
 
-  Logger.log('완료: ' + sentCount + '건 발급, ' + usedCount + '건 Used');
+    Logger.log('scan 완료: 발급 ' + issued + '건, Used ' + used + '건');
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 // =============================================================
-// 수동 백필 / 진단 도구
-// - Apps Script 편집기에서 함수 선택 후 "실행" 버튼으로 호출
-// - Ticket & Booth_Kor.pay 시트의 Networking Party Pass 결제완료 행을 전부 훑어서
-//   PartyCodes의 Used(E) / Duplicate(G)에 채워 넣음
-// - 같은 이메일로 2회 이상 구매된 경우 첫 건은 Used, 나머지는 Duplicate(G)에 시트 행번호로 기록
+// 수동 백필 (Used 컬럼만)
+// - Ticket & Booth_Kor.pay의 Networking Party Pass 결제완료 이메일에 대해
+//   PartyCodes Used가 비어있으면 현재 시각으로 채움
+// - Apps Script 편집기에서 backfillPartyCodeUsed 선택 후 실행
 // =============================================================
 function backfillPartyCodeUsed() {
   Logger.log('backfillPartyCodeUsed 시작');
@@ -503,61 +587,233 @@ function backfillPartyCodeUsed() {
   var codeSheet = getOrCreatePartyCodeSheet();
 
   var lastRow = sheet.getLastRow();
-  if (lastRow <= 1) { Logger.log('.pay 데이터 없음'); return; }
+  if (lastRow <= 1) { Logger.log('Ticket & Booth_Kor.pay 데이터 없음'); return; }
 
   var data = sheet.getRange(2, 1, lastRow - 1, Math.max(sheet.getLastColumn(), 12)).getDisplayValues();
   var codeData = codeSheet.getDataRange().getValues();
 
-  // PartyCodes: email → 시트 행번호
   var emailToRow = {};
   for (var i = 1; i < codeData.length; i++) {
     var em = normalizeEmail(codeData[i][1]);
     if (em) emailToRow[em] = i + 1;
   }
 
-  // .pay 시트를 훑어 이메일별 Networking Party Pass 결제완료 행번호 수집
-  var hitsByEmail = {};
+  var paidEmails = {};
   for (var r = 0; r < data.length; r++) {
-    var title = String(data[r][0] || '').trim();
-    if (title !== 'Networking Party Pass') continue;
-    var normEmail = normalizeEmail(data[r][2]);
-    if (!normEmail) continue;
+    if (String(data[r][0] || '').trim() !== 'Networking Party Pass') continue;
     if (!isPaymentComplete(data[r][11])) continue;
-
-    if (!hitsByEmail[normEmail]) hitsByEmail[normEmail] = [];
-    hitsByEmail[normEmail].push(r + 2); // .pay 시트의 실제 행번호
+    var normEmail = normalizeEmail(data[r][2]);
+    if (normEmail) paidEmails[normEmail] = true;
   }
 
   var updated = 0;
-  var dupMarked = 0;
   var ts = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
 
-  Object.keys(hitsByEmail).forEach(function(em) {
-    var rows = hitsByEmail[em]; // [rowA, rowB, ...]
+  Object.keys(paidEmails).forEach(function(em) {
     var targetRow = emailToRow[em];
     if (!targetRow) { Logger.log('PartyCodes에 코드 없음: ' + em); return; }
-
     var usedCell = codeSheet.getRange(targetRow, 5);
-    var dupCell = codeSheet.getRange(targetRow, 7);
-
     if (!usedCell.getValue()) {
       usedCell.setValue(ts);
       updated++;
-      Logger.log('Used 백필: ' + em + ' @ ' + ts + ' (.pay 행 ' + rows[0] + ')');
-    }
-
-    if (rows.length > 1) {
-      var existing = String(dupCell.getValue() || '');
-      var note = rows.length + '회 구매 (중복) / .pay 행: ' + rows.join(', ');
-      if (existing !== note) {
-        dupCell.setValue(note);
-        dupMarked++;
-        Logger.log('Duplicate 표시: ' + em + ' → ' + note);
-      }
+      Logger.log('Used 백필: ' + em + ' @ ' + ts);
     }
   });
 
-  Logger.log('백필 완료: Used ' + updated + '건, Duplicate ' + dupMarked + '건');
+  Logger.log('백필 완료: Used ' + updated + '건');
+}
+
+// =============================================================
+// PartyCodes 중복 코드 감사 (read-only)
+// - 같은 이메일로 여러 코드가 발급된 케이스(17:44~20:11 race condition 피해) 전수 조사
+// - 로그에만 출력, 시트는 건드리지 않음
+// - 실행: Apps Script 편집기에서 auditDuplicateCodes 선택 후 ▶
+// =============================================================
+function auditDuplicateCodes() {
+  Logger.log('auditDuplicateCodes 시작');
+  var codeSheet = getOrCreatePartyCodeSheet();
+  var data = codeSheet.getDataRange().getValues();
+
+  var rowsByEmail = {};
+  for (var i = 1; i < data.length; i++) {
+    var em = normalizeEmail(data[i][1]);
+    if (!em) continue;
+    if (!rowsByEmail[em]) rowsByEmail[em] = [];
+    rowsByEmail[em].push({
+      sheetRow: i + 1,
+      code: data[i][0],
+      name: data[i][2],
+      created: data[i][3],
+      used: data[i][4],
+      reserved: data[i][5]
+    });
+  }
+
+  var affectedEmails = 0;
+  var totalDupRows = 0;
+  Object.keys(rowsByEmail).forEach(function(em) {
+    var rows = rowsByEmail[em];
+    if (rows.length <= 1) return;
+    affectedEmails++;
+    totalDupRows += (rows.length - 1);
+    Logger.log('중복 발급 감지: ' + em + ' → ' + rows.length + '개 코드');
+    rows.forEach(function(r) {
+      Logger.log('  · 행 ' + r.sheetRow + ' | ' + r.code + ' | Created=' + r.created + ' | Used=' + (r.used || '-') + ' | Reserved=' + (r.reserved || '-'));
+    });
+  });
+
+  Logger.log('auditDuplicateCodes 완료: 영향 이메일 ' + affectedEmails + '건, 삭제 대상 ' + totalDupRows + '개 행 예상');
+  Logger.log('(실제 정리는 cleanupDuplicateCodes 함수 실행)');
+}
+
+// =============================================================
+// PartyCodes 중복 코드 정리 (destructive — 반드시 auditDuplicateCodes 로그로 확인 후 실행)
+//
+// 동작 플로우 (이메일 기준 원자적 처리):
+//   1) 같은 이메일이 여러 코드 행으로 등록된 경우, keeper 1개 선정
+//      - Used 또는 Reserved가 차있는 행을 우선 (유저가 실제 사용/검증한 코드)
+//      - 없으면 Created가 가장 오래된 행 (유저가 먼저 받은 코드)
+//   2) keeper 행에 나머지 행의 비어있지 않은 state(Used/Reserved/Duplicate) 머지
+//      → consolidate write 실패 시 이 이메일 전체 스킵 (삭제·메일 모두 안 함)
+//   3) keeper의 유효 코드로 정정 안내 이메일 발송 (sendClarificationEmail)
+//      → 메일 실패 시 삭제 스킵 (유저에게 알리지 못한 채 데이터만 지우는 상황 방지)
+//   4) 이메일 성공 시에만 나머지 행 삭제 대상에 등록
+//   5) 전체 스캔 끝난 뒤 행 번호 내림차순으로 deleteRow 일괄 실행 (번호 밀림 방지)
+//
+// 안전장치:
+//   - LockService.tryLock(5000) — scanAndSendPartyCodes와 동시 실행 차단
+//   - 각 단계 실패 시 조기 return으로 이 이메일의 뒷 단계 스킵 (부분 실패 시 데이터 보존)
+//   - retryable로 모든 Sheets/Gmail 호출 보호
+// =============================================================
+function cleanupDuplicateCodes() {
+  _cleanupDuplicateCodesCore(false);
+}
+
+// 이메일 발송 건너뛰고 DB만 정리 — Gmail 할당량 소진 시 또는 수동으로 이미 안내 완료한 경우 사용.
+// 작동: 이메일 발송 단계만 스킵. 그 외 (lock, consolidate, delete) 동일.
+function cleanupDuplicateCodesNoEmail() {
+  _cleanupDuplicateCodesCore(true);
+}
+
+function _cleanupDuplicateCodesCore(skipEmail) {
+  var lock = LockService.getScriptLock();
+  if (!lock.tryLock(5000)) {
+    Logger.log('cleanupDuplicateCodes 스킵: 다른 실행이 진행 중');
+    return;
+  }
+  try {
+    Logger.log('cleanupDuplicateCodes 시작 (skipEmail=' + skipEmail + ')');
+    var codeSheet = getOrCreatePartyCodeSheet();
+    var data = retryable('cleanupDup read PartyCodes', function() {
+      return codeSheet.getDataRange().getValues();
+    });
+
+    var rowsByEmail = {};
+    for (var i = 1; i < data.length; i++) {
+      var em = normalizeEmail(data[i][1]);
+      if (!em) continue;
+      if (!rowsByEmail[em]) rowsByEmail[em] = [];
+      rowsByEmail[em].push({ sheetRow: i + 1, data: data[i].slice() });
+    }
+
+    var toDeleteRows = [];
+    var emailsProcessed = 0;
+    var consolidationWrites = 0;
+    var emailsNotified = 0;
+
+    Object.keys(rowsByEmail).forEach(function(em) {
+      var rows = rowsByEmail[em];
+      if (rows.length <= 1) return;
+
+      // 1) Keeper 선정: Used/Reserved 있는 행 우선, 없으면 Created 가장 오래된 행
+      var keeperIdx = -1;
+      for (var k = 0; k < rows.length; k++) {
+        if (rows[k].data[4] || rows[k].data[5]) { keeperIdx = k; break; }
+      }
+      if (keeperIdx === -1) {
+        keeperIdx = 0;
+        for (var k = 1; k < rows.length; k++) {
+          if (String(rows[k].data[3] || '') < String(rows[keeperIdx].data[3] || '')) keeperIdx = k;
+        }
+      }
+
+      var keeper = rows[keeperIdx];
+      var dups = [];
+      for (var k = 0; k < rows.length; k++) { if (k !== keeperIdx) dups.push(rows[k]); }
+
+      // 2) State consolidate — keeper에 빈 필드만 dup에서 보충 (Used/Reserved만)
+      var merged = {
+        used: keeper.data[4],
+        reserved: keeper.data[5]
+      };
+      dups.forEach(function(d) {
+        if (!merged.used && d.data[4]) merged.used = d.data[4];
+        if (!merged.reserved && d.data[5]) merged.reserved = d.data[5];
+      });
+
+      var changed = (merged.used !== keeper.data[4]) || (merged.reserved !== keeper.data[5]);
+
+      if (changed) {
+        try {
+          retryable('consolidate keeper', function() {
+            codeSheet.getRange(keeper.sheetRow, 5, 1, 2).setValues([[
+              merged.used || '',
+              merged.reserved || ''
+            ]]);
+          });
+          Logger.log('Consolidate: ' + em + ' → keeper 행 ' + keeper.sheetRow + ' (code ' + keeper.data[0] + ')');
+          consolidationWrites++;
+        } catch (err) {
+          Logger.log('Consolidate 실패, 이 이메일 전체 스킵: ' + em + ' — ' + (err && err.message));
+          return;
+        }
+      } else {
+        Logger.log('Keep: ' + em + ' → 행 ' + keeper.sheetRow + ' (code ' + keeper.data[0] + ')');
+      }
+
+      // 3) 정정 안내 이메일 발송 — 실패 시 이 이메일의 삭제는 스킵
+      var userEmail = keeper.data[1];
+      var userName = String(keeper.data[2] || '').trim() || '고객';
+      var validCode = keeper.data[0];
+      if (skipEmail) {
+        Logger.log('이메일 발송 스킵(skipEmail 모드): ' + userEmail);
+      } else {
+        try {
+          retryable('send clarification email', function() {
+            sendClarificationEmail(userEmail, userName, validCode);
+          });
+          Logger.log('Clarification 발송 완료: ' + userEmail + ' → code ' + validCode);
+          emailsNotified++;
+        } catch (err) {
+          Logger.log('Clarification 발송 실패, 이 이메일 삭제 스킵 (데이터 보존): ' + em + ' — ' + (err && err.message));
+          return;
+        }
+      }
+
+      // 4) 이메일까지 성공한 경우에만 dup 행을 삭제 대상에 등록
+      dups.forEach(function(d) {
+        toDeleteRows.push(d.sheetRow);
+        Logger.log('  삭제 예정: 행 ' + d.sheetRow + ' · code ' + d.data[0]);
+      });
+      emailsProcessed++;
+    });
+
+    // 5) 내림차순으로 deleteRow 일괄 실행 (번호 밀림 방지)
+    toDeleteRows.sort(function(a, b) { return b - a; });
+    var deleted = 0;
+    toDeleteRows.forEach(function(rowNum) {
+      try {
+        retryable('deleteRow ' + rowNum, function() { codeSheet.deleteRow(rowNum); });
+        deleted++;
+      } catch (err) {
+        Logger.log('deleteRow ' + rowNum + ' 실패: ' + (err && err.message));
+      }
+    });
+
+    Logger.log('cleanupDuplicateCodes 완료: 영향 이메일 ' + emailsProcessed + '건, consolidate ' + consolidationWrites + '건, 안내메일 ' + emailsNotified + '건, 삭제 ' + deleted + '/' + toDeleteRows.length + '건');
+  } finally {
+    lock.releaseLock();
+  }
 }
 
 // =============================================================
@@ -575,7 +831,7 @@ function getOrCreatePartyCodeSheet() {
     sheet.setFrozenRows(1);
     return sheet;
   }
-  // 기존 시트에 Reserved(F) / Duplicate(G) 헤더가 없으면 보정
+  // Reserved(F) 헤더가 없으면 보정
   var headerRow = sheet.getRange(1, 1, 1, PARTY_CODE_HEADERS.length).getValues()[0];
   var applyHeader = function(col, label) {
     var cell = sheet.getRange(1, col);
@@ -585,7 +841,17 @@ function getOrCreatePartyCodeSheet() {
     cell.setFontColor('#ffffff');
   };
   if (!headerRow[5]) applyHeader(6, 'Reserved');
-  if (!headerRow[6]) applyHeader(7, 'Duplicate');
+
+  // 레거시 Duplicate(G) / EmailSent(H) 컬럼 자동 제거 (신규 로직 미사용)
+  // 끝 열부터 먼저 지워야 인덱스 밀림 없음
+  while (sheet.getLastColumn() > 6) {
+    var extraHeader = String(sheet.getRange(1, sheet.getLastColumn()).getValue() || '').trim();
+    if (extraHeader === 'Duplicate' || extraHeader === 'EmailSent' || extraHeader === '') {
+      sheet.deleteColumn(sheet.getLastColumn());
+    } else {
+      break;
+    }
+  }
   return sheet;
 }
 
@@ -609,8 +875,14 @@ function generatePartyCode() {
  * LockService로 동시 요청을 직렬화하여 중복 결제 차단.
  * 최종 결제완료 시점은 scanAndSendPartyCodes가 Used(E)에 덮어씀.
  */
+// 코드 검증 — PartyCodes 시트의 Used(E) 컬럼만 체크
+// - 코드가 존재하고 Used가 비어있으면 valid='true' + name 반환
+// - Used에 값이 있으면 valid='false', message='used'
+// - 코드를 찾지 못하면 valid='false'
+// Reserved 컬럼은 건드리지 않음 (읽기 전용 검증)
+// Typebot 호환: valid를 문자열 'true'/'false'로 반환
 function verifyPartyCode(code) {
-  var result = { valid: false };
+  var result = { valid: 'false' };
   var out = function(r) {
     return ContentService
       .createTextOutput(JSON.stringify(r))
@@ -620,38 +892,83 @@ function verifyPartyCode(code) {
   if (!code) return out(result);
   code = String(code).trim().toUpperCase();
 
-  var lock = LockService.getScriptLock();
-  try {
-    lock.waitLock(10000);
-  } catch (err) {
-    return out(result);
-  }
+  var sheet = getOrCreatePartyCodeSheet();
+  var data = sheet.getDataRange().getValues();
+  for (var i = 1; i < data.length; i++) {
+    if (data[i][0] !== code) continue;
 
-  try {
-    var sheet = getOrCreatePartyCodeSheet();
-    var data = sheet.getDataRange().getValues();
-    for (var i = 1; i < data.length; i++) {
-      if (data[i][0] !== code) continue;
-
-      var used = data[i][4];
-      var reserved = data[i][5];
-      if (used || reserved) {
-        result.valid = false;
-        result.message = 'used';
-        return out(result);
-      }
-
-      var ts = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
-      sheet.getRange(i + 1, 6).setValue(ts); // F열 = Reserved
-      SpreadsheetApp.flush();
-      result.valid = true;
-      result.name = data[i][2];
+    if (data[i][4]) {
+      result.valid = 'false';
+      result.message = 'used';
       return out(result);
     }
+
+    result.valid = 'true';
+    result.name = data[i][2];
     return out(result);
-  } finally {
-    lock.releaseLock();
   }
+  return out(result);
+}
+
+// 오늘 남은 Gmail 발송 할당량 확인 (digits만 반환)
+function checkEmailQuota() {
+  var remaining = MailApp.getRemainingDailyQuota();
+  Logger.log('오늘 남은 이메일 발송 가능 수: ' + remaining);
+  return remaining;
+}
+
+// cleanupDuplicateCodes에서 강덕자에게 보낼 정정 안내 메일을 어드민에게만 먼저 발송.
+// 실제 유저에겐 발송되지 않음. 본문 검수 후 문제 없으면 cleanupDuplicateCodes 실행.
+function previewClarificationEmail() {
+  var name = '강덕자';
+  var code = 'NP-DFUF52A7';
+  var adminTo = ADMIN_EMAILS_KOR.split(',')[0].trim(); // 첫 어드민 주소 (hq@joy-bnikorea.com)
+  sendClarificationEmail(adminTo, name, code);
+  Logger.log('Preview 발송 완료: ' + adminTo + ' (cc: ' + ADMIN_EMAILS_KOR + '). 유저에겐 발송 안 됨.');
+}
+
+// 중복 발송 정정 안내 이메일 — cleanupDuplicateCodes에서만 사용
+// 유저에게 "시스템 오류로 여러 코드가 발송되었고, 유효한 코드는 하나뿐" 이라고 명시적으로 안내
+function sendClarificationEmail(email, name, code) {
+  var subject = '[Accelerate 2026] Networking Party Pass 인증코드 재안내 (중복 발송 정정)';
+
+  var body = '<!DOCTYPE html>'
+    + '<html><head><meta charset="utf-8"/></head>'
+    + '<body style="margin:0;padding:0;background:#f5f5f5;font-family:Helvetica Neue,Arial,sans-serif;">'
+    + '<div style="max-width:600px;margin:40px auto;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">'
+    + '<div style="background:linear-gradient(135deg,#cf1f2e,#a31824);padding:32px 40px;text-align:center;">'
+    + '<h1 style="color:#ffffff;margin:0;font-size:22px;font-weight:800;letter-spacing:1px;">ACCELERATE 2026</h1>'
+    + '<p style="color:rgba(255,255,255,0.85);margin:8px 0 0;font-size:13px;">BNI Korea National Conference</p>'
+    + '</div>'
+    + '<div style="padding:40px;">'
+    + '<h2 style="color:#1a1a1a;font-size:20px;margin:0 0 8px;">\uC778\uC99D\uCF54\uB4DC \uC7AC\uC548\uB0B4</h2>'
+    + '<p style="color:#666;font-size:14px;line-height:1.6;margin:0 0 20px;">'
+    + '<strong>' + name + '</strong>\uB2D8, \uC548\uB155\uD558\uC138\uC694.<br/><br/>'
+    + '\uC2DC\uC2A4\uD15C \uC624\uB958\uB85C \uC778\uD574 \uB3D9\uC77C \uC774\uBA54\uC77C\uB85C <strong>\uB3D9\uC77C\uD55C \uC778\uC99D\uCF54\uB4DC\uAC00 \uC5EC\uB7EC \uBC88 \uBC1C\uC1A1\uB418\uC5C8\uC744 \uC218 \uC788\uC2B5\uB2C8\uB2E4</strong>. \uBD88\uD3B8\uC744 \uB4DC\uB824 \uC9C4\uC2EC\uC73C\uB85C \uC0AC\uACFC\uB4DC\uB9BD\uB2C8\uB2E4.<br/><br/>'
+    + '\uC544\uB798 <strong style="color:#cf1f2e;">\uD55C \uAC1C\uC758 \uCF54\uB4DC\uB9CC \uC720\uD6A8</strong>\uD558\uBA70, \uC774\uC804\uC5D0 \uBC1B\uC73C\uC2E0 \uB2E4\uB978 \uCF54\uB4DC\uB294 \uC2DC\uC2A4\uD15C\uC5D0\uC11C \uBB34\uD6A8 \uCC98\uB9AC\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uD2F0\uCF13 \uAD6C\uB9E4 \uC2DC \uAC00\uC7A5 \uC544\uB798 \uCF54\uB4DC\uB9CC \uC0AC\uC6A9\uD574 \uC8FC\uC138\uC694.</p>'
+    + '<div style="background:#fffbeb;border:2px dashed #f59e0b;border-radius:12px;padding:28px;margin-bottom:24px;text-align:center;">'
+    + '<p style="color:#b45309;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:2px;margin:0 0 12px;">\uC720\uD6A8\uD55C \uCF54\uB4DC (Valid Code)</p>'
+    + '<p style="color:#1a1a1a;font-size:28px;font-weight:900;margin:0 0 8px;letter-spacing:4px;font-family:monospace;">' + code + '</p>'
+    + '<p style="color:#999;font-size:12px;margin:0;">\uD2F0\uCF13 \uAD6C\uB9E4 \uD398\uC774\uC9C0\uC5D0\uC11C \uC774 \uCF54\uB4DC\uB97C \uC785\uB825\uD574 \uC8FC\uC138\uC694</p>'
+    + '</div>'
+    + '<div style="background:#fff8f8;border-left:4px solid #cf1f2e;padding:16px 20px;border-radius:0 8px 8px 0;margin-bottom:24px;">'
+    + '<p style="margin:0;font-size:13px;color:#333;line-height:1.8;">'
+    + '<strong>\uC0AC\uC6A9 \uBC29\uBC95:</strong><br/>'
+    + '1. <a href="https://www.nc26-bnikorea.com" style="color:#cf1f2e;">www.nc26-bnikorea.com</a> \uC811\uC18D<br/>'
+    + '2. Networking Party Pass \uCE74\uB4DC\uC758 <strong>\u201C\uC778\uC99D\uCF54\uB4DC \uC785\uB825\u201D</strong> \uBC84\uD2BC \uD074\uB9AD<br/>'
+    + '3. \uC704 \uC720\uD6A8\uD55C \uCF54\uB4DC \uC785\uB825 \uD6C4 \uACB0\uC81C \uC9C4\uD589</p>'
+    + '</div>'
+    + '<p style="color:#999;font-size:12px;line-height:1.6;margin:0;">'
+    + '\uBB38\uC758\uC0AC\uD56D: '
+    + '<a href="mailto:admin@bni-korea.com" style="color:#cf1f2e;">admin@bni-korea.com</a>'
+    + ' \uB610\uB294 <a href="http://pf.kakao.com/_xewxmrT/chat" style="color:#cf1f2e;">\uCE74\uCE74\uC624\uD1A1 \uCC44\uD305</a></p>'
+    + '</div>'
+    + '<div style="background:#f9f9f9;border-top:1px solid #eee;padding:20px 40px;text-align:center;">'
+    + '<p style="margin:0;font-size:11px;color:#bbb;">&copy; 2026 BNI Korea. All rights reserved.</p>'
+    + '</div></div></body></html>';
+
+  MailApp.sendEmail({ to: email, cc: ADMIN_EMAILS_KOR, subject: subject, htmlBody: body });
+  Logger.log('Clarification email sent to: ' + email + ' with code: ' + code);
 }
 
 function sendPartyCodeEmail(email, name, code) {

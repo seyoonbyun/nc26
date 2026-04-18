@@ -39,6 +39,32 @@
         .faq-open .faq-answer { max-height: 500px; }
         .faq-open .faq-chevron { transform: rotate(180deg); }
         .tab-active { border-bottom: 3px solid #cf1f2e; color: #ffffff; }
+
+        /* Booth map buttons */
+        .booth-btn {
+            width: 42px; height: 52px;
+            padding: 2px;
+            font-size: 10px;
+            line-height: 1.1;
+            gap: 1px;
+        }
+        .booth-btn .booth-num { font-size: 11px; font-weight: 800; letter-spacing: 0.02em; }
+        .booth-btn .booth-co {
+            display: block;
+            font-size: 8px;
+            font-weight: 600;
+            max-width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            padding: 0 2px;
+            opacity: 0.95;
+        }
+        @media (min-width: 768px) {
+            .booth-btn { width: 56px; height: 64px; font-size: 11px; }
+            .booth-btn .booth-num { font-size: 13px; }
+            .booth-btn .booth-co { font-size: 9px; }
+        }
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-thumb { background: #cf1f2e; border-radius: 10px; }
 
@@ -374,7 +400,7 @@ function toggleMobileMenu() {
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> <span data-i18n="feat_party_only"></span></li>
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-red-400 text-lg">cancel</span> <span class="text-slate-400" data-i18n="feat_no_conference"></span></li>
 </ul>
-<button onclick="openPartyCodeModal()" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all flex items-center justify-center gap-2"><span class="material-symbols-outlined text-lg">vpn_key</span> <span>인증코드 입력</span></button>
+<button onclick="window.location.href=TYPEBOT_PARTY_URL" class="w-full py-3 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all flex items-center justify-center gap-2"><span class="material-symbols-outlined text-lg">vpn_key</span> <span>인증코드 입력</span></button>
 <p class="text-center text-[10px] text-slate-400 mt-2">BNI K. Member Pass 구매자 전용</p>
 </div>
 <!-- Booth Card (Domestic) -->
@@ -395,7 +421,95 @@ function toggleMobileMenu() {
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> 프로그램북 광고 게재</li>
 <li class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-lg">check_circle</span> 셋팅: 행사 당일 새벽 2시~</li>
 </ul>
-<button onclick="openBoothModal('domestic')" class="w-full py-3 rounded-xl font-bold bg-amber-500 text-white hover:bg-primary transition-all shadow-lg shadow-amber-300/30">부스 신청하기</button>
+<button onclick="openBoothMapModal()" class="w-full py-3 rounded-xl font-bold bg-amber-500 text-white hover:bg-primary transition-all shadow-lg shadow-amber-300/30 flex items-center justify-center gap-2"><span class="material-symbols-outlined text-base">event_seat</span> 부스 선택하기</button>
+</div>
+</div>
+<!-- Booth Map Modal (Domestic only) -->
+<div id="booth-map-modal" class="hidden fixed inset-0 z-[90] flex items-center justify-center p-2 md:p-4">
+<div class="absolute inset-0 bg-black/70 backdrop-blur-sm" onclick="closeBoothMapModal()"></div>
+<div class="relative w-full max-w-5xl bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 overflow-hidden max-h-[95vh] flex flex-col">
+<!-- Modal Header -->
+<div class="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-4 md:p-5 flex items-center justify-between z-10">
+<div class="flex items-center gap-3">
+<div class="size-10 rounded-lg bg-primary/10 text-primary flex items-center justify-center"><span class="material-symbols-outlined">event_seat</span></div>
+<div>
+<h3 class="text-base md:text-lg font-bold">부스 자리 선택 · Select Your Booth</h3>
+<p class="text-[11px] md:text-xs text-slate-500">Swiss Grand Hotel · 2026. 06. 01–02</p>
+</div>
+</div>
+<button onclick="closeBoothMapModal()" class="size-10 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Body (scrollable) -->
+<div class="flex-1 overflow-y-auto p-4 md:p-6">
+<!-- Legend -->
+<div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mb-5 text-xs">
+<span class="flex items-center gap-1.5"><span class="size-3.5 rounded border-2 border-amber-400 bg-amber-50 dark:bg-amber-900/30"></span> <span class="text-slate-500">선택 가능 · Available</span></span>
+<span class="flex items-center gap-1.5"><span class="size-3.5 rounded bg-primary border-2 border-red-900"></span> <span class="text-slate-500">선택됨 · Selected</span></span>
+<span class="flex items-center gap-1.5"><span class="size-3.5 rounded bg-slate-400 dark:bg-slate-600 border-2 border-slate-700 dark:border-slate-400"></span> <span class="text-slate-500">판매 완료 · Sold</span></span>
+<span class="flex items-center gap-1.5"><span class="size-3.5 rounded bg-white border-2 border-primary"></span> <span class="text-slate-500">BNI 부스 · BNI Booth</span></span>
+</div>
+<!-- Map Canvas -->
+<div class="rounded-2xl border border-slate-200 dark:border-slate-700 bg-gradient-to-b from-slate-50 via-white to-slate-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950 p-4 md:p-6 shadow-sm">
+<!-- Floor plan reference image -->
+<div class="mb-3 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-white">
+<img src="booth-layout-map.png" alt="부스 배치도" class="w-full object-contain"/>
+</div>
+<p class="text-center text-xs md:text-sm text-slate-500 dark:text-slate-400 mb-5 leading-relaxed">※ 부스 배치도를 참고하시고 ZONE A, B 중 원하는 위치의 부스를 선택해주세요 !<span class="text-primary">:)</span><br><span class="text-[11px] md:text-xs">※ Please refer to the booth layout and choose your preferred booth in Zone A or B !<span class="text-primary">:)</span></span></p>
+<!-- Zone A -->
+<div class="mb-8 md:mb-10">
+<div class="flex items-center justify-center gap-2 mb-3">
+<span class="h-px flex-1 max-w-[60px] bg-slate-300 dark:bg-slate-700"></span>
+<span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-slate-400">Zone A</span>
+<span class="h-px flex-1 max-w-[60px] bg-slate-300 dark:bg-slate-700"></span>
+</div>
+<!-- MAIN GATE divider (directly below Zone A title, above booth rows) -->
+<div class="flex items-center justify-center gap-3 mb-4">
+<span class="h-px flex-1 bg-amber-500/30"></span>
+<div class="px-4 md:px-6 py-2 rounded-lg bg-amber-500/15 border-2 border-amber-500/40 text-amber-700 dark:text-amber-400 text-[10px] md:text-xs font-black tracking-[0.25em] uppercase">Main Gate</div>
+<span class="h-px flex-1 bg-amber-500/30"></span>
+</div>
+<!-- Desktop: 10 + 9 -->
+<div class="hidden md:block overflow-x-auto pb-1 -mx-2 px-2">
+<div class="flex flex-col items-center gap-2 md:gap-3 min-w-max mx-auto">
+<div id="zone-a-row1" class="flex gap-1 md:gap-1.5"></div>
+<div id="zone-a-row2" class="flex gap-1 md:gap-1.5"></div>
+</div>
+</div>
+<!-- Mobile: 6 + 6 + 7 -->
+<div class="md:hidden">
+<div class="flex flex-col items-center gap-1.5 mx-auto">
+<div id="zone-a-mobile-row1" class="flex gap-1"></div>
+<div id="zone-a-mobile-row2" class="flex gap-1"></div>
+<div id="zone-a-mobile-row3" class="flex gap-1"></div>
+</div>
+</div>
+</div>
+<!-- Zone B -->
+<div>
+<div class="flex items-center justify-center gap-2 mb-3">
+<span class="h-px flex-1 max-w-[60px] bg-slate-300 dark:bg-slate-700"></span>
+<span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-slate-400">Zone B · Foyer</span>
+<span class="h-px flex-1 max-w-[60px] bg-slate-300 dark:bg-slate-700"></span>
+</div>
+<div id="zone-b-grid" class="flex flex-wrap justify-center gap-1.5 md:gap-2 max-w-3xl mx-auto"></div>
+</div>
+</div>
+<p class="text-center text-[11px] text-slate-400 mt-4 leading-relaxed">※ 판매 완료된 부스는 선택할 수 없습니다.<br>※ Booths marked as "Sold" are no longer available.</p>
+</div>
+<!-- Modal Footer: Selection bar -->
+<div id="booth-selection-bar" class="hidden border-t border-slate-200 dark:border-slate-800 bg-primary/5 dark:bg-primary/10 p-4 md:p-5 flex flex-col md:flex-row items-stretch md:items-center gap-3 md:gap-5">
+<div class="flex items-center gap-3 md:gap-4 flex-1">
+<div class="size-12 md:size-14 rounded-lg bg-primary text-white font-black text-base md:text-lg flex items-center justify-center" id="selected-booth-badge">—</div>
+<div>
+<p class="text-[10px] md:text-xs text-slate-500 uppercase tracking-wider">선택한 부스 · Selected Booth</p>
+<p class="text-base md:text-xl font-bold text-primary"><span id="selected-booth-label">—</span> <span class="text-slate-400 font-semibold text-xs md:text-sm">· Zone <span id="selected-booth-zone">—</span></span></p>
+<p class="text-[11px] md:text-xs text-slate-500 mt-0.5" id="selected-booth-price">₩2,200,000 (부가세 포함)</p>
+</div>
+</div>
+<button onclick="proceedWithSelectedBooth()" class="px-5 md:px-7 py-3 md:py-4 rounded-xl font-bold bg-primary text-white hover:bg-primary/90 transition-all shadow-lg shadow-primary/30 flex items-center justify-center gap-2 whitespace-nowrap"><span class="material-symbols-outlined">arrow_forward</span> 신청서 작성 · Apply</button>
+</div>
 </div>
 </div>
 <!-- International Pricing Grid (3 types) -->
@@ -485,7 +599,7 @@ function toggleMobileMenu() {
 <li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="booth_feat_program"></span></li>
 <li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="booth_feat_setup"></span></li>
 </ul>
-<button onclick="openBoothModal('international')" class="w-full py-4 rounded-xl font-bold bg-amber-500 text-white hover:bg-primary transition-all shadow-lg shadow-amber-300/30" data-i18n="booth_apply_btn"></button>
+<button onclick="openBoothMapModal('international')" class="w-full py-4 rounded-xl font-bold bg-amber-500 text-white hover:bg-primary transition-all shadow-lg shadow-amber-300/30 flex items-center justify-center gap-2"><span class="material-symbols-outlined text-base">event_seat</span> <span data-i18n="booth_apply_btn"></span></button>
 </div>
 </div>
 <!-- Registration Modal -->
@@ -562,6 +676,9 @@ function toggleMobileMenu() {
 </div>
 <div class="flex items-center gap-2">
 <p id="booth-modal-price-pc" class="text-primary text-sm font-bold"></p>
+<button type="button" id="booth-back-btn-pc" onclick="changeBoothSelection()" class="flex items-center gap-1 px-3 py-1.5 rounded-md bg-slate-100 hover:bg-primary hover:text-white dark:bg-slate-800 dark:hover:bg-primary text-slate-600 dark:text-slate-300 text-xs font-semibold transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_back</span> 이전으로 · Back
+</button>
 <button onclick="closeBoothModal()" class="size-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
 <span class="material-symbols-outlined text-lg text-slate-400">close</span>
 </button>
@@ -571,15 +688,30 @@ function toggleMobileMenu() {
 <div class="sticky top-0 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 p-5 z-10 md:hidden">
 <div class="flex items-center justify-between mb-3">
 <img src="bni-logo.png" alt="BNI" class="h-8"/>
+<div class="flex items-center gap-2">
+<button type="button" id="booth-back-btn-mo" onclick="changeBoothSelection()" class="flex items-center gap-1 px-2.5 py-1.5 rounded-md bg-slate-100 hover:bg-primary hover:text-white dark:bg-slate-800 dark:hover:bg-primary text-slate-600 dark:text-slate-300 text-[11px] font-semibold transition-colors">
+<span class="material-symbols-outlined text-sm">arrow_back</span> 이전으로 · Back
+</button>
 <button onclick="closeBoothModal()" class="size-7 flex items-center justify-center rounded-md hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors">
 <span class="material-symbols-outlined text-lg text-slate-400">close</span>
 </button>
+</div>
 </div>
 <h3 id="booth-modal-title-mo" class="text-lg font-bold text-center">부스 참가 신청서</h3>
 <p class="text-xs text-slate-500 mb-1 text-center">제 11회 BNI KOREA National Conference</p>
 <p id="booth-modal-price-mo" class="text-primary text-sm font-bold text-right"></p>
 </div>
 <form id="booth-form" class="p-5 md:p-6 space-y-5" onsubmit="submitBoothForm(event)">
+<!-- Selected booth (domestic) -->
+<div id="booth-no-wrap" class="rounded-xl border-2 border-primary/40 bg-primary/5 dark:bg-primary/10 p-4 flex items-center gap-3">
+<div class="size-10 rounded-lg bg-primary text-white font-black text-sm flex items-center justify-center" id="booth-no-badge">—</div>
+<div class="flex-1">
+<p class="text-[10px] text-slate-500 uppercase tracking-wider font-bold">선택하신 부스 · Selected Booth</p>
+<p class="text-sm font-bold text-primary" id="booth-no-label">—</p>
+</div>
+<input id="booth-no" type="hidden" value=""/>
+<button type="button" onclick="changeBoothSelection()" class="text-xs text-slate-500 hover:text-primary font-semibold flex items-center gap-1"><span class="material-symbols-outlined text-sm">swap_horiz</span>변경 · Change</button>
+</div>
 <!-- 참가 업체 섹션 -->
 <div>
 <h4 class="text-sm font-bold mb-3 flex items-center gap-2"><span class="text-primary">■</span> <span data-bi="sec_company"></span></h4>
@@ -747,8 +879,8 @@ function toggleMobileMenu() {
 <span class="material-symbols-outlined text-lg">arrow_back</span> <span id="layout-back-btn">신청서로 돌아가기</span>
 </button>
 </div>
-<div class="rounded-2xl overflow-hidden border border-slate-700 bg-white">
-<img src="booth-layout-1.png" alt="부스배치도" class="w-full object-contain"/>
+<div class="rounded-2xl overflow-hidden border border-slate-700 bg-white max-h-[75vh] overflow-y-auto">
+<img src="booth_layout_combined.png" alt="부스배치도" class="w-full object-contain"/>
 </div>
 <p class="text-center text-xs text-slate-500 mt-3">2026 BNI Korea National Conference · Swiss Grand Hotel Convention Center 4F</p>
 </div>
@@ -1303,6 +1435,7 @@ function switchTab(tab) {
         if (payInternational) payInternational.className = 'flex flex-wrap justify-center items-center gap-10 opacity-60 hover:opacity-100 transition-opacity';
         if (gridDomestic) gridDomestic.style.display = 'none';
         if (gridInternational) gridInternational.style.display = '';
+        closeBoothMapModal();
         applyTranslations(currentLang);
     }
 }
@@ -1359,7 +1492,7 @@ function closeRegForm() {
     document.body.style.overflow = '';
 }
 
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxzdEb6fo6P8Sn05ojfyMzSXTZH_lGXERoHejyznP8p_il0OCerTCivfLgO-YpbsNo/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzrtPGtcfmmd8z1RHZ2KnkalVSDhYBqlIEWn_Uq9ZIuYN0mh5-KtDbglVWRbhlSjXM/exec';
 
 const PAYMENT_URLS = {
     en: { ED: 'https://global.bnikoreastore.com/surl/P/763', DM: 'https://global.bnikoreastore.com/surl/P/764', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' },
@@ -1489,6 +1622,10 @@ const PAYMENT_URLS_DOMESTIC = {
     plan4: 'https://pay.bnikorea.com/linkpay/1774064234683x944581581674077800',
     plan5: 'https://pay.bnikorea.com/linkpay/1774064270019x783728607895810600'
 };
+
+// Networking Party Pass 구매용 Typebot URL (인증코드 입력 + 검증 + 결제)
+// TODO: 실제 배포된 Typebot URL로 교체
+const TYPEBOT_PARTY_URL = 'https://typebot.io/YOUR-TYPEBOT-ID-HERE';
 
 function goToDomesticPayment(planKey) {
     const paymentUrl = PAYMENT_URLS_DOMESTIC[planKey];
@@ -1788,15 +1925,152 @@ function applyBoothI18n(lang) {
     });
 }
 
+// === Booth Map (movie-theater seat selector) ===
+const ZONE_A_COUNT = 19;
+const ZONE_B_COUNT = 11;
+const ADMIN_BOOTHS = { 'A19': 'BNI Korea' };
+let boothStatus = { sold: {}, admin: Object.assign({}, ADMIN_BOOTHS) };
+let selectedBooth = null;
+let boothMapType = 'domestic';
+
+function openBoothMapModal(type) {
+    boothMapType = type || 'domestic';
+    const modal = document.getElementById('booth-map-modal');
+    if (!modal) return;
+    const priceEl = document.getElementById('selected-booth-price');
+    if (priceEl) priceEl.textContent = boothMapType === 'domestic' ? '₩2,200,000 (부가세 포함)' : 'USD $1,500 (excl. VAT)';
+    modal.classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+    renderBoothMap();
+    loadBoothStatus();
+}
+
+function closeBoothMapModal() {
+    const modal = document.getElementById('booth-map-modal');
+    if (!modal) return;
+    modal.classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+function boothId(zone, n) {
+    return zone + String(n).padStart(2, '0');
+}
+
+function renderBoothMap() {
+    const zoneARow1 = document.getElementById('zone-a-row1');
+    const zoneARow2 = document.getElementById('zone-a-row2');
+    const zoneAMoRow1 = document.getElementById('zone-a-mobile-row1');
+    const zoneAMoRow2 = document.getElementById('zone-a-mobile-row2');
+    const zoneAMoRow3 = document.getElementById('zone-a-mobile-row3');
+    const zoneB = document.getElementById('zone-b-grid');
+    if (!zoneARow1 || !zoneARow2 || !zoneAMoRow1 || !zoneAMoRow2 || !zoneAMoRow3 || !zoneB) return;
+    [zoneARow1, zoneARow2, zoneAMoRow1, zoneAMoRow2, zoneAMoRow3, zoneB].forEach(el => el.innerHTML = '');
+    // Zone A desktop: 10 + 9 ; mobile: 6 + 6 + 7
+    for (let i = 1; i <= ZONE_A_COUNT; i++) {
+        const id = boothId('A', i);
+        (i <= 10 ? zoneARow1 : zoneARow2).appendChild(createBoothButton(id));
+        let moTarget;
+        if (i <= 6) moTarget = zoneAMoRow1;
+        else if (i <= 12) moTarget = zoneAMoRow2;
+        else moTarget = zoneAMoRow3;
+        moTarget.appendChild(createBoothButton(id));
+    }
+    // Zone B: B01-B11
+    for (let i = 1; i <= ZONE_B_COUNT; i++) {
+        zoneB.appendChild(createBoothButton(boothId('B', i)));
+    }
+}
+
+function createBoothButton(id) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.dataset.booth = id;
+    const company = boothStatus.sold[id] || boothStatus.admin[id] || '';
+    const isSold = !!boothStatus.sold[id];
+    const isAdmin = !!boothStatus.admin[id];
+    const isSelected = selectedBooth === id;
+    let stateClass;
+    let labelHtml = '<span class="booth-num">' + id + '</span>';
+    if (isAdmin) {
+        stateClass = 'bg-white text-primary border-primary cursor-not-allowed opacity-95';
+        labelHtml += '<span class="booth-co">' + escapeHtml(company) + '</span>';
+        btn.disabled = true;
+        btn.title = company + ' (관리자 부스)';
+    } else if (isSold) {
+        stateClass = 'bg-slate-400 dark:bg-slate-600 text-white border-slate-700 dark:border-slate-400 cursor-not-allowed opacity-80';
+        labelHtml += '<span class="booth-co">' + escapeHtml(company) + '</span>';
+        btn.disabled = true;
+        btn.title = company + ' (판매 완료)';
+    } else if (isSelected) {
+        stateClass = 'bg-primary text-white border-red-900 shadow-md shadow-primary/40 scale-[1.08]';
+        btn.onclick = () => selectBooth(id);
+    } else {
+        stateClass = 'bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-300 border-amber-300 dark:border-amber-700 hover:border-primary hover:bg-primary/10 hover:text-primary dark:hover:text-primary hover:scale-105';
+        btn.onclick = () => selectBooth(id);
+    }
+    btn.className = 'booth-btn relative border-2 rounded-md md:rounded-lg transition-all flex flex-col items-center justify-center font-bold ' + stateClass;
+    btn.innerHTML = labelHtml;
+    return btn;
+}
+
+function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[c]));
+}
+
+function selectBooth(id) {
+    if (boothStatus.sold[id] || boothStatus.admin[id]) return;
+    selectedBooth = id;
+    renderBoothMap();
+    const bar = document.getElementById('booth-selection-bar');
+    if (bar) {
+        bar.classList.remove('hidden');
+        document.getElementById('selected-booth-label').textContent = id;
+        document.getElementById('selected-booth-badge').textContent = id;
+        document.getElementById('selected-booth-zone').textContent = id.charAt(0);
+    }
+}
+
+function proceedWithSelectedBooth() {
+    if (!selectedBooth) return;
+    closeBoothMapModal();
+    openBoothModal(boothMapType, selectedBooth);
+}
+
+async function loadBoothStatus() {
+    try {
+        const res = await fetch(SCRIPT_URL + '?action=getBoothStatus', { method: 'GET' });
+        const data = await res.json();
+        if (data && data.status === 'ok') {
+            const soldMap = {};
+            (data.sold || []).forEach(s => { if (s.booth) soldMap[s.booth] = s.company || ''; });
+            const adminMap = Object.assign({}, ADMIN_BOOTHS);
+            (data.admin || []).forEach(a => { if (a.booth) adminMap[a.booth] = a.company || ''; });
+            boothStatus = { sold: soldMap, admin: adminMap };
+            // If user's selection got sold in the meantime → clear
+            if (selectedBooth && (soldMap[selectedBooth] || adminMap[selectedBooth])) {
+                selectedBooth = null;
+                const bar = document.getElementById('booth-selection-bar');
+                if (bar) bar.classList.add('hidden');
+            }
+            renderBoothMap();
+        }
+    } catch (err) {
+        console.warn('Booth status load failed:', err);
+    }
+}
+
 // === Booth Application ===
 let boothType = 'domestic';
 
-function openBoothModal(type) {
+function openBoothModal(type, boothNo) {
     boothType = type;
     const countryField = document.getElementById('booth-country-field');
     const fnbSection = document.getElementById('booth-fnb-section');
+    const boothNoWrap = document.getElementById('booth-no-wrap');
     const lang = type === 'domestic' ? 'ko' : currentLang;
     applyBoothI18n(lang);
+    const backBtnPc = document.getElementById('booth-back-btn-pc');
+    const backBtnMo = document.getElementById('booth-back-btn-mo');
     if (type === 'domestic') {
         document.getElementById('booth-modal-price-pc').textContent = '₩2,200,000 (부가세 포함)';
         document.getElementById('booth-modal-price-mo').textContent = '₩2,200,000 (부가세 포함)';
@@ -1808,7 +2082,17 @@ function openBoothModal(type) {
         countryField.style.display = '';
         if (fnbSection) fnbSection.style.display = 'none';
     }
+    // Booth number + back button visible for both domestic & international
+    if (boothNoWrap) boothNoWrap.style.display = '';
+    if (backBtnPc) backBtnPc.style.display = '';
+    if (backBtnMo) backBtnMo.style.display = '';
     document.getElementById('booth-form').reset();
+    // Re-apply booth number after reset
+    if (boothNo) {
+        document.getElementById('booth-no').value = boothNo;
+        document.getElementById('booth-no-label').textContent = boothNo;
+        document.getElementById('booth-no-badge').textContent = boothNo;
+    }
     // Reset file upload labels
     const logoLabel = document.getElementById('booth-file-logo-name');
     const adLabel = document.getElementById('booth-file-ad-name');
@@ -1816,6 +2100,11 @@ function openBoothModal(type) {
     if (adLabel) adLabel.textContent = boothI18n[lang].upload_ad_hint;
     document.getElementById('booth-modal').classList.remove('hidden');
     document.body.style.overflow = 'hidden';
+}
+
+function changeBoothSelection() {
+    closeBoothModal();
+    openBoothMapModal(boothType || boothMapType);
 }
 
 function closeBoothModal() {
@@ -1850,6 +2139,7 @@ async function submitBoothForm(e) {
     const payload = {
         type: 'booth',
         boothType: boothType,
+        boothNo: (document.getElementById('booth-no') || {}).value || '',
         company: document.getElementById('booth-company').value,
         displayName: document.getElementById('booth-display-name').value,
         owner: document.getElementById('booth-owner').value,
@@ -1989,6 +2279,8 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         if (!document.getElementById('layout-viewer').classList.contains('hidden')) {
             closeLayoutViewer();
+        } else if (!document.getElementById('booth-map-modal').classList.contains('hidden')) {
+            closeBoothMapModal();
         } else {
             closeRegForm(); closeDomesticForm(); closeBoothModal();
         }
@@ -2061,6 +2353,8 @@ setInterval(updateCountdown, 1000);
 document.addEventListener('DOMContentLoaded', () => {
     switchTab('domestic');
     updateCountdown();
+    loadBoothStatus();
+    setInterval(loadBoothStatus, 30000);
 });
 </script>
 </body></html>
