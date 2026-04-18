@@ -572,10 +572,10 @@ function openSpeakerModal(id){
     if(s.gallery&&s.gallery.length){h+=`<div>${sectionTitle('Gallery')}<div class="grid grid-cols-3 gap-2">`;s.gallery.forEach(img=>{h+=`<div class="rounded-lg overflow-hidden aspect-square bg-slate-800"><img src="${img}" alt="${s.name}" class="w-full h-full object-cover hover:scale-105 transition-transform duration-300 cursor-pointer" onclick="window.open('${img}','_blank')"/></div>`;});h+='</div></div>';}
     if(s.pillars){h+=`<div>${sectionTitle('Positivity Pillars of Strength')}<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">`;s.pillars.forEach(p=>{h+=`<div class="bg-slate-800/50 rounded-lg p-3 flex items-start gap-3"><span class="text-lg font-black text-primary">${p.num}</span><div><div class="text-sm font-bold">${p.en}</div><div class="text-xs text-slate-500">${p.ko}</div></div></div>`;});h+='</div></div>';}
     document.getElementById('modal-body').innerHTML=h;
-    document.getElementById('스피커 이미지/speaker-modal').classList.remove('hidden');
+    document.getElementById('speaker-modal').classList.remove('hidden');
     document.body.style.overflow='hidden';
 }
-function closeSpeakerModal(){document.getElementById('스피커 이미지/speaker-modal').classList.add('hidden');document.body.style.overflow='';}
+function closeSpeakerModal(){document.getElementById('speaker-modal').classList.add('hidden');document.body.style.overflow='';}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSpeakerModal();});
 
 // Flip clock
