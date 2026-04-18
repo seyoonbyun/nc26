@@ -97,63 +97,67 @@ function toggleMobileMenu() {
 <p class="text-slate-400 max-w-2xl text-lg">BNI Korea National Conference를 빛내줄 연사들을 소개합니다.</p>
 </section>
 
-<!-- DAY 1 Speakers -->
+<!-- DAY 1 Speakers : Networking · Global -->
 <section class="mb-16">
 <div class="flex items-center gap-3 mb-8">
 <span class="inline-block bg-primary text-white text-xs font-bold font-heading px-4 py-1.5 rounded tracking-widest">DAY 1 &middot; 6월 1일 (월)</span>
 <div class="flex-1 h-px bg-slate-800"></div>
-<span class="text-xs text-slate-600 font-semibold">Coming Soon</span>
+<span class="text-xs text-slate-500 font-semibold">Networking · Global</span>
 </div>
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-4 relative">
-<!-- Overlay message -->
-<div class="absolute inset-0 z-10 bg-slate-950/80 backdrop-blur-sm rounded-2xl flex flex-col items-center justify-center text-center p-6">
-<p class="text-base md:text-lg font-bold text-white">2026 최고의 인사이트가 모이는 중 ~!</p>
-<p class="text-sm text-slate-400 mt-2">잠시만 기다려주세요 :)</p>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<!-- Eric Chan -->
+<div onclick="openSpeakerModal('eric')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
+<div class="aspect-square bg-slate-800 relative overflow-hidden">
+<img src="speaker-eric-chan.png" alt="Eric Chan" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 20%;"/>
 </div>
+<div class="p-4">
+<h4 class="font-bold text-sm mb-1 font-heading">Eric Chan</h4>
+<p class="text-xs text-primary font-semibold mb-1">Global Story</p>
+<p class="text-[11px] text-slate-500">Deepsea Marine HK · Kowloon Zenith</p>
+</div>
+</div>
+<!-- 김하원 (moved to Day 1) -->
+<div onclick="openSpeakerModal('kim')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
+<div class="aspect-square bg-slate-800 relative overflow-hidden">
+<img src="speaker-kim-hawon.jpg" alt="김하원 대표" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 20%;"/>
+</div>
+<div class="p-4">
+<h4 class="font-bold text-sm mb-1">김하원</h4>
+<p class="text-xs text-primary font-semibold mb-1">Keynote Speaker</p>
+<p class="text-[11px] text-slate-500">해녀키친그룹 대표이사</p>
+</div>
+</div>
+<!-- Special Speech II TBA -->
 <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 transition-all group">
 <div class="aspect-square bg-slate-800 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
 <span class="material-symbols-outlined text-4xl text-slate-700 group-hover:text-primary/50 transition-colors">person</span>
 </div>
 <div class="p-4">
 <h4 class="font-bold text-sm mb-1">Speaker TBA</h4>
-<p class="text-xs text-primary font-semibold">Keynote Speaker</p>
+<p class="text-xs text-primary font-semibold mb-1">Special Speech Ⅱ</p>
+<p class="text-[11px] text-slate-500">Coming Soon</p>
 </div>
 </div>
-<div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 transition-all group">
-<div class="aspect-square bg-slate-800 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined text-4xl text-slate-700 group-hover:text-primary/50 transition-colors">person</span>
-</div>
-<div class="p-4">
-<h4 class="font-bold text-sm mb-1">Speaker TBA</h4>
-<p class="text-xs text-primary font-semibold">Special Speech</p>
-</div>
-</div>
-<div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 transition-all group">
-<div class="aspect-square bg-slate-800 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined text-4xl text-slate-700 group-hover:text-primary/50 transition-colors">person</span>
+<!-- Global Networking Party & DnA Awards -->
+<div class="bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/40 rounded-2xl overflow-hidden">
+<div class="aspect-square flex items-center justify-center">
+<span class="material-symbols-outlined text-5xl text-primary">celebration</span>
 </div>
 <div class="p-4">
-<h4 class="font-bold text-sm mb-1">Speaker TBA</h4>
-<p class="text-xs text-primary font-semibold">Panel Speaker</p>
-</div>
-</div>
-<div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 transition-all group">
-<div class="aspect-square bg-slate-800 flex items-center justify-center group-hover:bg-primary/10 transition-colors">
-<span class="material-symbols-outlined text-4xl text-slate-700 group-hover:text-primary/50 transition-colors">person</span>
-</div>
-<div class="p-4">
-<h4 class="font-bold text-sm mb-1">Speaker TBA</h4>
-<p class="text-xs text-primary font-semibold">Workshop Leader</p>
+<h4 class="font-bold text-sm mb-1">글로벌 네트워킹 파티</h4>
+<p class="text-xs text-primary font-semibold mb-1">&amp; DnA Awards</p>
+<p class="text-[11px] text-slate-400">18:00 - 20:00</p>
 </div>
 </div>
 </div>
 </section>
 
-<!-- DAY 2 Speakers -->
+<!-- DAY 2 Speakers : Regions · Strategy · Chapter -->
 <section class="mb-16">
 <div class="flex items-center gap-3 mb-8">
 <span class="inline-block bg-primary text-white text-xs font-bold font-heading px-4 py-1.5 rounded tracking-widest">DAY 2 &middot; 6월 2일 (화)</span>
 <div class="flex-1 h-px bg-slate-800"></div>
+<span class="text-xs text-slate-500 font-semibold">Regions · Strategy · Chapter</span>
 </div>
 <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
 <!-- 존윤 Host -->
@@ -167,15 +171,15 @@ function toggleMobileMenu() {
 <p class="text-[11px] text-slate-500">BNI Korea National Director & CEO</p>
 </div>
 </div>
-<!-- 김하원 -->
-<div onclick="openSpeakerModal('kim')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
+<!-- BNI Philippines ED (Keynote I) -->
+<div onclick="openSpeakerModal('philED')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
 <div class="aspect-square bg-slate-800 relative overflow-hidden">
-<img src="speaker-kim-hawon.jpg" alt="김하원 대표" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 20%;"/>
+<img src="speaker-philippines-ed.png" alt="Judee R. Quiazon" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 15%;"/>
 </div>
 <div class="p-4">
-<h4 class="font-bold text-sm mb-1">김하원</h4>
-<p class="text-xs text-primary font-semibold mb-1">Keynote Speaker</p>
-<p class="text-[11px] text-slate-500">해녀키친그룹 대표이사</p>
+<h4 class="font-bold text-sm mb-1 font-heading">Judee R. Quiazon</h4>
+<p class="text-xs text-primary font-semibold mb-1">Keynote Ⅰ</p>
+<p class="text-[11px] text-slate-500">BNI Philippines · District Director</p>
 </div>
 </div>
 <!-- Norm Dominguez -->
@@ -189,15 +193,15 @@ function toggleMobileMenu() {
 <p class="text-[11px] text-slate-500">BNI Vice Chairman Emeritus</p>
 </div>
 </div>
-<!-- AGI Video -->
-<div class="rounded-2xl overflow-hidden border border-slate-800 relative">
-<video autoplay muted loop playsinline class="w-full h-full object-cover">
-<source src="deep-mind-reports-major-agi-benchmark-gains-spark-2026-01-28-04-27-20-utc.mp4" type="video/mp4">
-</video>
-<div class="absolute inset-0 bg-gradient-to-t from-[#0a0c10] via-transparent to-transparent"></div>
-<div class="absolute bottom-4 right-4 text-right">
-<span class="text-xs font-bold text-primary uppercase tracking-widest">Theme</span>
-<p class="text-sm font-bold text-white mt-1">AGI 시대의<br class="md:hidden"> 비즈니스 전략</p>
+<!-- Regional Presentations -->
+<div class="rounded-2xl overflow-hidden border border-slate-800 bg-gradient-to-br from-blue-500/10 to-transparent">
+<div class="aspect-square flex items-center justify-center">
+<span class="material-symbols-outlined text-5xl text-blue-400">public</span>
+</div>
+<div class="p-4">
+<h4 class="font-bold text-sm mb-1">지역 발표</h4>
+<p class="text-xs text-blue-400 font-semibold mb-1">Regional Presentations</p>
+<p class="text-[11px] text-slate-500">전국 8개 지역의 성과 &amp; 실행 사례</p>
 </div>
 </div>
 </div>
@@ -312,6 +316,48 @@ const speakers = {
             tag: 'HOST',
             title: '"협업의 힘으로 비즈니스를 가속하라<br>— Accelerate Your Business Through Collaboration"',
             desc: 'BNI Korea를 한국 최대 소기업협업공동체로 성장시킨 경험과 협업을 통한 비즈니스 성장 전략을 공유합니다.'
+        }
+    },
+    eric: {
+        photo: 'speaker-eric-chan.png',
+        tag: 'Global Story',
+        name: 'Eric Chan',
+        title: 'Founder, Deepsea Marine HongKong Ltd · BNI Kowloon Zenith Chapter',
+        quote: '"Referrals don\'t float — they\'re built, one relationship at a time."',
+        profile: `홍콩의 럭셔리 요트 전문 브로커리지 <strong class="text-white">Deepsea Marine HongKong Ltd</strong> 창립자. 요트 매매(Buy / Sell), 차터, 수리·관리, 수상 이벤트까지 <strong class="text-white">요트 비즈니스 풀 라인업</strong>을 제공하는 원스톱 마린 기업을 운영한다.<br><br>홍콩 태생으로 캐나다에서 대학을 졸업한 후 세일즈·마케팅 커리어를 시작했으며, 2010년부터 <strong class="text-white">Simpson Marine</strong>(아시아 최대 요트 딜러)에서 9년간 시니어 요트 브로커로 활동한 뒤 독립해 Deepsea Marine을 설립했다.<br><br>BNI <strong class="text-white">Kowloon Zenith Chapter</strong> 멤버로서, 고액·고신뢰 거래가 생명인 요트 산업에서 BNI 레퍼럴 시스템이 어떻게 실제 매출로 연결되는지를 입증한 사례로 꼽힌다.<br><br>이번 Accelerate 2026 Day 1 <strong class="text-white">Global Story</strong> 세션에서는, BNI 네트워크가 어떻게 국경과 산업을 넘어 실질적인 비즈니스 기회로 이어지는지에 대한 현장 인사이트를 한국 멤버들과 공유한다.`,
+        career: [
+            { current: true, text: 'Deepsea Marine HongKong Ltd · Founder' },
+            { current: true, text: 'BNI Kowloon Zenith Chapter · Member (Yacht Broker)' },
+            { current: false, text: 'Simpson Marine · Senior Yacht Broker (2010–2019)' },
+            { current: false, text: '캐나다 대학 졸업 · 세일즈·마케팅 커리어로 커리어 시작' }
+        ],
+        gallery: ['speaker-eric-chan.png'],
+        book: null,
+        topic: {
+            tag: 'GLOBAL STORY',
+            title: '"From Referral to Revenue<br>— BNI 레퍼럴이 고액 거래로 연결되는 법"',
+            desc: 'Deepsea Marine의 실제 거래 사례를 기반으로, 국경과 산업을 넘어 BNI 레퍼럴이 어떻게 실질적인 매출과 성장을 만들어내는지 공유합니다. 요트 산업이라는 하이엔드 시장에서 입증된 레퍼럴 시스템의 힘.'
+        }
+    },
+    philED: {
+        photo: 'speaker-philippines-ed.png',
+        tag: 'Keynote Session I',
+        name: 'Judee R. Quiazon',
+        title: 'Director of Franchise Development · District Director, Luzon (North) · BNI Philippines',
+        quote: '"Community is the fastest way to grow a business — if you build the culture right."',
+        profile: `<strong class="text-white">BNI Philippines</strong>의 Director of Franchise Development이자 루손 북부(Luzon North) 지역의 District Director. BNI Taguig의 Executive Director를 역임하며 수도권 필리핀 BNI 챕터의 급성장을 이끈 주역이다.<br><br>Franchise Development 총괄로서 신규 지역 확장과 챕터 런칭, 그리고 현지 리더 육성에 집중하고 있으며, 다문화·다지역 환경에서 <strong class="text-white">BNI 시스템을 현지화</strong>한 대표적 리더로 꼽힌다.<br><br>청년 리더 육성 비영리단체 <strong class="text-white">Natalie in the Light, Inc.</strong>의 이사회 멤버로도 활동하며, 차세대 여성·청년 리더십 개발에 기여해 왔다.<br><br>이번 Accelerate 2026 Day 2 오프닝 키노트에서는 <strong class="text-white">커뮤니티와 문화가 비즈니스를 점화시키는 방법</strong>에 대해 한국 멤버들에게 실전 인사이트를 전한다.`,
+        career: [
+            { current: true, text: 'BNI Philippines · Director of Franchise Development' },
+            { current: true, text: 'BNI Philippines · District Director, Luzon (North)' },
+            { current: true, text: 'Natalie in the Light, Inc. · Board Member' },
+            { current: false, text: 'BNI Taguig · Executive Director' }
+        ],
+        gallery: ['speaker-philippines-ed.png'],
+        book: null,
+        topic: {
+            tag: 'KEYNOTE I',
+            title: '"Igniting Business Communities &amp; Culture<br>— 커뮤니티와 문화가 비즈니스를 점화시키는 법"',
+            desc: 'BNI Philippines가 지역 커뮤니티를 어떻게 하나의 비즈니스 문화로 조직했는지, 그리고 그 문화가 어떻게 실제 매출과 성장을 견인했는지 공유합니다. 루손 북부 지역의 챕터 런칭·확장 실전 사례를 기반으로 한 현장형 키노트.'
         }
     },
     norm: {

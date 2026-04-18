@@ -35,8 +35,8 @@
     </script>
 <style>
         body { font-family: 'Inter', sans-serif; }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-        .faq-open .faq-answer { max-height: 500px; }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; }
+        .faq-open .faq-answer { max-height: 2000px; }
         .faq-open .faq-chevron { transform: rotate(180deg); }
         .tab-active { border-bottom: 3px solid #cf1f2e; color: #ffffff; }
 
@@ -1094,7 +1094,7 @@ const i18n = {
         feat_day12_member: 'Day 1–2 참가',
         btn_select: '선택하기',
         payment_title: '결제 수단',
-        faq_title: '등록 자주 묻는 질문',
+        faq_title: '자주 묻는 질문',
         faq_subtitle: 'Accelerate 2026 참가에 대해 궁금한 점을 확인하세요.',
         venue_title: '스위스그랜드호텔 서울',
         venue_desc: '서울의 대표적인 호텔에서 컨퍼런스를 경험하세요.',
@@ -1120,7 +1120,7 @@ const i18n = {
         form_secure_note: '모든 결제 정보는 SSL 암호화로 안전하게 처리됩니다.',
         faqs: [
             { icon: 'description', q: '세금계산서 발행이 가능한가요?', a: '네, 가상계좌 입금을 선택하신 뒤, \'현금영수증\' 발행을 선택하시고, 사업자 등록 정보를 입력하시면 전자세금계산서가 발행됩니다.' },
-            { icon: 'sync', q: '환불 정책은 어떻게 되나요?', a: '<div class="space-y-2"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-base">check_circle</span>5/8까지: 티켓금액의 100% 환불</div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-yellow-500 text-base">check_circle</span>5/15까지: 티켓금액의 50% 환불</div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-500 text-base">check_circle</span>5/28까지: 티켓금액의 30% 환불</div><div class="flex items-center gap-2 text-red-400 font-semibold"><span class="material-symbols-outlined text-red-400 text-base">cancel</span>※ 5/29부터 환불이 불가합니다.</div></div>' },
+            { icon: 'sync', q: '환불 규정은 어떻게 되나요?', a: '<div class="space-y-4 text-left"><p class="text-[13px] leading-relaxed">내셔널 컨퍼런스의 얼리버드 티켓 판매 기간이 기존 4월 20일에서 <strong class="text-primary">5월 11일까지 연장</strong>됨에 따라, 행사일 6월 2일 기준으로 티켓 및 부스 환불 규정을 아래와 같이 적용합니다.</p><div><p class="font-bold text-sm mb-2 text-slate-900 dark:text-white">1) 티켓 환불 규정</p><div class="space-y-1.5 pl-1"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-base">check_circle</span>5/11까지 취소 요청 시: 티켓 금액의 <strong>100% 환불</strong></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-lime-500 text-base">check_circle</span>5/18까지 취소 요청 시: 티켓 금액의 <strong>50% 환불</strong></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-yellow-500 text-base">check_circle</span>5/28까지 취소 요청 시: 티켓 금액의 <strong>30% 환불</strong></div><div class="flex items-center gap-2 text-red-400 font-semibold"><span class="material-symbols-outlined text-red-400 text-base">cancel</span>5/29부터: 환불 불가</div></div></div><div><p class="font-bold text-sm mb-1 text-slate-900 dark:text-white">2) 행사 부스 환불 규정</p><p class="text-xs text-slate-500 mb-2">부스 참가비는 1부스당 220만 원이며, 아래 기준에 따라 환불이 진행됩니다.</p><div class="space-y-1.5 pl-1"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 text-base">check_circle</span>5/11까지 취소 요청 시: 부스 참가비의 <strong>90% 환불</strong></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-lime-500 text-base">check_circle</span>5/18까지 취소 요청 시: 부스 참가비의 <strong>70% 환불</strong></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-yellow-500 text-base">check_circle</span>5/25까지 취소 요청 시: 부스 참가비의 <strong>50% 환불</strong></div><div class="flex items-center gap-2"><span class="material-symbols-outlined text-orange-500 text-base">check_circle</span>5/28까지 취소 요청 시: 부스 참가비의 <strong>20% 환불</strong></div><div class="flex items-center gap-2 text-red-400 font-semibold"><span class="material-symbols-outlined text-red-400 text-base">cancel</span>5/29부터: 환불 불가</div></div></div><div><p class="font-bold text-sm mb-2 text-slate-900 dark:text-white">3) 환불 접수 기준</p><ul class="space-y-1.5 pl-4 text-xs text-slate-600 dark:text-slate-400 list-disc"><li>환불 기준일은 취소 요청이 <strong>정상 접수된 일자</strong>를 기준으로 합니다.</li><li>취소 및 환불 접수는 업무일 기준 오전 9시부터 오후 6시까지 가능하며, <a href="http://pf.kakao.com/_xewxmrT" target="_blank" rel="noopener" class="inline-flex items-center gap-1 px-2.5 py-1 mx-0.5 rounded-md bg-yellow-300 hover:bg-yellow-400 text-slate-900 text-[11px] font-bold align-middle transition-colors no-underline"><span class="material-symbols-outlined text-[13px]">chat_bubble</span>내셔널 오피스</a> 를 통해 접수해 주시기 바랍니다.</li><li>업무시간 외 접수 건, 주말 및 공휴일 접수 건은 다음 업무일 오전 9시 접수 건으로 처리됩니다.</li><li>단순 문의가 아닌, 취소 의사와 신청자 정보가 확인되어 정상적으로 접수된 경우에 한해 환불 규정이 적용됩니다.</li></ul></div><div><p class="font-bold text-sm mb-2 text-slate-900 dark:text-white">4) 기타 안내</p><ul class="space-y-1.5 pl-4 text-xs text-slate-600 dark:text-slate-400 list-disc"><li>결제 수단에 따라 승인 취소 및 실제 환불 완료 시점은 다소 차이가 있을 수 있습니다.</li><li>부스의 경우 전기, 집기, 추가 비품, 홍보물 제작 등 별도 부대 옵션이 이미 발주되었거나 비용이 발생한 항목은 실비가 별도 차감될 수 있습니다.</li></ul></div></div>' },
             { icon: 'badge', q: '현장 등록도 가능한가요?', a: '사전 등록을 권장드리며, 잔여석이 있을 경우 현장 등록도 가능합니다. 현장 등록 시 추가 요금이 발생할 수 있습니다.' }
         ]
     },
