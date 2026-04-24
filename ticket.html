@@ -2347,7 +2347,8 @@ function updateCountdown() {
 setInterval(updateCountdown, 1000);
 
 document.addEventListener('DOMContentLoaded', () => {
-    switchTab('domestic');
+    const initialTab = new URLSearchParams(location.search).get('tab') === 'international' ? 'international' : 'domestic';
+    switchTab(initialTab);
     updateCountdown();
     loadBoothStatus();
     setInterval(loadBoothStatus, 30000);

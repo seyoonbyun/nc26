@@ -121,6 +121,36 @@ ul.flip.play li.active .down .shadow { background:linear-gradient(to bottom,rgba
   -webkit-text-fill-color: transparent;
   animation: spotlight 4s ease-in-out infinite;
 }
+
+/* QR share modal — on xl+ open as right-anchored panel without dim; below xl keep centered modal with dim */
+@media (min-width: 1280px) {
+  #qr-modal { justify-content: flex-end; padding-right: 4vw; pointer-events: none; }
+  #qr-modal .qr-backdrop { display: none; }
+  #qr-modal .qr-panel { pointer-events: auto; }
+}
+/* QR trigger button — eye-catch animation to drive clicks */
+@keyframes qrTriggerGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(207,31,46,0); border-color: rgb(51,65,85); }
+  50%      { box-shadow: 0 0 22px 3px rgba(207,31,46,0.40), 0 0 6px 0 rgba(207,31,46,0.55); border-color: rgba(207,31,46,0.75); }
+}
+@keyframes qrTriggerRing {
+  0%   { transform: scale(1);   opacity: 0.55; }
+  100% { transform: scale(1.85); opacity: 0; }
+}
+.qr-trigger { position: relative; animation: qrTriggerGlow 2.6s ease-in-out infinite; }
+.qr-trigger::before {
+  content: '';
+  position: absolute; inset: -2px;
+  border-radius: inherit;
+  border: 2px solid rgba(207,31,46,0.55);
+  animation: qrTriggerRing 2.2s cubic-bezier(0,0,0.2,1) infinite;
+  pointer-events: none;
+}
+.qr-trigger:hover { animation-play-state: paused; box-shadow: 0 0 28px 4px rgba(207,31,46,0.55); border-color: rgba(207,31,46,0.95); }
+.qr-trigger:hover::before { animation: none; opacity: 0; }
+@media (prefers-reduced-motion: reduce) {
+  .qr-trigger, .qr-trigger::before { animation: none !important; }
+}
 </style>
 </head>
 <body class="bg-[#0a0c10] font-display text-white min-h-screen flex flex-col">
@@ -195,6 +225,13 @@ Accelerate Your Success !
 <a href="schedule.html" class="px-7 py-3 border border-slate-700 text-white rounded-xl text-base font-bold hover:border-primary hover:text-primary transition-all">
 일정 보기 View Schedule
 </a>
+<button type="button" onclick="openQrModal()" aria-label="Scan to Join — open invitation QR" title="Scan to Join" class="qr-trigger size-12 border border-slate-700 text-white rounded-xl hover:text-primary transition-colors flex items-center justify-center shrink-0">
+<span aria-hidden="true" class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+</span>
+<span class="material-symbols-outlined text-[22px]">qr_code_2</span>
+</button>
 </div>
 <!-- Countdown (Flip) -->
 <div class="mt-12 flex items-start justify-center flex-wrap gap-y-4">
@@ -467,6 +504,54 @@ Accelerate Your Success !
 </div>
 </div>
 
+<!-- QR Share Modal — opens centered+dim on mobile, right-anchored without dim on xl+ -->
+<div id="qr-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+<div class="qr-backdrop absolute inset-0 bg-black/40" onclick="closeQrModal()"></div>
+<!-- Layer A: outer cool-gray glass frame -->
+<div class="qr-panel relative w-full max-w-[384px] rounded-2xl px-[46px] py-[60px]" style="background:rgba(20,22,28,0.18);backdrop-filter:blur(28px) saturate(135%);-webkit-backdrop-filter:blur(28px) saturate(135%);box-shadow:0 16px 50px -18px rgba(0,0,0,0.55);">
+<!-- Close X — pinned to OUTER panel top-right -->
+<button onclick="closeQrModal()" class="qr-close-x absolute top-2.5 right-2.5 z-10 p-1 hover:opacity-100 opacity-70 transition-opacity" aria-label="Close">
+<span class="material-symbols-outlined text-[18px] text-white/60">close</span>
+</button>
+<!-- Layer B: inner glass card — size locked to previous dimensions so only outer grows -->
+<div class="rounded-xl overflow-hidden mx-auto max-w-[292px]" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.10);">
+<!-- Header -->
+<div class="px-4 pt-3 pb-2">
+<h3 class="text-[12.5px] font-semibold text-white/85 tracking-tight">Scan to Join</h3>
+</div>
+<!-- Divider with red accent (sits inside inner card) -->
+<div class="relative h-px mx-4 bg-white/10">
+<span class="absolute left-0 top-0 h-px w-6 bg-primary"></span>
+</div>
+<!-- Body -->
+<div class="px-4 pt-3 pb-3.5 space-y-3">
+<!-- Layer C: QR plate (soft gray translucent, perfect square) -->
+<div class="rounded-md flex items-center justify-center mx-auto aspect-square" style="width:170px;background:rgba(225,228,235,0.80);border:1px solid rgba(255,255,255,0.18);box-shadow:0 3px 14px -4px rgba(0,0,0,0.35);padding:10px;">
+<img src="nc26_invitation_international.png" alt="NC26 International Ticket QR (invitation)" class="w-full h-full object-contain block"/>
+</div>
+<p class="text-center text-[10.5px] text-white/40 tracking-tight">Scan to secure your spot instantly.</p>
+<div class="space-y-1.5">
+<!-- Primary: slim red fill -->
+<a href="ticket.html?tab=international" class="w-full px-3 py-2 bg-primary text-white rounded-lg text-[12px] font-semibold hover:bg-primary/90 transition-all flex items-center justify-center gap-1.5">
+Secure Your Spot
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+<!-- Secondary: dark glass fill + thin red outline + red text -->
+<a href="schedule.html" class="w-full px-3 py-2 rounded-lg text-[12px] font-semibold transition-all flex items-center justify-center gap-1.5 text-primary hover:text-white" style="background:rgba(255,255,255,0.04);border:1px solid rgba(207,31,46,0.45);" onmouseover="this.style.background='rgba(207,31,46,0.85)';this.style.borderColor='rgba(207,31,46,0.85)';" onmouseout="this.style.background='rgba(255,255,255,0.04)';this.style.borderColor='rgba(207,31,46,0.45)';">
+<span class="material-symbols-outlined text-[14px]">info</span>
+Event Details
+</a>
+<!-- Tertiary: ghost text + icon, no background -->
+<button type="button" onclick="copyShareLink(this)" class="w-full pt-1 pb-0.5 text-white/45 hover:text-white text-[11px] font-medium transition-colors flex items-center justify-center gap-1.5">
+<span class="material-symbols-outlined text-[13px]">link</span>
+<span data-copy-label>Copy Link</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
 <!-- Floating Buttons -->
 <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
 <a href="http://pf.kakao.com/_xewxmrT/chat" target="_blank" rel="noopener" class="w-12 h-12 rounded-full shadow-lg hover:scale-110 transition-transform" title="카카오톡 상담">
@@ -576,7 +661,17 @@ function openSpeakerModal(id){
     document.body.style.overflow='hidden';
 }
 function closeSpeakerModal(){document.getElementById('speaker-modal').classList.add('hidden');document.body.style.overflow='';}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSpeakerModal();});
+function openQrModal(){const m=document.getElementById('qr-modal');m.classList.remove('hidden');if(window.matchMedia('(max-width:1279px)').matches)document.body.style.overflow='hidden';}
+function closeQrModal(){document.getElementById('qr-modal').classList.add('hidden');document.body.style.overflow='';}
+function copyShareLink(btn){
+    const url='https://www.nc26-bnikorea.com/ticket.html?tab=international';
+    const label=btn.querySelector('[data-copy-label]');
+    const original=label.textContent;
+    const done=()=>{label.textContent='Copied';setTimeout(()=>{label.textContent=original;},1800);};
+    if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(url).then(done).catch(()=>{window.prompt('Copy this link',url);});}
+    else{window.prompt('Copy this link',url);}
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeSpeakerModal();closeQrModal();}});
 
 // Flip clock
 function buildDigit(ul) {
