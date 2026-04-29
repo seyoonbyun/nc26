@@ -146,14 +146,33 @@ function toggleMobileMenu() {
 <span class="material-symbols-outlined text-slate-700 group-hover:text-primary transition-colors hidden md:block">open_in_new</span>
 </div>
 </div>
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-primary/30 transition-all">
-<div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
-<div class="flex items-center gap-3">
+<div class="bg-slate-900 border border-slate-800 rounded-xl p-5">
+<div class="flex items-center gap-3 mb-3">
 <span class="text-primary font-black text-lg tabular-nums min-w-[110px]">09:40 - 10:10</span>
 <span class="text-[10px] font-bold bg-emerald-500/10 text-emerald-400 px-2 py-1 rounded uppercase min-w-[72px] text-center inline-block">Story</span>
-</div>
-<div class="flex-1">
 <h4 class="font-bold">멤버 성공 스토리 <span class="text-slate-500 font-normal text-sm">Member Success Story</span></h4>
+</div>
+<div class="space-y-2 md:ml-[194px]">
+<div onclick="openSpeakerModal('jeongMs')" class="bg-slate-950/60 border border-slate-800 rounded-lg p-3 hover:border-primary/40 transition-all cursor-pointer group flex items-center gap-3">
+<span class="text-[10px] font-bold bg-orange-500/10 text-orange-300 px-2 py-1 rounded min-w-[88px] text-center inline-block">Pioneer</span>
+<div class="flex-1">
+<p class="text-sm"><span class="text-white font-semibold group-hover:text-primary transition-colors">정명수</span> · ㈜에어컨설팅 대표 · BNI 부산 파이오니아 챕터</p>
+</div>
+<span class="material-symbols-outlined text-slate-700 group-hover:text-primary transition-colors hidden md:block">open_in_new</span>
+</div>
+<div onclick="openSpeakerModal('kimJk')" class="bg-slate-950/60 border border-slate-800 rounded-lg p-3 hover:border-primary/40 transition-all cursor-pointer group flex items-center gap-3">
+<span class="text-[10px] font-bold bg-sky-500/10 text-sky-300 px-2 py-1 rounded min-w-[88px] text-center inline-block">Plus</span>
+<div class="flex-1">
+<p class="text-sm"><span class="text-white font-semibold group-hover:text-primary transition-colors">김정규</span> · 법무법인 한수 파트너 변호사 · BNI 강남 플러스 챕터</p>
+</div>
+<span class="material-symbols-outlined text-slate-700 group-hover:text-primary transition-colors hidden md:block">open_in_new</span>
+</div>
+<div onclick="openSpeakerModal('kimTh')" class="bg-slate-950/60 border border-slate-800 rounded-lg p-3 hover:border-primary/40 transition-all cursor-pointer group flex items-center gap-3">
+<span class="text-[10px] font-bold bg-pink-500/10 text-pink-300 px-2 py-1 rounded min-w-[88px] text-center inline-block">Synergy</span>
+<div class="flex-1">
+<p class="text-sm"><span class="text-white font-semibold group-hover:text-primary transition-colors">김태현</span> · 통달한의원 대표원장 · BNI 영등포 시너지 챕터</p>
+</div>
+<span class="material-symbols-outlined text-slate-700 group-hover:text-primary transition-colors hidden md:block">open_in_new</span>
 </div>
 </div>
 </div>
@@ -619,6 +638,74 @@ const speakers = {
             { num: '06', en: 'Always Think Remarkable', ko: '항상 비범함을 생각하라' },
             { num: '07', en: 'Enjoy a Little Craziness', ko: '약간의 광기를 즐겨라' }
         ]
+    },
+    jeongMs: {
+        photo: '스피커 이미지/speaker-jeong-ms-4.jpeg',
+        tag: 'Member Success Story',
+        name: '정명수',
+        title: '㈜에어컨설팅 대표 · BNI 부산 파이오니아 챕터',
+        quote: '"에어컨 설치부터 관리까지, 에어컨설팅이 책임집니다."',
+        profile: `시스템에어컨 시공 및 B2B 유통을 전문으로 하는 <strong class="text-white">㈜에어컨설팅</strong>의 대표. 2023년 4월 회사를 설립한 이래 <strong class="text-white">LG전자 공식 인증 전문점</strong>으로 성장하며 시스템에어컨, 전열교환기, GHP, 항온항습기, 공조기기, 유지보수 및 세척까지 공조 분야 풀라인업 솔루션을 제공한다.<br><br>서울 강남, 부산 강서, 부산 해운대 3개 지역 거점으로 상업·공장·병원·관공서 및 주거용 시스템에어컨 시장을 공략하며 빠르게 성장 중인 신예 사업가.<br><br>2025년 3월 BNI 멤버십에 가입한 신규 멤버로, 가입 7개월 만인 2025년 10월 <strong class="text-white">부산 파이오니아 챕터 PR코디(7기)</strong>를 맡았고, 2026년 4월에는 <strong class="text-white">이벤트코디(8기)</strong>로 활동하며 챕터의 성장에 기여하고 있다.`,
+        career: [
+            { current: true, text: '㈜에어컨설팅 대표 (2023.04~)' },
+            { current: true, text: 'LG전자 공식 인증 전문점' },
+            { current: true, text: 'BNI 부산 파이오니아 챕터 이벤트코디 (8기, 2026.04~)' },
+            { current: false, text: 'BNI 부산 파이오니아 챕터 PR코디 (7기, 2025.10)' },
+            { current: false, text: 'BNI 멤버십 가입 (2025.03)' }
+        ],
+        gallery: ['스피커 이미지/speaker-jeong-ms.jpeg', '스피커 이미지/speaker-jeong-ms-2.jpeg', '스피커 이미지/speaker-jeong-ms-3.jpeg', '스피커 이미지/speaker-jeong-ms-4.jpeg', '스피커 이미지/speaker-jeong-ms-company.jpg'],
+        book: null,
+        topic: { tag: 'MEMBER SUCCESS STORY', title: '"신규 멤버 7개월, 챕터의 핵심이 되다<br>— 부산 파이오니아 챕터 성공 스토리"', desc: '2025년 3월 BNI에 가입한 신규 멤버가 어떻게 7개월 만에 챕터 PR코디를 맡고, 시스템에어컨 B2B 유통 사업을 BNI 레퍼럴로 가속화했는지 — 부산 파이오니아 챕터의 실전 성장 사례를 공유합니다.' }
+    },
+    kimJk: {
+        photo: '스피커 이미지/speaker-kim-jk.jpeg',
+        tag: 'Member Success Story',
+        name: '김정규',
+        title: '법무법인 한수 파트너 변호사 · BNI 강남 지역 Director',
+        quote: '"변호사를 가르치는 변호사."',
+        profile: `사법연수원 41기 출신의 <strong class="text-white">법무법인 한수 파트너 변호사</strong>이자 BNI <strong class="text-white">강남 지역 Director</strong>. 대한변호사협회 교육이사로서 후배 법조인을 양성하며 <strong class="text-white">"변호사를 가르치는 변호사"</strong>라는 정체성을 가진 법조계 리더다.<br><br>BNI에서는 <strong class="text-white">엑설런트·더강남 챕터 디렉터</strong>, <strong class="text-white">올그린 챕터 앰버서더</strong>, <strong class="text-white">강남지역 플러스 챕터 1·2기 의장</strong>을 역임하며 강남 지역 BNI 생태계의 핵심 리더로 활동 중이다.<br><br>골드 클럽 멤버, 그린 클럽 멤버, 북클럽 회장으로서 BNI의 모든 영역에서 모범적인 멤버십을 보여주고 있으며, 한국코치협회 인증전문 코치(KAC) 자격을 바탕으로 멤버 코칭에도 깊이 관여하고 있다.`,
+        career: [
+            { current: true, text: 'BNI 강남 지역 Director' },
+            { current: true, text: 'BNI 엑설런트 · 더강남 챕터 디렉터' },
+            { current: true, text: 'BNI 올그린 챕터 앰버서더' },
+            { current: true, text: 'BNI 강남 플러스 챕터 1·2기 의장' },
+            { current: true, text: '골드 클럽 · 그린 클럽 멤버 · 북클럽 회장' },
+            { current: true, text: '법무법인 한수 파트너 변호사' },
+            { current: true, text: '대한변호사협회 교육이사' },
+            { current: true, text: '손해보험협회 과실비율심의위원' },
+            { current: true, text: '알톤스포츠 사외이사' },
+            { current: true, text: '한국코치협회 인증전문 코치(KAC)' },
+            { current: false, text: '사법연수원 41기 수료' }
+        ],
+        gallery: ['스피커 이미지/speaker-kim-jk.jpeg'],
+        book: null,
+        topic: { tag: 'MEMBER SUCCESS STORY', title: '"리더가 만드는 챕터의 깊이<br>— 강남 지역 플러스 챕터의 성장 엔진"', desc: '강남 지역 디렉터이자 플러스 챕터 1·2기 의장으로서, 챕터 리더십과 전문 직군의 신뢰가 어떻게 BNI 레퍼럴을 깊고 단단한 매출 파이프라인으로 만들어내는지 — 변호사이자 코치의 시각에서 공유합니다.' }
+    },
+    kimTh: {
+        photo: '스피커 이미지/speaker-kim-th.jpg',
+        tag: 'Member Success Story',
+        name: '김태현',
+        title: '통달한의원 대표원장 · 맥진고수인증한의사 · BNI 영등포 시너지 챕터',
+        quote: '"15년차 임상의의 신뢰를, 챕터의 신뢰로."',
+        profile: `영등포구청역에서 <strong class="text-white">15년차 임상</strong>을 이어온 <strong class="text-white">통달한의원 대표원장</strong>. <strong class="text-white">맥진고수인증한의사</strong>이자 다이어트 진료 전문가로, 2012년 6월 개원 이후 누적 진료건수 <strong class="text-white">20만 건 이상</strong>을 기록한 베테랑이다.<br><br>2023년 2월 <strong class="text-white">BNI 영등포 시너지 챕터</strong>에 가입한 이후 그린클럽멤버로 41개월 활동하며 38개월 그린 유지, 2025년 9월부터 현재까지 <strong class="text-white">연속 10개월 트래픽라이트 100점</strong>이라는 압도적인 멤버십 성과를 만들어냈다.<br><br>의장, 멤버십(4회), 교육팀, PR팀까지 챕터 거의 모든 역할을 거쳤으며, 현재는 골드멤버이자 BNI 퍼스트 챕터 서포트 Am, <strong class="text-white">GBC 영등포 지부장 / YDP 트레이너</strong>로 활동 중이다.<br><br>동국대학교 한의과대학 졸업, 심리학 석사, 에니어그램 전문코치, 건축학사 및 건축기사 자격까지 보유한 다재다능한 전문가로, <strong class="text-white">서울시의회 의장상</strong>(글로벌 의료공헌), 미세스 미인대회 및 미스 인터컨티넨탈 코리아 2025 심사위원으로도 활동했다.`,
+        career: [
+            { current: true, text: '통달한의원 대표원장 (2012.06~ · 임상 15년차)' },
+            { current: true, text: 'BNI 영등포 시너지 챕터 (2023.02~)' },
+            { current: true, text: 'BNI 퍼스트 챕터 서포트 Am' },
+            { current: true, text: 'GBC 영등포 지부장 · YDP 트레이너' },
+            { current: true, text: '골드멤버 · 그린클럽 41개월 (38개월 그린 유지)' },
+            { current: true, text: '연속 10개월 트래픽라이트 100점 (2025.09~)' },
+            { current: false, text: '챕터 의장 · 멤버십(4회) · 교육팀 · PR팀' },
+            { current: false, text: '동국대학교 한의과대학 졸업' },
+            { current: false, text: '심리학 석사 · 에니어그램 전문코치' },
+            { current: false, text: '건축학사 · 건축기사' },
+            { current: false, text: '서울시의회 의장상 표창 (글로벌 의료공헌)' },
+            { current: false, text: 'Mrs Awards of Year 2025 심사위원' },
+            { current: false, text: '미스 인터컨티넨탈 코리아 2025 심사위원' }
+        ],
+        gallery: ['스피커 이미지/speaker-kim-th.jpg'],
+        book: null,
+        topic: { tag: 'MEMBER SUCCESS STORY', title: '"트래픽라이트 100점, 그린클럽 38개월의 비밀<br>— 영등포 시너지 챕터 성공 스토리"', desc: '15년차 임상 한의사가 BNI 시너지 챕터에서 어떻게 압도적인 멤버십 지표를 만들고, 누적 진료건수 20만 건의 신뢰를 챕터 레퍼럴로 확장했는지 — 의장·교육팀·PR팀까지 거친 BNI 성장 노하우를 공유합니다.' }
     }
 };
 
