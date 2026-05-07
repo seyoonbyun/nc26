@@ -150,6 +150,17 @@ function toggleMobileMenu() {
 <p class="text-[11px] text-slate-500">통달한의원 대표원장 · 영등포 시너지</p>
 </div>
 </div>
+<!-- Alex P.E. (Global Story) -->
+<div onclick="openSpeakerModal('alex')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
+<div class="aspect-square bg-slate-800 relative overflow-hidden">
+<img src="스피커 이미지/speaker-alex-pe.png" alt="Alex P.E." class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 20%;"/>
+</div>
+<div class="p-4">
+<h4 class="font-bold text-sm mb-1 font-heading">Alex P.E.</h4>
+<p class="text-xs text-primary font-semibold mb-1">Global Story</p>
+<p class="text-[11px] text-slate-500">Woodlands · Kowloon Energy</p>
+</div>
+</div>
 <!-- Eric Chan (Global Story) -->
 <div onclick="openSpeakerModal('eric')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
 <div class="aspect-square bg-slate-800 relative overflow-hidden">
@@ -183,17 +194,6 @@ function toggleMobileMenu() {
 <p class="text-[11px] text-slate-500">Coming Soon</p>
 </div>
 </div>
-<!-- Global Networking Party & DnA Awards -->
-<div class="bg-gradient-to-br from-primary/20 to-primary/5 border border-primary/40 rounded-2xl overflow-hidden">
-<div class="aspect-square flex items-center justify-center">
-<span class="material-symbols-outlined text-5xl text-primary">celebration</span>
-</div>
-<div class="p-4">
-<h4 class="font-bold text-sm mb-1">글로벌 네트워킹 파티</h4>
-<p class="text-xs text-primary font-semibold mb-1">&amp; DnA Awards</p>
-<p class="text-[11px] text-slate-400">18:00 - 20:00</p>
-</div>
-</div>
 </div>
 </section>
 
@@ -213,7 +213,7 @@ function toggleMobileMenu() {
 <div class="p-4">
 <h4 class="font-bold text-sm mb-1 font-heading">Judee R. Quiazon</h4>
 <p class="text-xs text-primary font-semibold mb-1">Keynote Ⅰ</p>
-<p class="text-[11px] text-slate-500">BNI Philippines · District Director</p>
+<p class="text-[11px] text-slate-500">BNI Taguig Region · Executive Director</p>
 </div>
 </div>
 <!-- Norm Dominguez -->
@@ -373,25 +373,56 @@ const speakers = {
             desc: 'Deepsea Marine의 실제 거래 사례를 기반으로, 국경과 산업을 넘어 BNI 레퍼럴이 어떻게 실질적인 매출과 성장을 만들어내는지 공유합니다. 요트 산업이라는 하이엔드 시장에서 입증된 레퍼럴 시스템의 힘.'
         }
     },
+    alex: {
+        photo: '스피커 이미지/speaker-alex-pe.png',
+        tag: 'Global Story',
+        name: 'Alex P.E.',
+        title: 'Founder, Veg Concepts Ltd (Woodlands · Hello India) · BNI Kowloon Energy (Chinese) Chapter · 7년차 ALL TIME Green Member',
+        quote: '"Focused · Committed · Never Give Up — never hesitate to work out of comfort zones."',
+        profile: `홍콩·마카오 정통 인디언 채식 외식업의 대표 브랜드 <strong class="text-white">Woodlands</strong>(Veg Concepts Ltd) 운영자. 본업은 <strong class="text-white">기계공학자 / 시계 제품 디자이너</strong> 출신으로, 1998년 홍콩 침사추이로 이주해 시계 무역 회사에서 19년간 근무한 뒤(1998–2017) 외식·유통 사업가로 전환한 실전형 창업가다. 가족 중 <strong class="text-white">1세대 사업가</strong>.<br><br>
+BNI <strong class="text-white">Kowloon Energy (Chinese) Chapter</strong>의 <strong class="text-white">7년차 ALL TIME Green Member</strong>이자 <strong class="text-white">Director Consultant</strong>(Growth Director Consultant – Creation Chapter). 챕터에서 <strong class="text-white">President · Vice President · Mentor Co-Ordinator · Green Light Ambassador · International Team Co-Ordinator</strong> 5종의 LT Role을 거친 챕터 핵심 리더다.<br><br>
+사업 연혁: 2016 <strong class="text-white">MA HA RA JA MART</strong>(인도 식료품) → 2017 SOHO TIME(시계 무역) → 2018 <strong class="text-white">Woodlands 침사추이 인수</strong> → 2019 MA HA RA JA Tickets(인도 영화 상영) → 2020 <strong class="text-white">HELLO INDIA 침사추이 인수</strong> → 2021 <strong class="text-white">MA HA RA JA CARE</strong>(BNI에서 시작한 헬스케어) → 2022 Woodlands 완차이 → 2023 <strong class="text-white">Woodlands 중문대(CUHK)</strong> → 2024 <strong class="text-white">Woodlands 마카오</strong> + 유튜브 채널 「素食湳」 → 2025 <strong class="text-white">HELLO INDIA 160석 신매장</strong>으로 확장.<br><br>
+코로나19 정부 격리 명령 시기에는 <strong class="text-white">하루 3세션 × 1,000인분</strong>의 단체급식을 정시 배송에 성공시켜 위기 대응 역량을 입증했고, <strong class="text-white">2023 HKIC 용·사자춤 오프닝</strong> 및 <strong class="text-white">BNI Video Testimonial Award</strong>, <strong class="text-white">2024 HKIC 인도 댄스 오프닝</strong>(Energy 멤버들과 함께) 및 <strong class="text-white">BNI + Metro Broadcast Top 100 Business Award</strong>를 수상했다.`,
+        career: [
+            { current: true, text: 'Veg Concepts Ltd (Woodlands) · Founder · 침사추이 / 완차이 / CUHK / 마카오 4개 지점' },
+            { current: true, text: 'Hello India · 정통 북인도 요리 브랜드 (2025 160석 신매장 확장)' },
+            { current: true, text: 'MA HA RA JA MART / Tickets / CARE 운영' },
+            { current: true, text: 'BNI Kowloon Energy (Chinese) Chapter · 7년차 ALL TIME Green Member' },
+            { current: true, text: 'Director Consultant · Growth Director Consultant (Creation Chapter)' },
+            { current: false, text: 'Chapter LT Roles: President · VP · Mentor Co-Ord · Green Light Ambassador · International Team Co-Ord' },
+            { current: false, text: 'BNI + Metro Broadcast Top 100 Business Award (2024)' },
+            { current: false, text: 'BNI Video Testimonial Award (2023)' },
+            { current: false, text: '코로나19 격리 명령 시기 일 3세션 × 1,000인분 단체급식 운영' },
+            { current: false, text: '시계 무역 회사 19년 근무 (1998–2017) · 기계공학자 / 시계 제품 디자이너 출신' }
+        ],
+        gallery: ['스피커 이미지/speaker-alex-pe.png'],
+        book: null,
+        topic: {
+            tag: 'GLOBAL STORY',
+            title: '"From 1-2-1 to a New Branch<br>— 1-2-1 미팅이 새로운 매장을 만든다"',
+            desc: 'BNI Kowloon Energy 7년차 · ALL TIME Green Member의 챕터 깊이가 실제 비즈니스로 어떻게 연결되는지 — 1-2-1 미팅이 스페인-홍콩 멤버 파트너십과 중문대(CUHK) 캠퍼스 매장 오픈으로 이어진 실제 사례, 그리고 시계 디자이너에서 외식 4개 지점 사업가로 전환한 27년의 여정을 한국 멤버들에게 공유합니다.'
+        }
+    },
     philED: {
         photo: '스피커 이미지/speaker-philippines-ed.png',
         tag: 'Keynote Session I',
         name: 'Judee R. Quiazon',
-        title: 'Director of Franchise Development · District Director, Luzon (North) · BNI Philippines',
-        quote: '"Community is the fastest way to grow a business — if you build the culture right."',
-        profile: `<strong class="text-white">BNI Philippines</strong>의 Director of Franchise Development이자 루손 북부(Luzon North) 지역의 District Director. BNI Taguig의 Executive Director를 역임하며 수도권 필리핀 BNI 챕터의 급성장을 이끈 주역이다.<br><br>Franchise Development 총괄로서 신규 지역 확장과 챕터 런칭, 그리고 현지 리더 육성에 집중하고 있으며, 다문화·다지역 환경에서 <strong class="text-white">BNI 시스템을 현지화</strong>한 대표적 리더로 꼽힌다.<br><br>청년 리더 육성 비영리단체 <strong class="text-white">Natalie in the Light, Inc.</strong>의 이사회 멤버로도 활동하며, 차세대 여성·청년 리더십 개발에 기여해 왔다.<br><br>이번 Accelerate 2026 Day 2 오프닝 키노트에서는 <strong class="text-white">커뮤니티와 문화가 비즈니스를 점화시키는 방법</strong>에 대해 한국 멤버들에게 실전 인사이트를 전한다.`,
+        title: 'Executive Director, BNI Taguig Region (Philippines) · Maxwell Certified Leadership Coach',
+        quote: '"The right culture turns community into a growth engine."',
+        profile: `<strong class="text-white">BNI Taguig Region</strong>(필리핀)의 Executive Director로서, 글로벌 최상위 성과를 기록하는 비즈니스 커뮤니티 중 하나를 이끄는 성장 중심형 커뮤니티 빌더. 다국적 IT 기업 백그라운드와 <strong class="text-white">Maxwell Certified Leadership Coach</strong> 자격을 결합해 전략(strategy)과 따뜻함(heart)을 함께 풀어내는 리더다.<br><br>관계가 곧 결과를 만들어내는 <strong class="text-white">고성과 문화(High-Performing Culture)</strong>를 설계하는 것이 그의 전문 영역. <strong class="text-white">신뢰(Trust) · 책임(Accountability) · 공유 리더십(Shared Leadership)</strong>에 기반한 문화를 구축해 멤버들이 서로를 옹호(advocate)하고 기회가 배가(multiply)되는 커뮤니티를 만들어 왔다.<br><br>BNI Philippines의 Franchise Development 총괄로서 신규 지역 확장과 현지 리더 육성에도 깊이 관여하고 있으며, 청년 리더 육성 비영리단체 <strong class="text-white">Natalie in the Light, Inc.</strong>의 이사회 멤버로 활동 중이다.<br><br>이번 Accelerate 2026 Day 2 오프닝 키노트에서는, <strong class="text-white">올바른 문화가 어떻게 커뮤니티를 성장 엔진(growth engine)으로 바꾸는지</strong>를 한국 멤버들에게 전한다.`,
         career: [
+            { current: true, text: 'BNI Taguig Region · Executive Director (Philippines 최상위 성과 커뮤니티)' },
             { current: true, text: 'BNI Philippines · Director of Franchise Development' },
-            { current: true, text: 'BNI Philippines · District Director, Luzon (North)' },
+            { current: true, text: 'Maxwell Certified Leadership Coach' },
             { current: true, text: 'Natalie in the Light, Inc. · Board Member' },
-            { current: false, text: 'BNI Taguig · Executive Director' }
+            { current: false, text: '다국적 IT 기업 백그라운드 (Multinational IT)' }
         ],
         gallery: ['스피커 이미지/speaker-philippines-ed.png'],
         book: null,
         topic: {
             tag: 'KEYNOTE I',
             title: '"Igniting Business Communities &amp; Culture<br>— 커뮤니티와 문화가 비즈니스를 점화시키는 법"',
-            desc: 'BNI Philippines가 지역 커뮤니티를 어떻게 하나의 비즈니스 문화로 조직했는지, 그리고 그 문화가 어떻게 실제 매출과 성장을 견인했는지 공유합니다. 루손 북부 지역의 챕터 런칭·확장 실전 사례를 기반으로 한 현장형 키노트.'
+            desc: '신뢰 · 책임 · 공유 리더십에 기반한 고성과 커뮤니티 문화가 어떻게 커뮤니티를 성장 엔진(growth engine)으로 바꾸는지 — BNI Taguig Region의 운영 경험과 Maxwell 리더십 코칭 인사이트를 결합해 한국 멤버들에게 전합니다.'
         }
     },
     norm: {
