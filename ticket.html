@@ -601,6 +601,62 @@ function toggleMobileMenu() {
 </ul>
 <button onclick="openBoothMapModal('international')" class="w-full py-4 rounded-xl font-bold bg-amber-500 text-white hover:bg-primary transition-all shadow-lg shadow-amber-300/30 flex items-center justify-center gap-2"><span class="material-symbols-outlined text-base">event_seat</span> <span data-i18n="booth_apply_btn"></span></button>
 </div>
+<!-- Visitor + Networking Pass Card (International) -->
+<div class="flex flex-col p-5 md:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
+<div class="mb-6">
+<h3 class="text-xl font-bold mb-3" data-i18n="plan5_name"></h3>
+<p class="text-sm text-slate-500 mb-4" data-i18n="plan5_package"></p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 space-y-3">
+<div>
+<span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-primary block" data-i18n="label_early_bird"></span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-2xl md:text-3xl font-black text-primary" data-i18n="plan5_early_price"></span>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-700 pt-2">
+<span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider block" data-i18n="label_regular"></span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-base md:text-lg font-bold text-slate-400 line-through" data-i18n="plan5_regular_price"></span>
+</div>
+</div>
+</div>
+<p class="text-xs text-slate-400 mt-2 text-center" data-i18n="early_bird_deadline"></p>
+</div>
+<ul class="space-y-4 mb-10 flex-1 text-sm">
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_day1_only"></span></li>
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_lunch_included"></span></li>
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_networking_party"></span></li>
+</ul>
+<button onclick="openRegForm('plan5')" class="plan-select-btn w-full py-4 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+</div>
+<!-- Visitor Pass Card (International) -->
+<div class="flex flex-col p-5 md:p-8 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-primary dark:hover:border-primary hover:shadow-2xl hover:shadow-primary/10 transition-all relative">
+<div class="mb-6">
+<h3 class="text-xl font-bold mb-3" data-i18n="plan4_name"></h3>
+<p class="text-sm text-slate-500 mb-4" data-i18n="plan4_package"></p>
+<div class="bg-slate-50 dark:bg-slate-800 rounded-xl p-4 space-y-3">
+<div>
+<span class="text-[10px] md:text-xs font-bold uppercase tracking-wider text-primary block" data-i18n="label_early_bird"></span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-2xl md:text-3xl font-black text-primary" data-i18n="plan4_early_price"></span>
+</div>
+</div>
+<div class="border-t border-slate-200 dark:border-slate-700 pt-2">
+<span class="text-[10px] md:text-xs font-semibold text-slate-400 uppercase tracking-wider block" data-i18n="label_regular"></span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="text-base md:text-lg font-bold text-slate-400 line-through" data-i18n="plan4_regular_price"></span>
+</div>
+</div>
+</div>
+<p class="text-xs text-slate-400 mt-2 text-center" data-i18n="early_bird_deadline"></p>
+</div>
+<ul class="space-y-4 mb-10 flex-1 text-sm">
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_day1_only"></span></li>
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-emerald-500 text-xl">check_circle</span> <span data-i18n="feat_lunch_included"></span></li>
+<li class="flex items-center gap-3 whitespace-nowrap"><span class="material-symbols-outlined text-red-400 text-xl">cancel</span> <span class="text-slate-400" data-i18n="feat_no_party"></span></li>
+</ul>
+<button onclick="openRegForm('plan4')" class="plan-select-btn w-full py-4 rounded-xl font-bold bg-slate-100 dark:bg-slate-800 hover:!bg-primary hover:!text-white transition-all" data-i18n="btn_select"></button>
+</div>
 </div>
 <!-- Registration Modal -->
 <div id="reg-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -639,7 +695,7 @@ function toggleMobileMenu() {
 <input id="reg-phone" type="tel" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm" data-i18n-placeholder="form_phone_placeholder">
 </div>
 <!-- Position -->
-<div>
+<div id="reg-position-wrap">
 <label class="block text-sm font-semibold mb-2" data-i18n="form_position_label"></label>
 <select id="reg-position" required class="w-full px-4 py-3 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-all text-sm">
 <option value="" data-i18n="form_position_placeholder"></option>
@@ -1143,6 +1199,18 @@ const i18n = {
         plan2_early_local: '',
         plan2_regular_price: 'USD $360',
         plan2_regular_local: '',
+        plan4_name: 'Visitor Pass',
+        plan4_package: 'Day 1 Only · Lunch Included',
+        plan4_early_price: 'USD $110',
+        plan4_early_local: '',
+        plan4_regular_price: 'USD $190',
+        plan4_regular_local: '',
+        plan5_name: 'Visitor + Networking Pass',
+        plan5_package: 'Day 1 + Networking Party',
+        plan5_early_price: 'USD $165',
+        plan5_early_local: '',
+        plan5_regular_price: 'USD $245',
+        plan5_regular_local: '',
         label_early_bird: 'Early Bird (until May 11)',
         label_early_bird_line1: 'Early Bird',
         label_early_bird_line2: '(until May 11)',
@@ -1219,6 +1287,18 @@ const i18n = {
         plan2_early_local: '',
         plan2_regular_price: 'USD $360',
         plan2_regular_local: '',
+        plan4_name: 'ビジターパス',
+        plan4_package: 'Day 1のみ・ランチ込み',
+        plan4_early_price: 'USD $110',
+        plan4_early_local: '',
+        plan4_regular_price: 'USD $190',
+        plan4_regular_local: '',
+        plan5_name: 'ビジターパス + ネットワーキングパス',
+        plan5_package: 'Day 1＋ネットワーキングパーティー',
+        plan5_early_price: 'USD $165',
+        plan5_early_local: '',
+        plan5_regular_price: 'USD $245',
+        plan5_regular_local: '',
         label_early_bird: '早割（5/11まで）',
         label_early_bird_line1: '早割',
         label_early_bird_line2: '（5/11まで）',
@@ -1295,6 +1375,18 @@ const i18n = {
         plan2_early_local: '',
         plan2_regular_price: 'USD $360',
         plan2_regular_local: '',
+        plan4_name: '访客通行证',
+        plan4_package: '仅Day 1 · 含午餐',
+        plan4_early_price: 'USD $110',
+        plan4_early_local: '',
+        plan4_regular_price: 'USD $190',
+        plan4_regular_local: '',
+        plan5_name: '访客通行证 + 社交通行证',
+        plan5_package: 'Day 1 + 人脉扩展晚宴',
+        plan5_early_price: 'USD $165',
+        plan5_early_local: '',
+        plan5_regular_price: 'USD $245',
+        plan5_regular_local: '',
         label_early_bird: '优惠价（截止5/11）',
         label_early_bird_line1: '优惠价',
         label_early_bird_line2: '（截止5/11）',
@@ -1483,6 +1575,18 @@ function openRegForm(planKey) {
     // 언어별 국가번호 자동 입력
     const countryCode = { en: '+1 ', ja: '+81 ', zh: '+86 ', ko: '+82 ' };
     document.getElementById('reg-phone').value = countryCode[lang] || '+';
+    // Visitor Pass / Visitor + Networking Pass: hide position field (visitors aren't ED/DM)
+    const positionWrap = document.getElementById('reg-position-wrap');
+    const positionSelect = document.getElementById('reg-position');
+    if (planKey === 'plan4' || planKey === 'plan5') {
+        positionWrap.style.display = 'none';
+        positionSelect.removeAttribute('required');
+        positionSelect.value = 'VISITOR';
+    } else {
+        positionWrap.style.display = '';
+        positionSelect.setAttribute('required', '');
+        positionSelect.value = '';
+    }
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
 }
@@ -1494,10 +1598,13 @@ function closeRegForm() {
 
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzrtPGtcfmmd8z1RHZ2KnkalVSDhYBqlIEWn_Uq9ZIuYN0mh5-KtDbglVWRbhlSjXM/exec';
 
+const VISITOR_PASS_URL = 'https://global.bnikoreastore.com/product/visitor-pass-bni-korea-national-conference-2026/811/category/60/display/1/';
+const VISITOR_NETWORKING_PASS_URL = 'https://global.bnikoreastore.com/product/visitor-networking-pass-bni-korea-national-conference-2026/812/category/60/display/1/';
+
 const PAYMENT_URLS = {
-    en: { ED: 'https://global.bnikoreastore.com/surl/P/763', DM: 'https://global.bnikoreastore.com/surl/P/764', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' },
-    zh: { ED: 'https://global.bnikoreastore.com/surl/P/765', DM: 'https://global.bnikoreastore.com/surl/P/766', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' },
-    ja: { ED: 'https://global.bnikoreastore.com/surl/P/767', DM: 'https://global.bnikoreastore.com/surl/P/768', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/' }
+    en: { ED: 'https://global.bnikoreastore.com/surl/P/763', DM: 'https://global.bnikoreastore.com/surl/P/764', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/', VP: VISITOR_PASS_URL, VNP: VISITOR_NETWORKING_PASS_URL },
+    zh: { ED: 'https://global.bnikoreastore.com/surl/P/765', DM: 'https://global.bnikoreastore.com/surl/P/766', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/', VP: VISITOR_PASS_URL, VNP: VISITOR_NETWORKING_PASS_URL },
+    ja: { ED: 'https://global.bnikoreastore.com/surl/P/767', DM: 'https://global.bnikoreastore.com/surl/P/768', BOOTH: 'https://global.bnikoreastore.com/product/exhibition-booth-bni-korea-national-conference-2026/780/category/60/display/1/', VP: VISITOR_PASS_URL, VNP: VISITOR_NETWORKING_PASS_URL }
 };
 
 function submitRegForm(e) {
@@ -1543,7 +1650,7 @@ function submitRegForm(e) {
     // 즉시 결제 페이지로 이동
     closeRegForm();
     const lang = currentLang;
-    const planToPayment = { plan1: 'ED', plan2: 'DM' };
+    const planToPayment = { plan1: 'ED', plan2: 'DM', plan4: 'VP', plan5: 'VNP' };
     const paymentKey = planToPayment[selectedPlan] || position;
     const paymentUrl = PAYMENT_URLS[lang] && PAYMENT_URLS[lang][paymentKey];
     if (paymentUrl) {
