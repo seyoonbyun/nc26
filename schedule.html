@@ -289,22 +289,23 @@ function toggleMobileMenu() {
 </div>
 </div>
 </div>
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-primary/30 transition-all">
+<div onclick="openSpeakerModal('fujimoto')" class="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-primary/30 transition-all cursor-pointer group">
 <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
 <div class="flex items-center gap-3">
-<span class="text-primary font-black text-lg tabular-nums min-w-[110px]">16:00 - 16:40</span>
+<span class="text-primary font-black text-lg tabular-nums min-w-[110px]">16:00 - 16:30</span>
 <span class="text-[10px] font-bold bg-amber-500/10 text-amber-400 px-2 py-1 rounded uppercase min-w-[72px] text-center inline-block">Special</span>
 </div>
 <div class="flex-1">
-<h4 class="font-bold">특별 스피치 Ⅰ <span class="text-slate-500 font-normal text-sm">Special Speech I</span></h4>
-<p class="text-sm text-slate-500 mt-1">연사 미정 (TBA)</p>
+<h4 class="font-bold group-hover:text-primary transition-colors">특별 스피치 Ⅰ <span class="text-slate-500 font-normal text-sm">Special Speech I</span></h4>
+<p class="text-sm text-slate-400 mt-1"><span class="text-white font-semibold">Hironori Fujimoto</span> · BNI Japan Regional Director</p>
 </div>
+<span class="material-symbols-outlined text-slate-700 group-hover:text-primary transition-colors hidden md:block">open_in_new</span>
 </div>
 </div>
 <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-primary/30 transition-all">
 <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
 <div class="flex items-center gap-3">
-<span class="text-primary font-black text-lg tabular-nums min-w-[110px]">16:40 - 18:00</span>
+<span class="text-primary font-black text-lg tabular-nums min-w-[110px]">16:30 - 18:00</span>
 <span class="text-[10px] font-bold bg-blue-500/10 text-blue-400 px-2 py-1 rounded uppercase min-w-[72px] text-center inline-block">Network</span>
 </div>
 <div class="flex-1">
@@ -750,6 +751,13 @@ const speakers = {
         book: null,
         topic: { tag: 'MEMBER SUCCESS STORY', title: '"리더가 만드는 챕터의 깊이<br>— 강남 지역 플러스 챕터의 성장 엔진"', desc: '강남 지역 디렉터이자 플러스 챕터 1·2기 의장으로서, 챕터 리더십과 전문 직군의 신뢰가 어떻게 BNI 레퍼럴을 깊고 단단한 매출 파이프라인으로 만들어내는지 — 변호사이자 코치의 시각에서 공유합니다.' }
     },
+    fujimoto: {
+        photo: '스피커 이미지/speaker-fujimoto.jpg',
+        tag: 'Special Speech I',
+        name: 'Hironori Fujimoto',
+        title: 'BNI Japan Regional Director',
+        comingSoon: true
+    },
     kimTh: {
         photo: '스피커 이미지/speaker-kim-th.jpg',
         tag: 'Member Success Story',
@@ -789,6 +797,13 @@ function openSpeakerModal(id) {
     document.getElementById('modal-name').textContent = s.name;
     document.getElementById('modal-title').textContent = s.title;
     let html = '';
+    if (s.comingSoon) {
+        html = `<div class="py-10 text-center"><span class="material-symbols-outlined text-6xl text-primary mb-4 block">hourglass_empty</span><p class="text-2xl font-black text-white mb-2">Coming Soon</p><p class="text-sm text-slate-400">상세 프로필을 준비 중입니다.<br>Detailed profile is being prepared.</p></div>`;
+        document.getElementById('modal-body').innerHTML = html;
+        document.getElementById('speaker-modal').classList.remove('hidden');
+        document.body.style.overflow = 'hidden';
+        return;
+    }
     html += `<div class="border-l-4 border-primary bg-primary/5 rounded-r-lg px-5 py-4"><p class="text-primary/90 font-medium italic text-sm">${s.quote}</p></div>`;
     html += `<div>${sectionTitle('Profile')}<p class="text-sm text-slate-300 leading-relaxed">${s.profile}</p></div>`;
     html += `<div>${sectionTitle('Career')}<div class="space-y-2 text-sm">`;
