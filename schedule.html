@@ -297,7 +297,7 @@ function toggleMobileMenu() {
 </div>
 <div class="flex-1">
 <h4 class="font-bold group-hover:text-primary transition-colors">특별 스피치 Ⅰ <span class="text-slate-500 font-normal text-sm">Special Speech I</span></h4>
-<p class="text-sm text-slate-400 mt-1"><span class="text-white font-semibold">Hironori Fujimoto</span> · BNI Japan Regional Director</p>
+<p class="text-sm text-slate-400 mt-1"><span class="text-white font-semibold">Hironori Fujimoto</span> · BNI Nagoya Region Area Director</p>
 </div>
 <span class="material-symbols-outlined text-slate-700 group-hover:text-primary transition-colors hidden md:block">open_in_new</span>
 </div>
@@ -645,7 +645,8 @@ const speakers = {
         topic: { tag: 'GLOBAL STORY', title: '"From 1-2-1 to a New Branch<br>— 1-2-1 미팅이 새로운 매장을 만든다"', desc: 'BNI Kowloon Energy 7년차 · ALL TIME Green Member의 챕터 깊이가 실제 비즈니스로 어떻게 연결되는지 — 1-2-1 미팅이 스페인-홍콩 멤버 파트너십과 중문대(CUHK) 캠퍼스 매장 오픈으로 이어진 실제 사례, 그리고 시계 디자이너에서 외식 4개 지점 사업가로 전환한 27년의 여정을 한국 멤버들에게 공유합니다.' }
     },
     mac: {
-        photo: '스피커 이미지/speaker-mac-srinivasan.png',
+        photo: '스피커 이미지/speaker-mac-card.jpg',
+        modalPhotoPosition: 'center 20%',
         tag: 'Keynote Session II',
         name: 'Mac Srinivasan',
         title: 'CEO, The Abundant Group · Former Global Markets President of BNI · Co-Founder of BNI Bangalore',
@@ -755,7 +756,7 @@ const speakers = {
         photo: '스피커 이미지/speaker-fujimoto.jpg',
         tag: 'Special Speech I',
         name: 'Hironori Fujimoto',
-        title: 'BNI Japan Regional Director',
+        title: 'BNI Nagoya Region Area Director',
         comingSoon: true
     },
     kimTh: {
@@ -791,8 +792,10 @@ function sectionTitle(t) { return `<h4 class="text-[11px] font-bold tracking-wid
 function openSpeakerModal(id) {
     const s = speakers[id];
     if (!s) return;
-    document.getElementById('modal-photo').src = s.photo;
-    document.getElementById('modal-photo').alt = s.name;
+    const modalPhoto = document.getElementById('modal-photo');
+    modalPhoto.src = s.photo;
+    modalPhoto.alt = s.name;
+    modalPhoto.style.objectPosition = s.modalPhotoPosition || 'center';
     document.getElementById('modal-tag').textContent = s.tag;
     document.getElementById('modal-name').textContent = s.name;
     document.getElementById('modal-title').textContent = s.title;

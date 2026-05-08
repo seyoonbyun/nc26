@@ -191,7 +191,7 @@ function toggleMobileMenu() {
 <div class="p-4">
 <h4 class="font-bold text-sm mb-1 font-heading">Hironori Fujimoto</h4>
 <p class="text-xs text-primary font-semibold mb-1">Special Speech Ⅰ</p>
-<p class="text-[11px] text-slate-500">BNI Japan Regional Director</p>
+<p class="text-[11px] text-slate-500">BNI Nagoya Region Area Director</p>
 </div>
 </div>
 </div>
@@ -437,7 +437,8 @@ BNI <strong class="text-white">Kowloon Energy (Chinese) Chapter</strong>의 <str
         }
     },
     mac: {
-        photo: '스피커 이미지/speaker-mac-srinivasan.png',
+        photo: '스피커 이미지/speaker-mac-card.jpg',
+        modalPhotoPosition: 'center 20%',
         tag: 'Keynote Session II',
         name: 'Mac Srinivasan',
         title: 'CEO, The Abundant Group · Former Global Markets President of BNI · Co-Founder of BNI Bangalore',
@@ -547,7 +548,7 @@ BNI <strong class="text-white">Kowloon Energy (Chinese) Chapter</strong>의 <str
         photo: '스피커 이미지/speaker-fujimoto.jpg',
         tag: 'Special Speech I',
         name: 'Hironori Fujimoto',
-        title: 'BNI Japan Regional Director',
+        title: 'BNI Nagoya Region Area Director',
         comingSoon: true
     },
     kimTh: {
@@ -589,8 +590,10 @@ function sectionTitle(text) {
 function openSpeakerModal(id) {
     const s = speakers[id];
     if (!s) return;
-    document.getElementById('modal-photo').src = s.photo;
-    document.getElementById('modal-photo').alt = s.name;
+    const modalPhoto = document.getElementById('modal-photo');
+    modalPhoto.src = s.photo;
+    modalPhoto.alt = s.name;
+    modalPhoto.style.objectPosition = s.modalPhotoPosition || 'center';
     document.getElementById('modal-tag').textContent = s.tag;
     document.getElementById('modal-name').textContent = s.name;
     document.getElementById('modal-title').textContent = s.title;
