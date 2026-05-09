@@ -122,15 +122,16 @@ function toggleMobileMenu() {
 </div>
 </div>
 </div>
-<div class="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-primary/30 transition-all">
+<div onclick="openFlagCeremonyModal()" class="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-primary/30 transition-all cursor-pointer group">
 <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-6">
 <div class="flex items-center gap-3">
 <span class="text-primary font-black text-lg tabular-nums min-w-[110px]">09:00 - 09:20</span>
 <span class="text-[10px] font-bold bg-primary/10 text-primary px-2 py-1 rounded uppercase min-w-[72px] text-center inline-block">개회식</span>
 </div>
 <div class="flex-1">
-<h4 class="font-bold">Day 1 개회식 · 깃발 세리머니 <span class="text-slate-500 font-normal text-sm">Opening Ceremony &amp; Flag Ceremony</span></h4>
+<h4 class="font-bold group-hover:text-primary transition-colors">Day 1 개회식 · 깃발 세리머니 <span class="text-slate-500 font-normal text-sm">Opening Ceremony &amp; Flag Ceremony</span></h4>
 </div>
+<span class="material-symbols-outlined text-slate-700 group-hover:text-primary transition-colors hidden md:block">open_in_new</span>
 </div>
 </div>
 <div onclick="openSpeakerModal('host')" class="bg-slate-900 border border-slate-800 rounded-xl p-5 hover:border-primary/30 transition-all cursor-pointer group">
@@ -536,6 +537,26 @@ Register Now <span class="material-symbols-outlined">arrow_forward</span>
 </div>
 </div>
 
+<!-- Flag Ceremony Image Modal -->
+<div id="flag-ceremony-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4">
+<div class="absolute inset-0 bg-black/80 backdrop-blur-sm" onclick="closeFlagCeremonyModal()"></div>
+<div class="relative w-full max-w-3xl bg-[#0f1118] rounded-2xl shadow-2xl border border-slate-800 overflow-hidden max-h-[90vh] overflow-y-auto modal-scroll">
+<div class="sticky top-0 bg-[#141418] border-b border-slate-800 p-5 md:p-6 flex items-center gap-4 z-10">
+<div class="flex-1 min-w-0">
+<div class="inline-block bg-primary text-white text-[10px] font-bold px-3 py-1 rounded-full tracking-widest uppercase">개회식 · OPENING CEREMONY</div>
+</div>
+<button onclick="closeFlagCeremonyModal()" class="size-7 flex items-center justify-center rounded-md hover:bg-slate-700 transition-colors shrink-0">
+<span class="material-symbols-outlined text-lg text-slate-400 hover:text-white">close</span>
+</button>
+</div>
+<div class="p-5 md:p-8">
+<div class="rounded-xl overflow-hidden bg-slate-800">
+<img src="깃발 세레머니.jpg" alt="깃발 세레머니 Flag Ceremony" class="block w-full h-auto object-contain"/>
+</div>
+</div>
+</div>
+</div>
+
 <!-- Floating Buttons -->
 <div class="fixed bottom-6 right-6 z-50 flex flex-col gap-3">
 <a href="http://pf.kakao.com/_xewxmrT/chat" target="_blank" rel="noopener" class="w-12 h-12 rounded-full shadow-lg hover:scale-110 transition-transform" title="카카오톡 상담">
@@ -854,7 +875,22 @@ function closeSpeakerModal() {
     document.body.style.overflow = '';
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSpeakerModal(); });
+function openFlagCeremonyModal() {
+    document.getElementById('flag-ceremony-modal').classList.remove('hidden');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeFlagCeremonyModal() {
+    document.getElementById('flag-ceremony-modal').classList.add('hidden');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        closeSpeakerModal();
+        closeFlagCeremonyModal();
+    }
+});
 
 function switchDay(day) {
     document.getElementById('schedule-day1').classList.toggle('hidden', day !== 'day1');
