@@ -105,13 +105,25 @@ function toggleMobileMenu() {
 <span class="text-xs text-slate-500 font-semibold">Networking · Global</span>
 </div>
 
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+<!-- Featured: 김하원 (Keynote Speaker) — Cinematic Poster -->
+<div onclick="openSpeakerModal('kim')" class="relative rounded-2xl overflow-hidden mb-5 group cursor-pointer aspect-[16/9] md:aspect-[21/9] hover:shadow-xl hover:shadow-primary/20 transition-shadow">
+<img src="스피커 이미지/speaker-kim-hawon.jpg" alt="김하원 대표" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 20%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10"></div>
+<div class="absolute inset-0 p-6 md:p-10 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Keynote Speaker</span>
+<h3 class="text-3xl md:text-5xl font-black mb-2">김하원</h3>
+<p class="text-sm md:text-base text-slate-300 mb-3">주식회사 해녀키친그룹 대표이사</p>
+<p class="text-base md:text-xl font-bold text-white leading-snug max-w-3xl">"해녀의 부엌에서 세계의 식탁으로<br>— 문화를 바꾸는 청년 창업가의 도전"</p>
+</div>
+</div>
+
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
 <!-- 존윤 (Day 1 오프닝 스피치) -->
 <div onclick="openSpeakerModal('host')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
 <div class="aspect-square bg-slate-800 relative overflow-hidden">
 <img src="스피커 이미지/host-john-yoon.png" alt="존윤" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 20%;"/>
 </div>
-<div class="p-4">
+<div class="p-3">
 <h4 class="font-bold text-sm mb-1">존윤</h4>
 <p class="text-xs text-primary font-semibold mb-1">Opening Speech</p>
 <p class="text-[11px] text-slate-500">BNI Korea National Director & CEO</p>
@@ -122,7 +134,7 @@ function toggleMobileMenu() {
 <div class="aspect-square bg-slate-800 relative overflow-hidden">
 <img src="스피커 이미지/speaker-jeong-ms-4.jpeg" alt="정명수" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 15%;"/>
 </div>
-<div class="p-4">
+<div class="p-3">
 <h4 class="font-bold text-sm mb-1">정명수</h4>
 <p class="text-xs text-primary font-semibold mb-1">Member Success Story</p>
 <p class="text-[11px] text-slate-500">㈜에어컨설팅 대표 · 부산 파이오니아</p>
@@ -133,7 +145,7 @@ function toggleMobileMenu() {
 <div class="aspect-square bg-slate-800 relative overflow-hidden">
 <img src="스피커 이미지/speaker-kim-jk.jpeg" alt="김정규" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 20%;"/>
 </div>
-<div class="p-4">
+<div class="p-3">
 <h4 class="font-bold text-sm mb-1">김정규</h4>
 <p class="text-xs text-primary font-semibold mb-1">Member Success Story</p>
 <p class="text-[11px] text-slate-500">법무법인 한수 파트너 · 강남 Director</p>
@@ -144,7 +156,7 @@ function toggleMobileMenu() {
 <div class="aspect-square bg-slate-800 relative overflow-hidden">
 <img src="스피커 이미지/speaker-kim-th.jpg" alt="김태현" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 15%;"/>
 </div>
-<div class="p-4">
+<div class="p-3">
 <h4 class="font-bold text-sm mb-1">김태현</h4>
 <p class="text-xs text-primary font-semibold mb-1">Member Success Story</p>
 <p class="text-[11px] text-slate-500">통달한의원 대표원장 · 영등포 시너지</p>
@@ -155,7 +167,7 @@ function toggleMobileMenu() {
 <div class="aspect-square bg-slate-800 relative overflow-hidden">
 <img src="스피커 이미지/speaker-alex-pe.png" alt="Alex P.E." class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 20%;"/>
 </div>
-<div class="p-4">
+<div class="p-3">
 <h4 class="font-bold text-sm mb-1 font-heading">Alex P.E.</h4>
 <p class="text-xs text-primary font-semibold mb-1">Global Story</p>
 <p class="text-[11px] text-slate-500">Woodlands · Kowloon Energy</p>
@@ -166,21 +178,10 @@ function toggleMobileMenu() {
 <div class="aspect-square bg-slate-800 relative overflow-hidden">
 <img src="스피커 이미지/speaker-eric-chan.png" alt="Eric Chan" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 20%;"/>
 </div>
-<div class="p-4">
+<div class="p-3">
 <h4 class="font-bold text-sm mb-1 font-heading">Eric Chan</h4>
 <p class="text-xs text-primary font-semibold mb-1">Global Story</p>
 <p class="text-[11px] text-slate-500">Deepsea Marine HK · Kowloon Zenith</p>
-</div>
-</div>
-<!-- 김하원 (Keynote Speaker) -->
-<div onclick="openSpeakerModal('kim')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
-<div class="aspect-square bg-slate-800 relative overflow-hidden">
-<img src="스피커 이미지/speaker-kim-hawon.jpg" alt="김하원 대표" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 20%;"/>
-</div>
-<div class="p-4">
-<h4 class="font-bold text-sm mb-1">김하원</h4>
-<p class="text-xs text-primary font-semibold mb-1">Keynote Speaker</p>
-<p class="text-[11px] text-slate-500">해녀키친그룹 대표이사</p>
 </div>
 </div>
 <!-- Hironori Fujimoto (Special Speech I) -->
@@ -188,7 +189,7 @@ function toggleMobileMenu() {
 <div class="aspect-square bg-slate-800 relative overflow-hidden">
 <img src="스피커 이미지/speaker-fujimoto.jpg" alt="Hironori Fujimoto" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 20%;"/>
 </div>
-<div class="p-4">
+<div class="p-3">
 <h4 class="font-bold text-sm mb-1 font-heading">Hironori Fujimoto</h4>
 <p class="text-xs text-primary font-semibold mb-1">Special Speech Ⅰ</p>
 <p class="text-[11px] text-slate-500">BNI Nagoya Region Area Director</p>
@@ -204,49 +205,54 @@ function toggleMobileMenu() {
 <div class="flex-1 h-px bg-slate-800"></div>
 <span class="text-xs text-slate-500 font-semibold">Regions · Strategy · Chapter</span>
 </div>
-<div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+
+<!-- Featured: Mac & Norm — Cinematic Posters -->
+<div class="grid md:grid-cols-2 gap-4 mb-5">
+<!-- Mac Srinivasan (Keynote II) -->
+<div onclick="openSpeakerModal('mac')" class="relative rounded-2xl overflow-hidden aspect-[4/5] group cursor-pointer hover:shadow-xl hover:shadow-primary/20 transition-shadow">
+<img src="스피커 이미지/speaker-mac-card.jpg" alt="Mac Srinivasan" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 20%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent"></div>
+<div class="absolute inset-0 p-5 md:p-7 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[10px] font-bold font-heading px-3 py-1 rounded-full tracking-widest uppercase mb-2">Keynote Ⅱ</span>
+<h3 class="text-2xl md:text-3xl font-black mb-1 font-heading">Mac Srinivasan</h3>
+<p class="text-xs text-slate-300 mb-3">CEO, The Abundant Group · Former BNI Global Markets President</p>
+<p class="text-sm md:text-base font-bold text-white leading-snug">"The High-Impact Growth Blueprint<br>— 임팩트 있는 성장의 설계도"</p>
+</div>
+</div>
+<!-- Norm Dominguez (Special Speech) -->
+<div onclick="openSpeakerModal('norm')" class="relative rounded-2xl overflow-hidden aspect-[4/5] group cursor-pointer hover:shadow-xl hover:shadow-primary/20 transition-shadow">
+<img src="스피커 이미지/Norm Dominguez_main.jpg" alt="Norm Dominguez" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 15%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent"></div>
+<div class="absolute inset-0 p-5 md:p-7 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[10px] font-bold font-heading px-3 py-1 rounded-full tracking-widest uppercase mb-2">Special Speech Ⅱ</span>
+<h3 class="text-2xl md:text-3xl font-black mb-1 font-heading">Norm Dominguez</h3>
+<p class="text-xs text-slate-300 mb-3">BNI Vice Chairman Emeritus & Senator · Co-Founder, Possi Global</p>
+<p class="text-sm md:text-base font-bold text-white leading-snug">"Making Positivity a Habit<br>— 긍정을 습관으로 만드는 법"</p>
+</div>
+</div>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3">
 <!-- BNI Philippines ED (Keynote I) -->
-<div onclick="openSpeakerModal('philED')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
-<div class="aspect-square bg-slate-800 relative overflow-hidden">
+<div onclick="openSpeakerModal('philED')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group grid grid-cols-[40%_60%]">
+<div class="bg-slate-800 overflow-hidden">
 <img src="스피커 이미지/speaker-philippines-ed.png" alt="Judee R. Quiazon" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 15%;"/>
 </div>
-<div class="p-4">
-<h4 class="font-bold text-sm mb-1 font-heading">Judee R. Quiazon</h4>
-<p class="text-xs text-primary font-semibold mb-1">Keynote Ⅰ</p>
-<p class="text-[11px] text-slate-500">BNI Taguig Region · Executive Director</p>
-</div>
-</div>
-<!-- Mac Srinivasan (Keynote II) -->
-<div onclick="openSpeakerModal('mac')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
-<div class="aspect-square bg-slate-800 relative overflow-hidden">
-<img src="스피커 이미지/speaker-mac-card.jpg" alt="Mac Srinivasan" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 20%;"/>
-</div>
-<div class="p-4">
-<h4 class="font-bold text-sm mb-1 font-heading">Mac Srinivasan</h4>
-<p class="text-xs text-primary font-semibold mb-1">Keynote Ⅱ</p>
-<p class="text-[11px] text-slate-500">CEO, The Abundant Group · Former BNI Global Markets President</p>
-</div>
-</div>
-<!-- Norm Dominguez -->
-<div onclick="openSpeakerModal('norm')" class="cursor-pointer bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 transition-all group">
-<div class="aspect-square bg-slate-800 relative overflow-hidden">
-<img src="스피커 이미지/Norm Dominguez_main.jpg" alt="Norm Dominguez" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" style="object-position: center 15%;"/>
-</div>
-<div class="p-4">
-<h4 class="font-bold text-sm mb-1 font-heading">Norm Dominguez</h4>
-<p class="text-xs text-primary font-semibold mb-1">Special Speech Ⅱ</p>
-<p class="text-[11px] text-slate-500">BNI Vice Chairman Emeritus</p>
+<div class="p-4 flex flex-col justify-center">
+<h4 class="font-bold text-sm font-heading">Judee R. Quiazon</h4>
+<p class="text-xs text-primary font-semibold mt-1">Keynote Ⅰ</p>
+<p class="text-[11px] text-slate-500 mt-1">BNI Taguig Region · Executive Director</p>
 </div>
 </div>
 <!-- Regional Presentations -->
-<div class="rounded-2xl overflow-hidden border border-slate-800 bg-gradient-to-br from-blue-500/10 to-transparent">
-<div class="aspect-square flex items-center justify-center">
+<div class="rounded-2xl overflow-hidden border border-slate-800 bg-gradient-to-br from-blue-500/10 to-transparent grid grid-cols-[40%_60%]">
+<div class="flex items-center justify-center bg-slate-900/30">
 <span class="material-symbols-outlined text-5xl text-blue-400">public</span>
 </div>
-<div class="p-4">
-<h4 class="font-bold text-sm mb-1">지역 발표</h4>
-<p class="text-xs text-blue-400 font-semibold mb-1">Regional Presentations</p>
-<p class="text-[11px] text-slate-500">전국 8개 지역의 성과 &amp; 실행 사례</p>
+<div class="p-4 flex flex-col justify-center">
+<h4 class="font-bold text-sm">지역 발표</h4>
+<p class="text-xs text-blue-400 font-semibold mt-1">Regional Presentations</p>
+<p class="text-[11px] text-slate-500 mt-1">전국 8개 지역의 성과 &amp; 실행 사례</p>
 </div>
 </div>
 </div>
