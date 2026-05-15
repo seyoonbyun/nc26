@@ -186,6 +186,143 @@ function setupSecretPassSheet() {
 }
 
 /**
+ * ────────────────────────────────────────────────────────────────────────
+ * Paid 자동 처리 — 결제 시트(Ticket & Booth_Kor.pay)와 SecretPass 매칭
+ * ────────────────────────────────────────────────────────────────────────
+ * 결제 시트 컬럼:
+ *   A 상품명 / B applicantName / C applicantEmail / D applicantPhone
+ *   E applicantRegion / F applyChapter / G formLinkpayID / H createdAt
+ *   I modifiedAt / J statusSubmit / K orderID / L statusPayment / M isDelete
+ *
+ * 조건: A열 상품명에 '시크릿' 또는 'MVP' 포함 + L열 statusPayment = '결제 완료'
+ * 매칭: SecretPass 시트의 Email(C) 우선, 미일치 시 Name+Phone fallback
+ * 결과: SecretPass.Paid(H, 8번 열)에 '결제 완료 yyyy-MM-dd HH:mm:ss' 기록
+ */
+var PAY_SHEET_NAME = 'Ticket & Booth_Kor.pay';
+var PAY_STATUS_COL = 12; // L열 statusPayment
+
+function _isSecretPassProduct(productName) {
+  if (!productName) return false;
+  var p = productName.toString();
+  return p.indexOf('시크릿') !== -1 || p.toUpperCase().indexOf('MVP') !== -1 || p.toUpperCase().indexOf('SECRET') !== -1;
+}
+
+function _normalizePhone(v) {
+  if (v === null || v === undefined) return '';
+  var digits = v.toString().replace(/\D/g, '');
+  if (digits.length > 10) digits = digits.slice(-10);
+  return digits;
+}
+
+function _normalizeEmail(v) {
+  return (v || '').toString().trim().toLowerCase();
+}
+
+/**
+ * SecretPass 행 매칭 → 일치 시 Paid 컬럼 갱신
+ * 반환: 매칭 성공 여부 (true/false)
+ */
+function _markSecretPassPaid(name, email, phone) {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(SECRET_SHEET_NAME);
+  if (!sheet) return false;
+
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) return false;
+
+  var data = sheet.getRange(2, 1, lastRow - 1, 9).getValues();
+  for (var i = 0; i < data.length; i++) {
+    var rowName = (data[i][1] || '').toString().trim();
+    var rowEmail = _normalizeEmail(data[i][2]);
+    // Memo 컬럼(I, index 8)에 '010-XXXX-XXXX' 형태로 저장됨
+    var rowPhone = _normalizePhone(data[i][8]);
+    var rowPaid = (data[i][7] || '').toString().trim();
+
+    var emailMatch = email && rowEmail && (email === rowEmail);
+    var phoneTail = phone ? phone.slice(-8) : '';
+    var rowPhoneTail = rowPhone ? rowPhone.slice(-8) : '';
+    var phoneMatch = phoneTail && rowPhoneTail && (phoneTail === rowPhoneTail);
+    var nameMatch = name && rowName && (name === rowName);
+
+    if (emailMatch || (nameMatch && phoneMatch)) {
+      if (rowPaid && rowPaid.indexOf('결제 완료') === 0) {
+        Logger.log('SecretPass already paid (row ' + (i + 2) + '): ' + email);
+        return true; // 중복 갱신 방지
+      }
+      var stamp = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
+      sheet.getRange(i + 2, 8).setValue('결제 완료 ' + stamp);
+      Logger.log('SecretPass paid marked (row ' + (i + 2) + '): ' + email);
+      return true;
+    }
+  }
+  Logger.log('No SecretPass match for ' + email + ' / ' + name + ' / ' + phone);
+  return false;
+}
+
+/**
+ * onEdit 트리거 — 결제 시트 L열이 '결제 완료'로 변경되면 자동 매칭
+ *
+ * 트리거 등록: 함수 onEditPaymentToSecretPass / 이벤트 소스: 스프레드시트 / 유형: 수정 시
+ */
+function onEditPaymentToSecretPass(e) {
+  if (!e || !e.range) return;
+  var sheet = e.source.getActiveSheet();
+  if (sheet.getName() !== PAY_SHEET_NAME) return;
+
+  var range = e.range;
+  if (range.getColumn() !== PAY_STATUS_COL) return;
+  var row = range.getRow();
+  if (row <= 1) return;
+
+  var status = (range.getValue() || '').toString().trim();
+  if (status !== '결제 완료') return;
+
+  var rowData = sheet.getRange(row, 1, 1, 13).getValues()[0];
+  var product = (rowData[0] || '').toString().trim();
+  if (!_isSecretPassProduct(product)) return;
+
+  var name = (rowData[1] || '').toString().trim();
+  var email = _normalizeEmail(rowData[2]);
+  var phone = _normalizePhone(rowData[3]);
+
+  _markSecretPassPaid(name, email, phone);
+}
+
+/**
+ * 결제 시트의 기존 '결제 완료' 행을 일괄 스캔해 Paid 처리
+ * — 트리거 등록 전에 이미 결제된 건이 있거나, 검증용으로 한 번 실행
+ */
+function backfillSecretPassPaid() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(PAY_SHEET_NAME);
+  if (!sheet) {
+    Logger.log('Pay sheet not found: ' + PAY_SHEET_NAME);
+    return;
+  }
+  var lastRow = sheet.getLastRow();
+  if (lastRow < 2) {
+    Logger.log('No pay rows.');
+    return;
+  }
+  var data = sheet.getRange(2, 1, lastRow - 1, 13).getValues();
+  var marked = 0;
+  var skippedProduct = 0;
+  var skippedStatus = 0;
+  for (var i = 0; i < data.length; i++) {
+    var product = (data[i][0] || '').toString().trim();
+    var status = (data[i][11] || '').toString().trim();
+    if (status !== '결제 완료') { skippedStatus++; continue; }
+    if (!_isSecretPassProduct(product)) { skippedProduct++; continue; }
+
+    var name = (data[i][1] || '').toString().trim();
+    var email = _normalizeEmail(data[i][2]);
+    var phone = _normalizePhone(data[i][3]);
+    if (_markSecretPassPaid(name, email, phone)) marked++;
+  }
+  Logger.log('Paid backfill — marked: ' + marked + ', skipped (status): ' + skippedStatus + ', skipped (product): ' + skippedProduct);
+}
+
+/**
  * 이미 입력된 행들에 토큰을 일괄 발급
  * — 트리거 등록 전에 데이터를 먼저 입력한 경우 사용
  */
