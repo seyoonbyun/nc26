@@ -62,6 +62,14 @@ function doPost(e) {
 }
 
 function doGet(e) {
+  if (e && e.parameter) {
+    if (e.parameter.action === 'verifyPartyCode') {
+      return verifyPartyCode(e.parameter.code);
+    }
+    if (e.parameter.action === 'verifySecretPass') {
+      return verifySecretPass(e.parameter.token);
+    }
+  }
   return ContentService
     .createTextOutput(JSON.stringify({ status: "ok", message: "Accelerate 2026 Registration API is running." }))
     .setMimeType(ContentService.MimeType.JSON);
