@@ -4,7 +4,7 @@
  * 동작 흐름:
  *   1. 운영자가 '시크릿패스' 시트탭에 대상자 행을 수기로 추가 (B열 Name, C열 Email)
  *   2. onEditSecretPass 트리거가 A열에 고유 토큰(SP-XXXXXX) 자동 발급
- *   3. 운영자가 https://nc26.bni-korea.com/secret?t=토큰 형태로 카톡/메일 발송
+ *   3. 운영자가 https://www.nc26-bnikorea.com/secret?t=토큰 형태로 카톡/메일 발송
  *   4. VIP가 페이지 접속 시 secret.html → verifySecretPass(token) 호출
  *      → Visited 컬럼에 첫 방문 시각 기록, 이후 방문 시 LastVisited 갱신
  *   5. 결제 완료 여부는 운영자가 linkpay 내역과 매칭하여 Paid 컬럼에 수기로 기록
