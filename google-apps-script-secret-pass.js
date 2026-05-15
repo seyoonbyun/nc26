@@ -157,6 +157,58 @@ function _jsonResponse(obj) {
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+// ────────────────────────────────────────────────────────────────────────
+// Last Call 공유 페이지 — 토큰 없이 접근, 단순 방문 카운터
+// ────────────────────────────────────────────────────────────────────────
+var LASTCALL_SHEET_NAME = 'LastCallVisits';
+var LASTCALL_HEADERS = ['VisitedAt', 'Referrer', 'UserAgent'];
+
+function getOrCreateLastCallSheet() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(LASTCALL_SHEET_NAME);
+  if (!sheet) {
+    sheet = ss.insertSheet(LASTCALL_SHEET_NAME);
+    sheet.appendRow(LASTCALL_HEADERS);
+    var headerRange = sheet.getRange(1, 1, 1, LASTCALL_HEADERS.length);
+    headerRange.setFontWeight('bold');
+    headerRange.setBackground('#cf1f2e');
+    headerRange.setFontColor('#ffffff');
+    sheet.setFrozenRows(1);
+    sheet.setColumnWidth(1, 170);
+    sheet.setColumnWidth(2, 300);
+    sheet.setColumnWidth(3, 400);
+  }
+  return sheet;
+}
+
+/**
+ * Last Call 방문 로깅
+ *   GET ?action=logLastCall&ref=...
+ *   응답: { ok: true } (만료 시 expired:true)
+ */
+function logLastCall(referrer, userAgent) {
+  var result = { ok: false };
+  var expiry = new Date('2026-05-15T15:00:00Z').getTime();
+  if (Date.now() >= expiry) {
+    result.expired = true;
+    return _jsonResponse(result);
+  }
+  try {
+    var sheet = getOrCreateLastCallSheet();
+    var stamp = Utilities.formatDate(new Date(), 'Asia/Seoul', 'yyyy-MM-dd HH:mm:ss');
+    sheet.appendRow([stamp, referrer || '', userAgent || '']);
+    result.ok = true;
+  } catch (e) {
+    result.error = String(e);
+  }
+  return _jsonResponse(result);
+}
+
+function setupLastCallSheet() {
+  var sheet = getOrCreateLastCallSheet();
+  Logger.log('Last call sheet ready: ' + sheet.getName());
+}
+
 /**
  * ─────────────────────────────────────────────────────────────────────
  * 기존 doGet 병합 예시 — 이미 다른 분기들이 있는 경우 if 블록만 추가

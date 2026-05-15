@@ -69,6 +69,9 @@ function doGet(e) {
     if (e.parameter.action === 'verifySecretPass') {
       return verifySecretPass(e.parameter.token);
     }
+    if (e.parameter.action === 'logLastCall') {
+      return logLastCall(e.parameter.ref, e.parameter.ua);
+    }
   }
   return ContentService
     .createTextOutput(JSON.stringify({ status: "ok", message: "Accelerate 2026 Registration API is running." }))
