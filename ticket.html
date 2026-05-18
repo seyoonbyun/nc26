@@ -1752,17 +1752,20 @@ function verifyPartyCode() {
     submitBtn.innerHTML = '<span class="material-symbols-outlined animate-spin">progress_activity</span> <span>확인 중...</span>';
     errorEl.classList.add('hidden');
 
-    fetch(SCRIPT_URL + '?action=verifyPartyCode&code=' + encodeURIComponent(code))
-        .then(res => res.json())
+    verifyPartyCodeWithRetry(code, 2)
         .then(data => {
-            if (data.valid) {
+            // Backend returns valid as string ('true'/'false') in some paths and
+            // boolean in others — accept either form for the truthy branch so a
+            // string 'false' can never short-circuit to success.
+            const isValid = data && (data.valid === true || data.valid === 'true');
+            if (isValid) {
                 closePartyCodeModal();
                 showToast('인증 완료! 결제 페이지로 이동합니다...');
                 setTimeout(() => {
                     window.location.href = PAYMENT_URLS_DOMESTIC.plan5;
                 }, 1500);
             } else {
-                if (data.message === 'used') {
+                if (data && data.message === 'used') {
                     errorEl.innerHTML = '이미 사용된 인증코드입니다.<br/>재구매를 원하시면 <strong>BNI K. Member Pass</strong>를 다시 구매해 주세요.<br/>문의: <a href="http://pf.kakao.com/_xewxmrT" target="_blank" class="text-primary hover:underline font-semibold">BNI코리아 내셔널 오피스</a>';
                 } else {
                     errorEl.textContent = '유효하지 않은 인증코드입니다. 다시 확인해 주세요.';
@@ -1772,7 +1775,8 @@ function verifyPartyCode() {
                 input.select();
             }
         })
-        .catch(() => {
+        .catch(err => {
+            console.warn('verifyPartyCode failed after retries:', err);
             errorEl.textContent = '서버 연결 오류입니다. 잠시 후 다시 시도해 주세요.';
             errorEl.classList.remove('hidden');
         })
@@ -1780,6 +1784,29 @@ function verifyPartyCode() {
             submitBtn.disabled = false;
             submitBtn.innerHTML = originalHTML;
         });
+}
+
+// Fetch verifyPartyCode with explicit timeout + retry. Apps Script web apps
+// occasionally drop a single request during cold-start or redirect chains,
+// which used to surface as a "서버 연결 오류" even though the backend was
+// healthy. Up to `attempts` tries, 8s timeout each, 800ms backoff between.
+function verifyPartyCodeWithRetry(code, attempts) {
+    const url = SCRIPT_URL + '?action=verifyPartyCode&code=' + encodeURIComponent(code);
+    const tryOnce = () => {
+        const ctrl = new AbortController();
+        const timer = setTimeout(() => ctrl.abort(), 8000);
+        return fetch(url, { signal: ctrl.signal })
+            .then(res => {
+                if (!res.ok) throw new Error('http ' + res.status);
+                return res.json();
+            })
+            .finally(() => clearTimeout(timer));
+    };
+    let chain = tryOnce();
+    for (let i = 1; i < attempts; i++) {
+        chain = chain.catch(() => new Promise(r => setTimeout(r, 800)).then(tryOnce));
+    }
+    return chain;
 }
 
 // Enter 키로 인증코드 제출
