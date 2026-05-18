@@ -431,7 +431,7 @@ function toggleMobileMenu() {
 <div class="flex flex-wrap justify-center gap-x-4 gap-y-2 mb-5 text-xs">
 <span class="flex items-center gap-1.5"><span class="size-3.5 rounded border-2 border-amber-400 bg-amber-50 dark:bg-amber-900/30"></span> <span class="text-slate-500">선택 가능 · Available</span></span>
 <span class="flex items-center gap-1.5"><span class="size-3.5 rounded bg-primary border-2 border-red-900"></span> <span class="text-slate-500">선택됨 · Selected</span></span>
-<span class="flex items-center gap-1.5"><span class="size-3.5 rounded bg-slate-400 dark:bg-slate-600 border-2 border-slate-700 dark:border-slate-400"></span> <span class="text-slate-500">판매 완료 · Sold</span></span>
+<span class="flex items-center gap-1.5"><span class="size-3.5 rounded bg-slate-800 dark:bg-slate-950 border-2 border-slate-900"></span> <span class="text-slate-500">판매 완료 · Sold</span></span>
 <span class="flex items-center gap-1.5"><span class="size-3.5 rounded bg-white border-2 border-primary"></span> <span class="text-slate-500">BNI 부스 · BNI Booth</span></span>
 </div>
 <!-- Map Canvas -->
@@ -441,8 +441,19 @@ function toggleMobileMenu() {
 <img src="booth-layout-map.png" alt="부스 배치도" class="w-full object-contain"/>
 </div>
 <p class="text-center text-xs md:text-sm text-slate-500 dark:text-slate-400 mb-5 leading-relaxed">※ 부스 배치도를 참고하시고 ZONE A, B 중 원하는 위치의 부스를 선택해주세요 !<span class="text-primary">:)</span><br><span class="text-[11px] md:text-xs">※ Please refer to the booth layout and choose your preferred booth in Zone A or B !<span class="text-primary">:)</span></span></p>
+<!-- Loading state — shown while fetching booth status, hidden once data arrives -->
+<div id="booth-map-loading" class="flex flex-col items-center justify-center py-16 md:py-24 gap-3">
+<span class="material-symbols-outlined animate-spin text-primary text-4xl">progress_activity</span>
+<p class="text-sm text-slate-500 dark:text-slate-400">부스 현황 확인 중 · Loading booth status…</p>
+</div>
+<!-- Error state — shown if fetch fails -->
+<div id="booth-map-error" class="hidden flex-col items-center justify-center py-16 md:py-24 gap-3">
+<span class="material-symbols-outlined text-amber-500 text-4xl">error</span>
+<p class="text-sm text-slate-700 dark:text-slate-300 text-center">부스 현황을 불러오지 못했습니다.<br>Failed to load booth status.</p>
+<button type="button" onclick="loadBoothStatus()" class="mt-2 px-4 py-2 rounded-lg bg-primary text-white text-sm font-semibold hover:bg-primary/90 transition-colors">다시 시도 · Retry</button>
+</div>
 <!-- Zone A -->
-<div class="mb-8 md:mb-10">
+<div id="booth-zone-a" class="hidden mb-8 md:mb-10">
 <div class="flex items-center justify-center gap-2 mb-3">
 <span class="h-px flex-1 max-w-[60px] bg-slate-300 dark:bg-slate-700"></span>
 <span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-slate-400">Zone A</span>
@@ -471,7 +482,7 @@ function toggleMobileMenu() {
 </div>
 </div>
 <!-- Zone B -->
-<div>
+<div id="booth-zone-b" class="hidden">
 <div class="flex items-center justify-center gap-2 mb-3">
 <span class="h-px flex-1 max-w-[60px] bg-slate-300 dark:bg-slate-700"></span>
 <span class="text-[10px] md:text-xs font-bold uppercase tracking-[0.25em] text-slate-400">Zone B · Foyer</span>
@@ -2010,8 +2021,25 @@ function openBoothMapModal(type) {
     if (priceEl) priceEl.textContent = boothMapType === 'domestic' ? '₩2,200,000 (부가세 포함)' : 'USD $1,500 (excl. VAT)';
     modal.classList.remove('hidden');
     document.body.style.overflow = 'hidden';
-    renderBoothMap();
+    setBoothMapState('loading');
     loadBoothStatus();
+}
+
+// Toggle booth map UI between loading / error / ready states.
+// While in 'loading' or 'error', the zone grids are hidden — never showing
+// stale or pre-fetch (all-available) state to the user.
+function setBoothMapState(state) {
+    const loading = document.getElementById('booth-map-loading');
+    const error = document.getElementById('booth-map-error');
+    const zoneA = document.getElementById('booth-zone-a');
+    const zoneB = document.getElementById('booth-zone-b');
+    if (!loading || !error || !zoneA || !zoneB) return;
+    loading.classList.toggle('hidden', state !== 'loading');
+    loading.classList.toggle('flex', state === 'loading');
+    error.classList.toggle('hidden', state !== 'error');
+    error.classList.toggle('flex', state === 'error');
+    zoneA.classList.toggle('hidden', state !== 'ready');
+    zoneB.classList.toggle('hidden', state !== 'ready');
 }
 
 function closeBoothMapModal() {
@@ -2066,8 +2094,8 @@ function createBoothButton(id) {
         btn.disabled = true;
         btn.title = company + ' (관리자 부스)';
     } else if (isSold) {
-        stateClass = 'bg-slate-400 dark:bg-slate-600 text-white border-slate-700 dark:border-slate-400 cursor-not-allowed opacity-80';
-        labelHtml += '<span class="booth-co">' + escapeHtml(company) + '</span>';
+        stateClass = 'bg-slate-800 dark:bg-slate-950 text-slate-300 border-slate-900 cursor-not-allowed';
+        labelHtml += '<span class="booth-co" style="text-decoration:line-through;opacity:0.85;">' + escapeHtml(company) + '</span>';
         btn.disabled = true;
         btn.title = company + ' (판매 완료)';
     } else if (isSelected) {
@@ -2106,25 +2134,27 @@ function proceedWithSelectedBooth() {
 }
 
 async function loadBoothStatus() {
+    setBoothMapState('loading');
     try {
         const res = await fetch(SCRIPT_URL + '?action=getBoothStatus', { method: 'GET' });
         const data = await res.json();
-        if (data && data.status === 'ok') {
-            const soldMap = {};
-            (data.sold || []).forEach(s => { if (s.booth) soldMap[s.booth] = s.company || ''; });
-            const adminMap = Object.assign({}, ADMIN_BOOTHS);
-            (data.admin || []).forEach(a => { if (a.booth) adminMap[a.booth] = a.company || ''; });
-            boothStatus = { sold: soldMap, admin: adminMap };
-            // If user's selection got sold in the meantime → clear
-            if (selectedBooth && (soldMap[selectedBooth] || adminMap[selectedBooth])) {
-                selectedBooth = null;
-                const bar = document.getElementById('booth-selection-bar');
-                if (bar) bar.classList.add('hidden');
-            }
-            renderBoothMap();
+        if (!data || data.status !== 'ok') throw new Error('bad response');
+        const soldMap = {};
+        (data.sold || []).forEach(s => { if (s.booth) soldMap[s.booth] = s.company || ''; });
+        const adminMap = Object.assign({}, ADMIN_BOOTHS);
+        (data.admin || []).forEach(a => { if (a.booth) adminMap[a.booth] = a.company || ''; });
+        boothStatus = { sold: soldMap, admin: adminMap };
+        // If user's selection got sold in the meantime → clear
+        if (selectedBooth && (soldMap[selectedBooth] || adminMap[selectedBooth])) {
+            selectedBooth = null;
+            const bar = document.getElementById('booth-selection-bar');
+            if (bar) bar.classList.add('hidden');
         }
+        setBoothMapState('ready');
+        renderBoothMap();
     } catch (err) {
         console.warn('Booth status load failed:', err);
+        setBoothMapState('error');
     }
 }
 
