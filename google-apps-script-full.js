@@ -267,6 +267,10 @@ function doGet(e) {
     return verifyPartyCode(e.parameter.code);
   }
 
+  if (action === 'verifySecretPass') {
+    return verifySecretPass(e.parameter.token);
+  }
+
   if (action === 'getBoothStatus') {
     return getBoothStatus();
   }
@@ -287,7 +291,7 @@ function doGet(e) {
 
 // =============================================================
 // Booth status API — 배치도 판매 현황 조회 (public, 인증 불필요)
-//   Status == 'Paid' 인 행만 sold 로 반환
+//   Status 가 '결제 완료' / '결제완료' / '완료' / 'Paid' 인 행만 sold 로 반환
 //   ADMIN_BOOTHS 에 정의된 부스는 항상 admin 으로 포함
 // =============================================================
 function getBoothStatus() {
@@ -309,7 +313,7 @@ function getBoothStatus() {
         var company = String(data[i][companyCol - 1] || '').trim();
         var status = String(data[i][statusCol - 1] || '').trim();
         if (!boothNo) continue;
-        if (status.toLowerCase() === 'paid') {
+        if (isPaymentComplete(status)) {
           result.sold.push({ booth: boothNo, company: company });
         }
       }
@@ -447,7 +451,7 @@ function onEditInstallable(e) {
     var headers = sheet.getRange(1, 1, 1, sheet.getLastColumn()).getValues()[0];
     var statusCol = headers.indexOf('Status') + 1;
 
-    if (statusCol === 0 || col !== statusCol || range.getValue() !== 'Paid') return;
+    if (statusCol === 0 || col !== statusCol || !isPaymentComplete(range.getValue())) return;
 
     var rowData = sheet.getRange(row, 1, 1, sheet.getLastColumn()).getDisplayValues()[0];
 
