@@ -2464,4 +2464,45 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(loadBoothStatus, 30000);
 });
 </script>
+
+<!-- ===== Registration deadline auto-closure (2026-05-28 23:50 KST) ===== -->
+<script>
+(function registrationDeadline() {
+    const DEADLINE = new Date('2026-05-28T23:50:00+09:00').getTime();
+
+    function applyClosed() {
+        if (!document.getElementById('closed-banner')) {
+            const banner = document.createElement('div');
+            banner.id = 'closed-banner';
+            banner.className = 'max-w-5xl mx-auto mb-6 md:mb-8 rounded-2xl border-2 border-primary/50 p-5 md:p-6 flex flex-col items-center text-center gap-2';
+            banner.style.background = 'linear-gradient(135deg, rgba(207,31,46,0.18), rgba(207,31,46,0.06))';
+            banner.innerHTML = '<p class="text-base md:text-lg font-black text-primary flex items-center justify-center gap-2"><span class="material-symbols-outlined text-xl md:text-2xl">event_busy</span><span>참가 신청이 마감되었습니다! Sold Out</span></p><p class="text-xs md:text-sm text-slate-500">2026년 5월 28일 23:50 KST 종료 · 문의: <a href="http://pf.kakao.com/_xewxmrT/chat" target="_blank" rel="noopener" class="text-primary font-bold hover:underline">BNI코리아 멤버 지원팀</a></p>';
+            const tabWrap = document.querySelector('main > div.max-w-5xl.mx-auto.mb-8');
+            if (tabWrap && tabWrap.parentNode) tabWrap.parentNode.insertBefore(banner, tabWrap);
+        }
+        document.querySelectorAll('#grid-domestic button, #grid-international button').forEach(btn => {
+            if (btn.dataset.soldOut === '1') return;
+            btn.removeAttribute('onclick');
+            btn.removeAttribute('data-i18n');
+            btn.removeAttribute('data-ko');
+            btn.disabled = true;
+            btn.dataset.soldOut = '1';
+            btn.className = 'w-full py-3 md:py-4 rounded-xl font-bold bg-slate-200 dark:bg-slate-800 text-slate-500 dark:text-slate-400 cursor-not-allowed flex items-center justify-center gap-2 text-sm';
+            btn.innerHTML = '<span class="material-symbols-outlined text-base">lock</span><span>Sold Out</span>';
+        });
+    }
+
+    function check() {
+        if (Date.now() >= DEADLINE) applyClosed();
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', check);
+    } else {
+        check();
+    }
+    setInterval(check, 1000);
+    setTimeout(check, 500);
+})();
+</script>
 </body></html>
