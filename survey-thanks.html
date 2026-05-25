@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NC26 Survey — Thank You</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f5f5f5;
+    font-family: 'Apple SD Gothic Neo', 'Malgun Gothic', 'Segoe UI', sans-serif;
+    padding: 20px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.08);
+    max-width: 480px;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+  }
+  .header {
+    background: #db0000;
+    padding: 36px 32px;
+  }
+  .header svg {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    color: #fff;
+    font-size: 26px;
+    font-weight: 800;
+  }
+  .body {
+    padding: 40px 32px;
+  }
+  .body p {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 16px;
+  }
+  .body p:last-child {
+    margin-bottom: 0;
+  }
+  .signature {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+    font-size: 14px;
+    color: #999;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="header">
+    <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="12" cy="12" r="11" stroke="#fff" stroke-width="2"/>
+      <path d="M7 12.5l3 3 7-7" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h1 id="heading"></h1>
+  </div>
+  <div class="body">
+    <p id="line1"></p>
+    <p id="line2"></p>
+    <p class="signature" id="sig"></p>
+  </div>
+</div>
+
+<script>
+var strings = {
+  ko: {
+    heading: "감사합니다!",
+    line1: "설문에 참여해 주셔서 감사합니다.",
+    line2: "보내주신 의견은 다음 NC를 더 좋게 만드는 데 소중하게 활용하겠습니다.",
+    sig: "NC26 BNI Korea 팀"
+  },
+  en: {
+    heading: "Thank You!",
+    line1: "Thank you for completing the NC26 Survey.",
+    line2: "Your feedback will help us create an even better National Conference next time.",
+    sig: "NC26 BNI Korea Team"
+  },
+  ja: {
+    heading: "ありがとうございます！",
+    line1: "NC26アンケートにご回答いただきありがとうございます。",
+    line2: "いただいたご意見は、次回のナショナルカンファレンスをより良くするために活用させていただきます。",
+    sig: "NC26 BNI Korea チーム"
+  },
+  zh: {
+    heading: "感谢您！",
+    line1: "感谢您完成NC26问卷调查。",
+    line2: "您的反馈将帮助我们打造更好的下一届全国大会。",
+    sig: "NC26 BNI Korea 团队"
+  }
+};
+
+var params = new URLSearchParams(window.location.search);
+var lang = params.get("lang") || "ko";
+var s = strings[lang] || strings.ko;
+
+document.getElementById("heading").textContent = s.heading;
+document.getElementById("line1").textContent = s.line1;
+document.getElementById("line2").textContent = s.line2;
+document.getElementById("sig").textContent = s.sig;
+document.documentElement.lang = lang === "ko" ? "ko" : lang === "ja" ? "ja" : lang === "zh" ? "zh" : "en";
+</script>
+</body>
+</html>

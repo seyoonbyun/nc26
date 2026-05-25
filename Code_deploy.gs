@@ -142,6 +142,10 @@ function doPost(e) {
         ""
       ]);
 
+    } else if (type === "survey") {
+      // -- NC26 만족도 설문 (Typebot webhook) --
+      return handleSurveyPost(data);
+
     } else {
       // -- 해외 티켓 (기존) --
       var sheet = getOrCreateSheetByConfig(INTL_TICKET_SHEET, INTL_TICKET_HEADERS);
@@ -494,4 +498,152 @@ function getOrCreateSheetByConfig(sheetName, headers) {
   }
 
   return sheet;
+}
+
+// =============================================
+// NC26 만족도 설문 — Typebot webhook handler
+// Airtable 적재 + 감사 이메일 발송
+// =============================================
+
+function getSurveyConfig_() {
+  var props = PropertiesService.getScriptProperties();
+  return {
+    AIRTABLE_TOKEN: props.getProperty("SURVEY_AIRTABLE_TOKEN"),
+    AIRTABLE_BASE:  props.getProperty("SURVEY_AIRTABLE_BASE"),
+    AIRTABLE_TABLE: props.getProperty("SURVEY_AIRTABLE_TABLE")
+  };
+}
+
+function handleSurveyPost(data) {
+  var record = buildSurveyRecord(data);
+  insertSurveyAirtable(record);
+  sendSurveyThankYouEmail(data.email, data.language || "한국어");
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true, type: "survey" }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function buildSurveyRecord(b) {
+  return {
+    fields: {
+      language:              b.language || "",
+      email:                 b.email || "",
+      attendee_type:         b.attendee_type || "",
+      schedule:              b.schedule || "",
+      overall_satisfaction:  surveyExtractNum(b.overall_satisfaction),
+      expectations:          surveyExtractNum(b.expectations),
+      nps:                   surveyExtractNum(b.nps),
+      reattend_intent:       b.reattend_intent || "",
+      reattend_reason:       b.reattend_reason || "",
+      reattend_detail:       b.reattend_detail || "",
+      day1_overall:          surveyExtractNum(b.day1_overall),
+      day1_best_session:     b.day1_best_session || "",
+      day1_best_reason:      b.day1_best_reason || "",
+      day1_worst_session:    b.day1_worst_session || "",
+      day1_worst_reason:     b.day1_worst_reason || "",
+      day1_comment:          b.day1_comment || "",
+      day2_overall:          surveyExtractNum(b.day2_overall),
+      day2_best_session:     b.day2_best_session || "",
+      day2_best_reason:      b.day2_best_reason || "",
+      day2_worst_session:    b.day2_worst_session || "",
+      day2_worst_reason:     b.day2_worst_reason || "",
+      day2_comment:          b.day2_comment || "",
+      ops_checkin:           surveyExtractNum(b.ops_checkin),
+      ops_guidance:          surveyExtractNum(b.ops_guidance),
+      ops_facilities:        surveyExtractNum(b.ops_facilities),
+      ops_food:              surveyExtractNum(b.ops_food),
+      ops_booth:             surveyExtractNum(b.ops_booth),
+      ops_networking:        surveyExtractNum(b.ops_networking),
+      next_programs:         b.next_programs || "",
+      next_topics:           b.next_topics || "",
+      best_thing:            b.best_thing || "",
+      improvement:           b.improvement || "",
+      additional:            b.additional || "",
+      submitted_at:          new Date().toISOString()
+    }
+  };
+}
+
+function surveyExtractNum(val) {
+  if (val == null || val === "") return null;
+  var m = String(val).trim().match(/^(\d+)/);
+  return m ? parseInt(m[1], 10) : null;
+}
+
+function insertSurveyAirtable(record) {
+  var cfg = getSurveyConfig_();
+  var url = "https://api.airtable.com/v0/" + cfg.AIRTABLE_BASE + "/" + cfg.AIRTABLE_TABLE;
+  var res = UrlFetchApp.fetch(url, {
+    method: "post",
+    contentType: "application/json",
+    headers: { Authorization: "Bearer " + cfg.AIRTABLE_TOKEN },
+    payload: JSON.stringify(record),
+    muteHttpExceptions: true
+  });
+  if (res.getResponseCode() !== 200) {
+    throw new Error("Airtable " + res.getResponseCode() + ": " + res.getContentText());
+  }
+}
+
+function sendSurveyThankYouEmail(email, lang) {
+  if (!email) return;
+  var subject, htmlBody;
+
+  if (lang === "English") {
+    subject = "Thank you for completing the NC26 Survey!";
+    htmlBody = surveyEmailHtml(
+      "Thank You!",
+      "Thank you for taking the time to share your feedback on NC26.",
+      "Your responses will help us create an even better National Conference next time.",
+      "We look forward to seeing you again!",
+      "NC26 BNI Korea Team"
+    );
+  } else if (lang === "日本語") {
+    subject = "NC26 アンケートにご回答いただきありがとうございます！";
+    htmlBody = surveyEmailHtml(
+      "ありがとうございます！",
+      "NC26に関する貴重なご意見をお寄せいただき、誠にありがとうございます。",
+      "いただいたご回答は、次回のナショナルカンファレンスをより良いものにするために活用させていただきます。",
+      "またお会いできることを楽しみにしております！",
+      "NC26 BNI Korea チーム"
+    );
+  } else if (lang === "中文") {
+    subject = "感谢您完成NC26问卷调查！";
+    htmlBody = surveyEmailHtml(
+      "感谢您！",
+      "感谢您抽出宝贵时间分享您对NC26的反馈。",
+      "您的回答将帮助我们打造更好的下一届全国大会。",
+      "期待再次与您相见！",
+      "NC26 BNI Korea 团队"
+    );
+  } else {
+    subject = "NC26 설문에 응답해주셔서 감사합니다!";
+    htmlBody = surveyEmailHtml(
+      "감사합니다!",
+      "NC26에 대한 소중한 의견을 나눠주셔서 진심으로 감사드립니다.",
+      "보내주신 응답은 다음 내셔널 컨퍼런스를 더욱 발전시키는 데 소중하게 활용하겠습니다.",
+      "다음 행사에서 다시 뵙기를 기대합니다!",
+      "NC26 BNI Korea 팀"
+    );
+  }
+
+  GmailApp.sendEmail(email, subject, "", {
+    htmlBody: htmlBody,
+    name: "NC26 BNI Korea"
+  });
+}
+
+function surveyEmailHtml(heading, line1, line2, line3, signature) {
+  return '<!DOCTYPE html><html><body style="margin:0;padding:0;font-family:Apple SD Gothic Neo,Malgun Gothic,sans-serif;background:#f5f5f5">'
+    + '<table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:40px 20px">'
+    + '<table width="600" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.08)">'
+    + '<tr><td style="background:#db0000;padding:32px 40px;text-align:center">'
+    + '<h1 style="color:#fff;margin:0;font-size:28px">' + heading + '</h1>'
+    + '</td></tr>'
+    + '<tr><td style="padding:40px">'
+    + '<p style="font-size:16px;line-height:1.7;color:#333;margin:0 0 16px">' + line1 + '</p>'
+    + '<p style="font-size:16px;line-height:1.7;color:#333;margin:0 0 16px">' + line2 + '</p>'
+    + '<p style="font-size:16px;line-height:1.7;color:#333;margin:0 0 32px">' + line3 + '</p>'
+    + '<p style="font-size:14px;color:#888;margin:0;border-top:1px solid #eee;padding-top:20px">' + signature + '</p>'
+    + '</td></tr></table></td></tr></table></body></html>';
 }
