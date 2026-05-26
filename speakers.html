@@ -213,15 +213,27 @@ function toggleMobileMenu() {
 <span class="text-xs text-slate-500 font-semibold">Regions · Strategy · Chapter</span>
 </div>
 
-<!-- Featured: Judee R. Quiazon — Solo 풀와이드 (split layout) -->
-<div onclick="openSpeakerModal('philED')" class="relative rounded-2xl overflow-hidden mb-5 group cursor-pointer hover:shadow-xl hover:shadow-primary/20 transition-shadow bg-gradient-to-r from-[#0f1118] via-[#0f1118] to-slate-900 grid grid-cols-1 md:grid-cols-[60%_40%]">
-<div class="p-8 md:p-12 flex flex-col justify-center">
-<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-4">Keynote Ⅰ</span>
-<h3 class="text-3xl md:text-5xl font-black mb-3">Judee R. Quiazon</h3>
-<p class="text-sm md:text-base text-slate-300 mb-4">BNI Taguig Region · Executive Director</p>
-<p class="text-base md:text-xl font-bold text-white leading-snug">"어떻게 성과를 내는 탁월한<br>커뮤니티 문화를 만드는가?"</p>
+<!-- Featured: Judee R. Quiazon — 모바일: 김하원 동일 오버레이 / 데스크톱: split -->
+<!-- 모바일 (김하원 동일 16:9 오버레이) -->
+<div onclick="openSpeakerModal('philED')" class="md:hidden relative rounded-2xl overflow-hidden mb-5 group cursor-pointer aspect-[16/9] hover:shadow-xl hover:shadow-primary/20 transition-shadow">
+<img src="스피커 이미지/speaker-philippines-ed.png" alt="Judee R. Quiazon" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 15%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10"></div>
+<div class="absolute inset-0 p-6 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Keynote Ⅰ</span>
+<h3 class="text-3xl font-black mb-2">Judee R. Quiazon</h3>
+<p class="text-sm text-slate-300 mb-3">BNI Taguig Region · Executive Director</p>
+<p class="text-base font-bold text-white leading-snug">"어떻게 성과를 내는 탁월한<br>커뮤니티 문화를 만드는가?"</p>
 </div>
-<div class="relative aspect-square md:aspect-auto overflow-hidden">
+</div>
+<!-- 데스크톱 (split layout) -->
+<div onclick="openSpeakerModal('philED')" class="hidden md:grid relative rounded-2xl overflow-hidden mb-5 group cursor-pointer hover:shadow-xl hover:shadow-primary/20 transition-shadow bg-gradient-to-r from-[#0f1118] via-[#0f1118] to-slate-900 grid-cols-[60%_40%]">
+<div class="p-12 flex flex-col justify-center">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-4">Keynote Ⅰ</span>
+<h3 class="text-5xl font-black mb-3">Judee R. Quiazon</h3>
+<p class="text-base text-slate-300 mb-4">BNI Taguig Region · Executive Director</p>
+<p class="text-xl font-bold text-white leading-snug">"어떻게 성과를 내는 탁월한<br>커뮤니티 문화를 만드는가?"</p>
+</div>
+<div class="relative overflow-hidden">
 <img src="스피커 이미지/speaker-philippines-ed.png" alt="Judee R. Quiazon" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 15%;"/>
 <div class="absolute inset-0 bg-gradient-to-r from-[#0f1118] via-transparent to-transparent"></div>
 </div>
