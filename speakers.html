@@ -105,15 +105,27 @@ function toggleMobileMenu() {
 <span class="text-xs text-slate-500 font-semibold">Networking · Global</span>
 </div>
 
-<!-- Featured: 김하원 (Keynote Speaker) — Cinematic Poster -->
-<div onclick="openSpeakerModal('kim')" class="relative rounded-2xl overflow-hidden mb-5 group cursor-pointer aspect-[16/9] md:aspect-[21/9] hover:shadow-xl hover:shadow-primary/20 transition-shadow">
+<!-- Featured: 김하원 (Keynote Speaker) -->
+<!-- 모바일 (16:9 — 인물 오른쪽 배치) -->
+<div onclick="openSpeakerModal('kim')" class="md:hidden relative rounded-2xl overflow-hidden mb-5 group cursor-pointer aspect-[16/9] hover:shadow-xl hover:shadow-primary/20 transition-shadow bg-[#0a0c10]">
+<img src="스피커 이미지/speaker-kim-hawon.jpg" alt="김하원 대표" class="absolute right-0 top-0 h-full w-[55%] object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 20%;"/>
+<div class="absolute inset-0 bg-gradient-to-r from-[#0a0c10] from-[40%] via-[#0a0c10]/70 via-[52%] to-transparent"></div>
+<div class="absolute inset-0 p-5 flex flex-col justify-center items-start w-[55%]">
+<span class="inline-block w-fit bg-primary text-white text-[10px] font-bold font-heading px-2.5 py-1 rounded-full tracking-widest uppercase mb-2">Keynote Speaker</span>
+<h3 class="text-xl font-black mb-1">김하원</h3>
+<p class="text-[11px] text-slate-300 mb-1.5">주식회사 해녀키친그룹 대표이사</p>
+<p class="text-xs font-bold text-white leading-snug">"제주 로컬의 이야기가<br>세계인의 무대에 오르다"</p>
+</div>
+</div>
+<!-- 데스크톱 (기존 21:9 시네마틱) -->
+<div onclick="openSpeakerModal('kim')" class="hidden md:block relative rounded-2xl overflow-hidden mb-5 group cursor-pointer aspect-[21/9] hover:shadow-xl hover:shadow-primary/20 transition-shadow">
 <img src="스피커 이미지/speaker-kim-hawon.jpg" alt="김하원 대표" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 20%;"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10"></div>
-<div class="absolute inset-0 p-6 md:p-10 flex flex-col justify-end">
+<div class="absolute inset-0 p-10 flex flex-col justify-end">
 <span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Keynote Speaker</span>
-<h3 class="text-3xl md:text-5xl font-black mb-2">김하원</h3>
-<p class="text-sm md:text-base text-slate-300 mb-3">주식회사 해녀키친그룹 대표이사</p>
-<p class="text-base md:text-xl font-bold text-white leading-snug max-w-3xl">"제주 로컬의 이야기가<br>세계인의 무대에 오르다"</p>
+<h3 class="text-5xl font-black mb-2">김하원</h3>
+<p class="text-base text-slate-300 mb-3">주식회사 해녀키친그룹 대표이사</p>
+<p class="text-xl font-bold text-white leading-snug max-w-3xl">"제주 로컬의 이야기가<br>세계인의 무대에 오르다"</p>
 </div>
 </div>
 
@@ -214,15 +226,15 @@ function toggleMobileMenu() {
 </div>
 
 <!-- Featured: Judee R. Quiazon — 모바일: 김하원 동일 오버레이 / 데스크톱: split -->
-<!-- 모바일 (김하원 동일 16:9 오버레이) -->
-<div onclick="openSpeakerModal('philED')" class="md:hidden relative rounded-2xl overflow-hidden mb-5 group cursor-pointer aspect-[16/9] hover:shadow-xl hover:shadow-primary/20 transition-shadow">
-<img src="스피커 이미지/speaker-philippines-ed.png" alt="Judee R. Quiazon" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 15%;"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10"></div>
-<div class="absolute inset-0 p-6 flex flex-col justify-end">
-<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Keynote Ⅰ</span>
-<h3 class="text-3xl font-black mb-2">Judee R. Quiazon</h3>
-<p class="text-sm text-slate-300 mb-3">BNI Taguig Region · Executive Director</p>
-<p class="text-base font-bold text-white leading-snug">"어떻게 성과를 내는 탁월한<br>커뮤니티 문화를 만드는가?"</p>
+<!-- 모바일 (16:9 — 인물 오른쪽 배치, 텍스트 왼쪽) -->
+<div onclick="openSpeakerModal('philED')" class="md:hidden relative rounded-2xl overflow-hidden mb-5 group cursor-pointer aspect-[16/9] hover:shadow-xl hover:shadow-primary/20 transition-shadow bg-[#0a0c10]">
+<img src="스피커 이미지/speaker-philippines-ed.png" alt="Judee R. Quiazon" class="absolute right-0 top-0 h-full w-[55%] object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 38%;"/>
+<div class="absolute inset-0 bg-gradient-to-r from-[#0a0c10] from-[40%] via-[#0a0c10]/70 via-[52%] to-transparent"></div>
+<div class="absolute inset-0 p-5 flex flex-col justify-center items-start w-[55%]">
+<span class="inline-block w-fit bg-primary text-white text-[10px] font-bold font-heading px-2.5 py-1 rounded-full tracking-widest uppercase mb-2">Keynote Ⅰ</span>
+<h3 class="text-xl font-black mb-1">Judee R. Quiazon</h3>
+<p class="text-[11px] text-slate-300 mb-1.5">BNI Taguig Region · Executive Director</p>
+<p class="text-xs font-bold text-white leading-snug">"어떻게 성과를 내는 탁월한<br>커뮤니티 문화를 만드는가?"</p>
 </div>
 </div>
 <!-- 데스크톱 (split layout) -->
@@ -239,28 +251,49 @@ function toggleMobileMenu() {
 </div>
 </div>
 
-<!-- Mac & Norm — Duo 정사각 1:1 -->
-<div class="grid md:grid-cols-2 gap-4 mb-5">
-<!-- Mac Srinivasan (Keynote II) -->
+<!-- Mac & Norm — 모바일: 16:9 인물 오른쪽 / 데스크톱: 정사각 Duo -->
+<!-- 모바일 Mac -->
+<div onclick="openSpeakerModal('mac')" class="md:hidden relative rounded-2xl overflow-hidden mb-4 group cursor-pointer aspect-[16/9] hover:shadow-xl hover:shadow-primary/20 transition-shadow bg-[#0a0c10]">
+<img src="스피커 이미지/speaker-mac-card.jpg" alt="Mac Srinivasan" class="absolute right-0 top-0 h-full w-[55%] object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 20%;"/>
+<div class="absolute inset-0 bg-gradient-to-r from-[#0a0c10] from-[40%] via-[#0a0c10]/70 via-[52%] to-transparent"></div>
+<div class="absolute inset-0 p-5 flex flex-col justify-center items-start w-[55%]">
+<span class="inline-block w-fit bg-primary text-white text-[10px] font-bold font-heading px-2.5 py-1 rounded-full tracking-widest uppercase mb-2">Keynote Ⅱ</span>
+<h3 class="text-xl font-black mb-1">Mac Srinivasan</h3>
+<p class="text-[11px] text-slate-300 mb-1.5">CEO, The Abundant Group · Former BNI Global Markets President</p>
+<p class="text-xs font-bold text-white leading-snug">"Creating High Performance Teams<br>— 고성과 팀을 만드는 법"</p>
+</div>
+</div>
+<!-- 모바일 Norm -->
+<div onclick="openSpeakerModal('norm')" class="md:hidden relative rounded-2xl overflow-hidden mb-5 group cursor-pointer aspect-[16/9] hover:shadow-xl hover:shadow-primary/20 transition-shadow bg-[#0a0c10]">
+<img src="스피커 이미지/Norm Dominguez_main.jpg" alt="Norm Dominguez" class="absolute right-0 top-0 h-full w-[55%] object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 30%;"/>
+<div class="absolute inset-0 bg-gradient-to-r from-[#0a0c10] from-[40%] via-[#0a0c10]/70 via-[52%] to-transparent"></div>
+<div class="absolute inset-0 p-5 flex flex-col justify-center items-start w-[55%]">
+<span class="inline-block w-fit bg-primary text-white text-[10px] font-bold font-heading px-2.5 py-1 rounded-full tracking-widest uppercase mb-2">Special Speech Ⅱ</span>
+<h3 class="text-xl font-black mb-1">Norm Dominguez</h3>
+<p class="text-[11px] text-slate-300 mb-1.5">BNI Vice Chairman Emeritus & Senator · Co-Founder, Possi Global</p>
+<p class="text-xs font-bold text-white leading-snug">"The other is Not You, Not Me,<br>It's Us"</p>
+</div>
+</div>
+<!-- 데스크톱 Duo 정사각 -->
+<div class="hidden md:grid grid-cols-2 gap-4 mb-5">
 <div onclick="openSpeakerModal('mac')" class="relative rounded-2xl overflow-hidden aspect-square group cursor-pointer hover:shadow-xl hover:shadow-primary/20 transition-shadow">
 <img src="스피커 이미지/speaker-mac-card.jpg" alt="Mac Srinivasan" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 20%;"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent"></div>
-<div class="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
+<div class="absolute inset-0 p-8 flex flex-col justify-end">
 <span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Keynote Ⅱ</span>
-<h3 class="text-2xl md:text-4xl font-black mb-2">Mac Srinivasan</h3>
-<p class="text-xs md:text-sm text-slate-300 mb-2">CEO, The Abundant Group · Former BNI Global Markets President</p>
-<p class="text-sm md:text-lg font-bold text-white leading-snug">"Creating High Performance Teams<br>— 고성과 팀을 만드는 법"</p>
+<h3 class="text-4xl font-black mb-2">Mac Srinivasan</h3>
+<p class="text-sm text-slate-300 mb-2">CEO, The Abundant Group · Former BNI Global Markets President</p>
+<p class="text-lg font-bold text-white leading-snug">"Creating High Performance Teams<br>— 고성과 팀을 만드는 법"</p>
 </div>
 </div>
-<!-- Norm Dominguez (Special Speech) -->
 <div onclick="openSpeakerModal('norm')" class="relative rounded-2xl overflow-hidden aspect-square group cursor-pointer hover:shadow-xl hover:shadow-primary/20 transition-shadow">
 <img src="스피커 이미지/Norm Dominguez_main.jpg" alt="Norm Dominguez" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 15%;"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent"></div>
-<div class="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
+<div class="absolute inset-0 p-8 flex flex-col justify-end">
 <span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Special Speech Ⅱ</span>
-<h3 class="text-2xl md:text-4xl font-black mb-2">Norm Dominguez</h3>
-<p class="text-xs md:text-sm text-slate-300 mb-2">BNI Vice Chairman Emeritus & Senator · Co-Founder, Possi Global</p>
-<p class="text-sm md:text-lg font-bold text-white leading-snug">"The other is Not You, Not Me,<br>It's Us"</p>
+<h3 class="text-4xl font-black mb-2">Norm Dominguez</h3>
+<p class="text-sm text-slate-300 mb-2">BNI Vice Chairman Emeritus & Senator · Co-Founder, Possi Global</p>
+<p class="text-lg font-bold text-white leading-snug">"The other is Not You, Not Me,<br>It's Us"</p>
 </div>
 </div>
 </div>
