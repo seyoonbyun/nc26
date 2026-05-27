@@ -2022,6 +2022,7 @@ function applyBoothI18n(lang) {
 }
 
 // === Booth Map (movie-theater seat selector) ===
+const BOOTH_CLOSED = true;
 const ZONE_A_COUNT = 19;
 const ZONE_B_COUNT = 11;
 const ADMIN_BOOTHS = { 'A19': 'BNI Korea' };
@@ -2097,6 +2098,11 @@ function createBoothButton(id) {
         labelHtml += '<span class="booth-co">' + escapeHtml(company) + '</span>';
         btn.disabled = true;
         btn.title = company + ' (판매 완료)';
+    } else if (BOOTH_CLOSED) {
+        stateClass = 'bg-slate-400 dark:bg-slate-600 text-white border-slate-700 dark:border-slate-400 cursor-not-allowed opacity-80';
+        labelHtml += '<span class="booth-co">' + (company ? escapeHtml(company) : 'Sold Out') + '</span>';
+        btn.disabled = true;
+        btn.title = company ? company + ' (판매 완료)' : 'Sold Out';
     } else if (isSelected) {
         stateClass = 'bg-primary text-white border-red-900 shadow-md shadow-primary/40 scale-[1.08]';
         btn.onclick = () => selectBooth(id);
@@ -2114,6 +2120,7 @@ function escapeHtml(s) {
 }
 
 function selectBooth(id) {
+    if (BOOTH_CLOSED) return;
     if (boothStatus.sold[id] || boothStatus.admin[id]) return;
     selectedBooth = id;
     renderBoothMap();
@@ -2127,7 +2134,7 @@ function selectBooth(id) {
 }
 
 function proceedWithSelectedBooth() {
-    if (!selectedBooth) return;
+    if (BOOTH_CLOSED || !selectedBooth) return;
     closeBoothMapModal();
     openBoothModal(boothMapType, selectedBooth);
 }
@@ -2220,6 +2227,7 @@ function closeBoothModal() {
 
 async function submitBoothForm(e) {
     e.preventDefault();
+    if (BOOTH_CLOSED) return;
     const submitBtn = e.target.querySelector('button[type="submit"]');
     const originalHTML = submitBtn.innerHTML;
     submitBtn.disabled = true;

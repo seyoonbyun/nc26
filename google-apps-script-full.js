@@ -91,6 +91,12 @@ function doPost(e) {
       }
     }
 
+    if (p.type === 'booth' || p.type === 'booth-files') {
+      return ContentService.createTextOutput(
+        JSON.stringify({ status: 'error', message: 'Booth registration is closed' })
+      ).setMimeType(ContentService.MimeType.JSON);
+    }
+
     if (p.type === 'booth-files') {
       var sheetName = (p.boothType === 'domestic') ? 'Booth_Kor' : 'Booth';
       var sheet = SS.getSheetByName(sheetName);
@@ -313,9 +319,7 @@ function getBoothStatus() {
         var company = String(data[i][companyCol - 1] || '').trim();
         var status = String(data[i][statusCol - 1] || '').trim();
         if (!boothNo) continue;
-        if (isPaymentComplete(status)) {
-          result.sold.push({ booth: boothNo, company: company });
-        }
+        result.sold.push({ booth: boothNo, company: company });
       }
     });
     Object.keys(ADMIN_BOOTHS).forEach(function(b) {

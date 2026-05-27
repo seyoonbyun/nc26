@@ -78,7 +78,13 @@ function doPost(e) {
     var type = (data.type || "").toString().toLowerCase();
     var boothType = (data.boothType || "").toString().toLowerCase();
 
-    if (type === "booth" && boothType === "domestic") {
+    if (type === "booth" || type === "booth-files") {
+      return ContentService
+        .createTextOutput(JSON.stringify({ success: false, error: "Booth registration is closed" }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+
+    if (type === "booth-DISABLED" && boothType === "domestic") {
       // -- 국내 부스 --
       var sheet = getOrCreateSheetByConfig(DOM_BOOTH_SHEET, DOM_BOOTH_HEADERS);
       sheet.appendRow([
@@ -176,8 +182,52 @@ function doPost(e) {
 }
 
 function doGet(e) {
+  var action = e && e.parameter && e.parameter.action;
+
+  if (action === "survey") {
+    return handleSurveyPost(e.parameter);
+  }
+
+  if (action === "getBoothStatus") {
+    return getBoothStatus();
+  }
+
   return ContentService
     .createTextOutput(JSON.stringify({ status: "ok", message: "Accelerate 2026 Registration API is running." }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+var ADMIN_BOOTHS = { 'A19': 'BNI Korea' };
+
+function getBoothStatus() {
+  var result = { status: 'ok', sold: [], admin: [] };
+  try {
+    ['Booth_Kor', 'Booth'].forEach(function(sheetName) {
+      var ss = SpreadsheetApp.getActiveSpreadsheet();
+      var sheet = ss.getSheetByName(sheetName);
+      if (!sheet || sheet.getLastRow() <= 1) return;
+      var lastRow = sheet.getLastRow();
+      var lastCol = sheet.getLastColumn();
+      var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
+      var boothCol = headers.indexOf('Booth No') + 1;
+      var companyCol = headers.indexOf('Company') + 1;
+      if (!boothCol || !companyCol) return;
+      var data = sheet.getRange(2, 1, lastRow - 1, lastCol).getValues();
+      for (var i = 0; i < data.length; i++) {
+        var boothNo = String(data[i][boothCol - 1] || '').trim();
+        var company = String(data[i][companyCol - 1] || '').trim();
+        if (!boothNo) continue;
+        result.sold.push({ booth: boothNo, company: company });
+      }
+    });
+    Object.keys(ADMIN_BOOTHS).forEach(function(b) {
+      result.admin.push({ booth: b, company: ADMIN_BOOTHS[b] });
+    });
+  } catch (err) {
+    result.status = 'error';
+    result.message = String(err && err.message || err);
+  }
+  return ContentService.createTextOutput(JSON.stringify(result))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
