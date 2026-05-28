@@ -17,6 +17,8 @@
  */
 
 var ADMIN_EMAILS = "hq@joy-bnikorea.com, admin@bni-korea.com, ksoh7512@gmail.com";
+var SS = SpreadsheetApp.getActiveSpreadsheet();
+var PARTY_CODE_HEADERS = ['Code', 'Email', 'Name', 'Created', 'Used', 'Reserved'];
 
 // [해외 티켓 시트]
 var INTL_TICKET_SHEET = "해외 티켓";
@@ -186,6 +188,10 @@ function doGet(e) {
 
   if (action === "survey") {
     return handleSurveyPost(e.parameter);
+  }
+
+  if (action === "verifyPartyCode") {
+    return verifyPartyCode(e.parameter.code);
   }
 
   if (action === "getBoothStatus") {
@@ -696,4 +702,61 @@ function surveyEmailHtml(heading, line1, line2, line3, signature) {
     + '<p style="font-size:16px;line-height:1.7;color:#333;margin:0 0 32px">' + line3 + '</p>'
     + '<p style="font-size:14px;color:#888;margin:0;border-top:1px solid #eee;padding-top:20px">' + signature + '</p>'
     + '</td></tr></table></td></tr></table></body></html>';
+}
+
+// =============================================================
+// Party Code
+// =============================================================
+function getOrCreatePartyCodeSheet() {
+  var sheet = SS.getSheetByName('PartyCodes');
+  if (!sheet) {
+    sheet = SS.insertSheet('PartyCodes');
+    sheet.appendRow(PARTY_CODE_HEADERS);
+    sheet.getRange(1, 1, 1, PARTY_CODE_HEADERS.length).setFontWeight('bold');
+    sheet.getRange(1, 1, 1, PARTY_CODE_HEADERS.length).setBackground('#cf1f2e');
+    sheet.getRange(1, 1, 1, PARTY_CODE_HEADERS.length).setFontColor('#ffffff');
+    sheet.setFrozenRows(1);
+    return sheet;
+  }
+  var headerRow = sheet.getRange(1, 1, 1, PARTY_CODE_HEADERS.length).getValues()[0];
+  var applyHeader = function(col, label) {
+    var cell = sheet.getRange(1, col);
+    cell.setValue(label);
+    cell.setFontWeight('bold');
+    cell.setBackground('#cf1f2e');
+    cell.setFontColor('#ffffff');
+  };
+  if (!headerRow[5]) applyHeader(6, 'Reserved');
+  while (sheet.getLastColumn() > 6) {
+    var extraHeader = String(sheet.getRange(1, sheet.getLastColumn()).getValue() || '').trim();
+    if (extraHeader === 'Duplicate' || extraHeader === 'EmailSent' || extraHeader === '') {
+      sheet.deleteColumn(sheet.getLastColumn());
+    } else { break; }
+  }
+  return sheet;
+}
+
+function verifyPartyCode(code) {
+  var result = { valid: 'false' };
+  var out = function(r) {
+    return ContentService
+      .createTextOutput(JSON.stringify(r))
+      .setMimeType(ContentService.MimeType.JSON);
+  };
+  if (!code) return out(result);
+  code = String(code).trim().toUpperCase();
+  var sheet = getOrCreatePartyCodeSheet();
+  var data = sheet.getDataRange().getValues();
+  for (var i = 1; i < data.length; i++) {
+    if (data[i][0] !== code) continue;
+    if (data[i][4]) {
+      result.valid = 'false';
+      result.message = 'used';
+      return out(result);
+    }
+    result.valid = 'true';
+    result.name = data[i][2];
+    return out(result);
+  }
+  return out(result);
 }
