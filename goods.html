@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html class="dark" lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="robots" content="noindex, nofollow"/>
+<title>nc26 굿즈 부스 · 재고 관리</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<script>
+  tailwind.config = {
+    darkMode: 'class',
+    theme: {
+      extend: {
+        colors: { primary: '#cf1f2e', 'bg-dark': '#0a0c10' },
+        fontFamily: { sans: ['Pretendard', 'Inter', 'system-ui', 'sans-serif'] },
+      },
+    },
+  };
+</script>
+<style>
+  body { font-family: 'Pretendard', 'Inter', system-ui, sans-serif; -webkit-user-select: none; user-select: none; -webkit-tap-highlight-color: transparent; }
+  .icon { width: 1em; height: 1em; display: inline-block; vertical-align: -0.125em; flex: none; }
+  .toast-enter { animation: slideUp 0.3s ease-out; }
+  @keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .spinner { width: 34px; height: 34px; border: 3px solid #1e293b; border-top-color: #cf1f2e; border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 10px; }
+  .item-card { touch-action: manipulation; }
+  /* −/+ 스테퍼 버튼 (입체, 모바일 큰 탭 타깃) */
+  .stepbtn {
+    box-shadow: 0 4px 0 rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.28);
+    transition: transform 0.08s, box-shadow 0.08s;
+    touch-action: manipulation;
+  }
+  .stepbtn:active:not(:disabled) {
+    transform: translateY(3px);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.18);
+  }
+  .stepbtn:disabled { opacity: 0.32; box-shadow: none; }
+  /* 카드 레이아웃 — Tailwind 의존 없이 명시 CSS로 고정 (모바일 폭 안전) */
+  .gcard { display: grid; grid-template-columns: minmax(0,1fr) 46px auto 46px; align-items: center; column-gap: 7px; }
+  .ginfo { min-width: 0; text-align: left; }
+  .gname, .gprice { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gnum  { text-align: center; min-width: 2.2rem; padding: 0 2px; }
+  .gbtn  { width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; }
+</style>
+</head>
+<body class="bg-bg-dark text-slate-100 min-h-screen">
+
+<!-- HEADER -->
+<header class="sticky top-0 z-40 bg-bg-dark/95 backdrop-blur border-b border-slate-800">
+  <div class="max-w-3xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div>
+      <div class="text-[11px] text-primary font-bold tracking-widest">NC26 · GOODS BOOTH</div>
+      <h1 class="text-base font-bold">굿즈 재고 관리</h1>
+    </div>
+    <div class="text-right">
+      <div id="todayDate" class="text-[10px] text-slate-500"></div>
+      <div id="connStatus" class="text-[10px] font-bold">
+        <span class="inline-block w-2 h-2 rounded-full bg-slate-500 mr-1"></span>연결 중…
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="max-w-3xl mx-auto px-4 py-4 pb-32">
+
+  <!-- 요약 + 새로고침 -->
+  <div class="flex items-center justify-between mb-3">
+    <div class="text-xs text-slate-400">
+      <span class="font-bold text-slate-200">총 <span id="statRemaining">-</span></span>개 재고
+      <span class="text-slate-600">·</span> <span id="statTotalItems">-</span>개 품목
+    </div>
+    <button id="refreshStock" class="text-[11px] text-primary font-bold flex items-center gap-1">
+      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>새로고침
+    </button>
+  </div>
+
+  <!-- 검색 -->
+  <div class="relative mb-3">
+    <svg class="icon absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" style="width:18px;height:18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    <input id="searchBox" type="text" placeholder="품목 검색 (예: 카라티, 뱃지)"
+      class="w-full py-2.5 pl-10 pr-3 rounded-lg bg-slate-900 border border-slate-700 text-sm text-slate-100 placeholder-slate-600 focus:outline-none focus:border-primary"/>
+  </div>
+
+  <div class="text-[11px] text-slate-500 mb-3 leading-relaxed">
+    <b class="text-rose-300">−</b> 판매(재고 1 감소) · <b class="text-emerald-300">+</b> 되돌리기(판매 취소, 재고 1 복원).
+    여러 개면 버튼을 그만큼 누르세요.
+  </div>
+  <div id="loadingSale" class="text-center py-12 text-slate-500 text-sm">
+    <div class="spinner"></div>
+    <div>재고 불러오는 중…</div>
+  </div>
+  <div id="saleList" class="hidden space-y-2"></div>
+
+</main>
+
+<!-- TOAST -->
+<div id="toast" class="hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl bg-emerald-600 text-white font-bold text-sm shadow-2xl toast-enter flex items-center"></div>
+
+<script>
+// ──────────────────────────────────────────────────────────────────
+// 설정 (기존 nc26 Apps Script 동일 endpoint, action만 추가)
+// ──────────────────────────────────────────────────────────────────
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxgFC7c_Rox_xeQe8wSt3mkUAxUc06LXANpXg_Zr-xZtGAPkW_GyVXVvaZAzibsyaw/exec';
+
+// 카테고리 메타 (사진 없이 색상으로 구분)
+const CAT_META = {
+  '의류':     { color: '#6366f1', icon: 'apparel' },
+  '액세서리': { color: '#14b8a6', icon: 'diamond' },
+  '세트':     { color: '#ec4899', icon: 'redeem' },
+  '굿즈':     { color: '#8b5cf6', icon: 'coffee' },
+  '뱃지':     { color: '#0ea5e9', icon: 'workspace_premium' },
+  '대형':     { color: '#f97316', icon: 'table_restaurant' },
+};
+const catColor = (cat) => (CAT_META[cat] || {}).color || '#64748b';
+const catIcon  = (cat) => (CAT_META[cat] || {}).icon || 'inventory_2';
+
+// 굿즈 마스터 (Apps Script GOODS_SEED / GOODS_COMPOSITE 와 id 1:1 매칭)
+// 멘토링 도서·와펜 제외 (포스터 게시 품목만). 세트는 자체 재고 없이 구성품(머그·파우치) 자동 차감.
+// 순서 = 포스터(nc26_goods_poster) 와 동일. 뱃지 2종이 최상단.
+const GOODS_MASTER = [
+  // ─ 뱃지 (포스터 최상단) ─
+  { id: 'badge-fire',cat: '뱃지', name: '횃불 뱃지',          variant: 'ONE', initStock: 150, priceSpc: 13000 },
+  { id: 'badge-conf',cat: '뱃지', name: 'nc26 컨퍼런스 뱃지', variant: 'ONE', initStock: 1000,priceSpc: 10000 },
+  // ─ 의류 (화이트 → 블랙 카라티) ─
+  { id: 'tee-w-s',   cat: '의류', name: '화이트 카라티', variant: 'S',  initStock: 10, priceSpc: 35000 },
+  { id: 'tee-w-m',   cat: '의류', name: '화이트 카라티', variant: 'M',  initStock: 17, priceSpc: 35000 },
+  { id: 'tee-w-l',   cat: '의류', name: '화이트 카라티', variant: 'L',  initStock: 23, priceSpc: 35000 },
+  { id: 'tee-w-xl',  cat: '의류', name: '화이트 카라티', variant: 'XL', initStock: 23, priceSpc: 35000 },
+  { id: 'tee-w-2xl', cat: '의류', name: '화이트 카라티', variant: '2XL',initStock: 9,  priceSpc: 35000 },
+  { id: 'tee-b-s',   cat: '의류', name: '블랙 카라티',   variant: 'S',  initStock: 9,  priceSpc: 35000 },
+  { id: 'tee-b-m',   cat: '의류', name: '블랙 카라티',   variant: 'M',  initStock: 10, priceSpc: 35000 },
+  { id: 'tee-b-l',   cat: '의류', name: '블랙 카라티',   variant: 'L',  initStock: 14, priceSpc: 35000 },
+  { id: 'tee-b-xl',  cat: '의류', name: '블랙 카라티',   variant: 'XL', initStock: 22, priceSpc: 35000 },
+  { id: 'tee-b-2xl', cat: '의류', name: '블랙 카라티',   variant: '2XL',initStock: 7,  priceSpc: 35000 },
+  // ─ 볼캡 ─
+  { id: 'cap-blk',   cat: '액세서리', name: 'BNI 볼캡',      variant: '블랙', initStock: 20,  priceSpc: 22000 },
+  { id: 'cap-red',   cat: '액세서리', name: 'BNI 볼캡',      variant: '레드', initStock: 20,  priceSpc: 22000 },
+  // ─ 파우치 → 머그 → 세트 ─
+  { id: 'pouch',     cat: '액세서리', name: 'nc26 랩탑 파우치', variant: 'ONE', initStock: 100, priceSpc: 29000 },
+  { id: 'mug',       cat: '굿즈', name: 'BNI 머그컵',       variant: 'ONE', initStock: 83,  priceSpc: 15000 },
+  { id: 'set-mug-pouch', cat: '세트', name: '머그+파우치 세트', variant: '', priceSpc: 42000, composite: true, parts: ['mug', 'pouch'] },
+  // ─ 스카프 (화이트 / 레드) ─
+  { id: 'scarf-white', cat: '액세서리', name: 'BNI 실크스카프', variant: '화이트', initStock: 30, priceSpc: 39000 },
+  { id: 'scarf-red',   cat: '액세서리', name: 'BNI 실크스카프', variant: '레드',   initStock: 30, priceSpc: 39000 },
+  // ─ 넥타이 (클래식 → 자동) ─
+  { id: 'tie-std',   cat: '액세서리', name: 'BNI 넥타이',    variant: '클래식', initStock: 140, priceSpc: 38000 },
+  { id: 'tie-auto',  cat: '액세서리', name: 'BNI 넥타이',    variant: '자동', initStock: 158, priceSpc: 38000 },
+  // ─ 대형 ─
+  { id: 'tablecov',  cat: '대형', name: 'BNI 테이블보',     variant: 'ONE', initStock: 2,   priceSpc: 170000 },
+];
+
+// ──────────────────────────────────────────────────────────────────
+// 상태
+// ──────────────────────────────────────────────────────────────────
+let stockMap = {};            // { id: currentStock }  (실품목만)
+let saleRefs = {};            // { id: [ref, ...] }  취소 안 된 판매 ref 스택 (되돌리기용)
+
+// ──────────────────────────────────────────────────────────────────
+// 유틸
+// ──────────────────────────────────────────────────────────────────
+const $ = (sel) => document.querySelector(sel);
+const fmt = (n) => Number(n || 0).toLocaleString('ko-KR');
+const labelOf = (m) => `${m.name}${m.variant ? ' · ' + m.variant : ''}`;
+
+// 합성품목 포함 현재 재고
+function remainOf(m) {
+  if (m.composite) {
+    const vals = m.parts.map((pid) => stockMap[pid] ?? masterById(pid).initStock);
+    return Math.min.apply(null, vals);
+  }
+  return stockMap[m.id] ?? m.initStock;
+}
+function masterById(id) { return GOODS_MASTER.find((x) => x.id === id) || {}; }
+
+function showToast(msg, type = 'success') {
+  const el = $('#toast');
+  el.textContent = msg;
+  el.className = `fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-5 py-3 rounded-xl text-white font-bold text-sm shadow-2xl toast-enter flex items-center
+    ${type === 'error' ? 'bg-rose-600' : type === 'warn' ? 'bg-amber-500' : 'bg-emerald-600'}`;
+  el.classList.remove('hidden');
+  clearTimeout(showToast._t);
+  showToast._t = setTimeout(() => el.classList.add('hidden'), 2200);
+}
+
+function setConn(state) {
+  const el = $('#connStatus');
+  if (state === 'ok')   el.innerHTML = '<span class="inline-block w-2 h-2 rounded-full bg-emerald-400 mr-1"></span>연결됨';
+  if (state === 'err')  el.innerHTML = '<span class="inline-block w-2 h-2 rounded-full bg-rose-500 mr-1"></span>오류';
+  if (state === 'sync') el.innerHTML = '<span class="inline-block w-2 h-2 rounded-full bg-amber-400 mr-1 animate-pulse"></span>동기화';
+}
+
+// ──────────────────────────────────────────────────────────────────
+// API
+// ──────────────────────────────────────────────────────────────────
+async function api(action, params = {}) {
+  const url = new URL(SCRIPT_URL);
+  url.searchParams.set('action', action);
+  Object.entries(params).forEach(([k, v]) => url.searchParams.set(k, v));
+  const res = await fetch(url, { method: 'GET' });
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  return await res.json();
+}
+
+async function loadStock() {
+  setConn('sync');
+  try {
+    const r = await api('goodsList');
+    if (!r || !r.ok) throw new Error(r && r.error || 'unknown');
+    stockMap = {};
+    (r.items || []).forEach((it) => { stockMap[it.id] = Number(it.remain || 0); });
+    setConn('ok');
+    return true;
+  } catch (e) {
+    setConn('err');
+    showToast('재고 불러오기 실패: ' + e.message, 'error');
+    return false;
+  }
+}
+
+// 응답 결과를 stockMap 에 반영 (세트는 components 로 구성품 동기화)
+function applyResult(r) {
+  if (!r) return;
+  if (r.components) {
+    Object.entries(r.components).forEach(([k, v]) => { stockMap[k] = Number(v); });
+  } else if (r.id != null && r.remain != null) {
+    stockMap[r.id] = Number(r.remain);
+  }
+}
+
+async function recordSale(itemId, qty) {
+  setConn('sync');
+  try {
+    const r = await api('goodsSale', { id: itemId, qty: qty });
+    if (!r || !r.ok) throw new Error(r && r.error || 'sale failed');
+    applyResult(r);
+    if (r.ref) { (saleRefs[itemId] = saleRefs[itemId] || []).push(r.ref); }
+    setConn('ok');
+    return r;
+  } catch (e) {
+    setConn('err');
+    throw e;
+  }
+}
+
+async function cancelSale(refId) {
+  setConn('sync');
+  try {
+    const r = await api('goodsCancel', { ref: refId });
+    if (!r || !r.ok) throw new Error(r && r.error || 'cancel failed');
+    applyResult(r);
+    setConn('ok');
+    return r;
+  } catch (e) {
+    setConn('err');
+    throw e;
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────
+// 렌더
+// ──────────────────────────────────────────────────────────────────
+function stockColor(remain, init) {
+  if (remain <= 0) return 'text-slate-500';
+  if (remain <= Math.max(2, Math.floor((init || 0) * 0.1))) return 'text-amber-400';
+  return 'text-slate-200';
+}
+
+let searchQuery = '';
+
+function updateSummary() {
+  let totalRemain = 0, count = 0;
+  GOODS_MASTER.forEach((m) => {
+    if (m.composite) return;  // 세트는 실재고 아님 → 합계 제외
+    count++;
+    totalRemain += (stockMap[m.id] ?? m.initStock);
+  });
+  $('#statRemaining').textContent = fmt(totalRemain);
+  $('#statTotalItems').textContent = count;
+}
+
+function renderSaleList() {
+  const root = $('#saleList');
+  root.innerHTML = '';
+  updateSummary();
+  // 포스터와 동일한 순서로 평면 나열. 카테고리는 색상 좌측 바 + 칩으로 표시. 검색어로 필터.
+  const q = searchQuery.trim().toLowerCase();
+  let shown = 0;
+  GOODS_MASTER.forEach((m) => {
+    if (q && !(`${m.name} ${m.variant} ${m.cat}`.toLowerCase().includes(q))) return;
+    shown++;
+    const color = catColor(m.cat);
+    const remain = remainOf(m);
+    const out = remain <= 0;
+    const initRef = m.composite ? remain : m.initStock;
+    const undoCount = (saleRefs[m.id] || []).length;
+    const c = document.createElement('div');
+    c.className = `gcard item-card p-2.5 rounded-xl border ${out ? 'border-slate-800 bg-slate-900/30' : 'border-slate-700 bg-slate-900/60'}`;
+    c.style.borderLeft = `5px solid ${color}`;
+    c.innerHTML = `
+      <div class="ginfo">
+        <div class="flex items-center gap-1.5 mb-0.5">
+          <span class="text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0" style="background:${color}22;color:${color}">${m.cat}</span>
+          <div class="gname text-[15px] font-bold">${labelOf(m)}</div>
+        </div>
+        <div class="gprice text-[11px] text-slate-500">판매가 ${fmt(m.priceSpc)}원${m.composite ? ' · 머그+파우치 동시' : ''}</div>
+      </div>
+      <!-- − 판매(재고 1 감소) -->
+      <button class="sell-btn stepbtn gbtn rounded-xl text-white text-3xl font-black leading-none"
+              style="background:${out ? '#475569' : color}" ${out ? 'disabled' : ''} aria-label="판매">−</button>
+      <!-- 재고 숫자 -->
+      <div class="gnum">
+        <div class="text-[10px] text-slate-500 leading-none mb-0.5">${out ? '품절' : '재고'}</div>
+        <div class="text-2xl font-black leading-none ${stockColor(remain, initRef)}">${remain}</div>
+      </div>
+      <!-- + 되돌리기(판매 취소, 재고 1 복원) -->
+      <button class="undo-btn stepbtn gbtn rounded-xl text-3xl font-black leading-none border-2 border-emerald-500 text-emerald-400 bg-emerald-500/10"
+              ${undoCount ? '' : 'disabled'} aria-label="되돌리기">+</button>`;
+    const sellBtn = c.querySelector('.sell-btn');
+    if (!out) sellBtn.onclick = () => sellOne(m);
+    const undoBtn = c.querySelector('.undo-btn');
+    if (undoCount) undoBtn.onclick = () => undoOne(m);
+    root.appendChild(c);
+  });
+  if (!shown) {
+    root.innerHTML = '<div class="text-center py-12 text-slate-600 text-sm">검색 결과가 없습니다.</div>';
+  }
+  $('#loadingSale').classList.add('hidden');
+  root.classList.remove('hidden');
+}
+
+// ── 판매(−1) / 되돌리기(+1) — 모두 즉시 반영(낙관적) 후 서버 동기화 ──
+
+// 로컬 재고를 즉시 가감 (낙관적 업데이트). 세트는 구성품 모두 반영.
+function applyLocalDelta(item, delta) {
+  if (item.composite) {
+    item.parts.forEach((pid) => { stockMap[pid] = (stockMap[pid] ?? masterById(pid).initStock) + delta; });
+  } else {
+    stockMap[item.id] = (stockMap[item.id] ?? item.initStock) + delta;
+  }
+}
+
+// 판매 1개 — 누르는 즉시 숫자 차감, 뒤에서 서버 기록
+async function sellOne(item) {
+  if (remainOf(item) <= 0) { showToast('품절 상태입니다', 'warn'); return; }
+  applyLocalDelta(item, -1);
+  renderSaleList();
+  try {
+    await recordSale(item.id, 1);   // 성공 시 ref 가 saleRefs 스택에 쌓임
+    renderSaleList();
+  } catch (e) {
+    applyLocalDelta(item, +1);      // 실패 시 즉시 복원
+    renderSaleList();
+    showToast('기록 실패: ' + e.message, 'error');
+  }
+}
+
+// 되돌리기 1개 — 가장 최근 판매 1건 취소(재고 +1). 버튼을 누른 만큼 반복.
+async function undoOne(item) {
+  const stack = saleRefs[item.id] || [];
+  if (!stack.length) { showToast('되돌릴 판매가 없습니다', 'warn'); return; }
+  const ref = stack.pop();          // 최근 ref 꺼내기
+  applyLocalDelta(item, +1);        // 즉시 재고 복원 표시
+  renderSaleList();
+  try {
+    await cancelSale(ref);
+    renderSaleList();
+  } catch (e) {
+    stack.push(ref);                // 실패 시 ref·재고 원복
+    applyLocalDelta(item, -1);
+    renderSaleList();
+    showToast('되돌리기 실패: ' + e.message, 'error');
+  }
+}
+
+// ──────────────────────────────────────────────────────────────────
+// 이벤트
+// ──────────────────────────────────────────────────────────────────
+// 검색
+$('#searchBox').oninput = (e) => { searchQuery = e.target.value; renderSaleList(); };
+
+$('#refreshStock').onclick = async () => { await loadStock(); renderSaleList(); showToast('재고 새로고침 완료'); };
+
+// 날짜 표시
+$('#todayDate').textContent = new Date().toLocaleString('ko-KR', { month: '2-digit', day: '2-digit', weekday: 'short' });
+
+// 초기 로드
+(async () => {
+  await loadStock();
+  renderSaleList();
+})();
+</script>
+</body>
+</html>
