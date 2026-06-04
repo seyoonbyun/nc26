@@ -251,7 +251,7 @@ function toggleMobileMenu() {
 </div>
 </div>
 
-<!-- Mac & Norm — 모바일: 16:9 인물 오른쪽 / 데스크톱: 정사각 Duo -->
+<!-- Mac & Asato — 모바일: 16:9 인물 오른쪽 / 데스크톱: 정사각 Duo -->
 <!-- 모바일 Mac -->
 <div onclick="openSpeakerModal('mac')" class="md:hidden relative rounded-2xl overflow-hidden mb-4 group cursor-pointer aspect-[16/9] hover:shadow-xl hover:shadow-primary/20 transition-shadow bg-[#0a0c10]">
 <img src="스피커 이미지/speaker-mac-card.jpg" alt="Mac Srinivasan" class="absolute right-0 top-0 h-full w-[55%] object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 20%;"/>
@@ -263,15 +263,15 @@ function toggleMobileMenu() {
 <p class="text-xs font-bold text-white leading-snug">"Creating High Performance Teams<br>— 고성과 팀을 만드는 법"</p>
 </div>
 </div>
-<!-- 모바일 Norm -->
+<!-- 모바일 Asato -->
 <div onclick="openSpeakerModal('norm')" class="md:hidden relative rounded-2xl overflow-hidden mb-5 group cursor-pointer aspect-[16/9] hover:shadow-xl hover:shadow-primary/20 transition-shadow bg-[#0a0c10]">
-<img src="스피커 이미지/Norm Dominguez_main.jpg" alt="Norm Dominguez" class="absolute right-0 top-0 h-full w-[55%] object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 30%;"/>
+<img src="스피커 이미지/asato-ohno.jpg" alt="Asato Ohno" class="absolute right-0 top-0 h-full w-[55%] object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 30%;"/>
 <div class="absolute inset-0 bg-gradient-to-r from-[#0a0c10] from-[40%] via-[#0a0c10]/70 via-[52%] to-transparent"></div>
 <div class="absolute inset-0 p-5 flex flex-col justify-center items-start w-[55%]">
 <span class="inline-block w-fit bg-primary text-white text-[10px] font-bold font-heading px-2.5 py-1 rounded-full tracking-widest uppercase mb-2">Special Speech Ⅱ</span>
-<h3 class="text-xl font-black mb-1">Norm Dominguez</h3>
-<p class="text-[11px] text-slate-300 mb-1.5">BNI Vice Chairman Emeritus & Senator · Co-Founder, Possi Global</p>
-<p class="text-xs font-bold text-white leading-snug">"Enjoy Making Positivity a Habit!<br>— 긍정을 습관으로 만드는 법"</p>
+<h3 class="text-xl font-black mb-1">Asato Ohno</h3>
+<p class="text-[11px] text-slate-300 mb-1.5">BNI Japan National Director · JBN International 대표</p>
+<p class="text-xs font-bold text-white leading-snug">"Changing the Way the World Does Business<br>— 소개(리퍼럴)가 비즈니스의 미래다"</p>
 </div>
 </div>
 <!-- 데스크톱 Duo 정사각 -->
@@ -287,13 +287,13 @@ function toggleMobileMenu() {
 </div>
 </div>
 <div onclick="openSpeakerModal('norm')" class="relative rounded-2xl overflow-hidden aspect-square group cursor-pointer hover:shadow-xl hover:shadow-primary/20 transition-shadow">
-<img src="스피커 이미지/Norm Dominguez_main.jpg" alt="Norm Dominguez" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 15%;"/>
+<img src="스피커 이미지/asato-ohno.jpg" alt="Asato Ohno" class="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: center 15%;"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent"></div>
 <div class="absolute inset-0 p-8 flex flex-col justify-end">
 <span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Special Speech Ⅱ</span>
-<h3 class="text-4xl font-black mb-2">Norm Dominguez</h3>
-<p class="text-sm text-slate-300 mb-2">BNI Vice Chairman Emeritus & Senator · Co-Founder, Possi Global</p>
-<p class="text-lg font-bold text-white leading-snug">"Enjoy Making Positivity a Habit!<br>— 긍정을 습관으로 만드는 법"</p>
+<h3 class="text-4xl font-black mb-2">Asato Ohno</h3>
+<p class="text-sm text-slate-300 mb-2">BNI Japan National Director · JBN International 대표</p>
+<p class="text-lg font-bold text-white leading-snug">"Changing the Way the World Does Business<br>— 소개(리퍼럴)가 비즈니스의 미래다"</p>
 </div>
 </div>
 </div>
@@ -521,39 +521,28 @@ BNI <strong class="text-white">Kowloon Energy (Chinese) Chapter</strong>의 <str
         }
     },
     norm: {
-        photo: '스피커 이미지/speaker-norm.png',
+        photo: '스피커 이미지/asato-ohno.jpg',
         tag: 'Special Speech',
-        name: 'Norm Dominguez',
-        title: 'BNI Vice Chairman Emeritus & Senator · Co-Founder, Possi Global',
-        quote: '"Faith Makes Things Possible … Not Easy"',
-        profile: `BNI와 함께한 <strong class="text-white">38년</strong>의 여정. 1980년대 BNI 일반 멤버로 시작해 Executive Director, US National Director를 거쳐 BNI 본사의 <strong class="text-white">COO 및 CEO</strong>까지 역임한 BNI의 살아있는 역사다.<br><br>
-현재는 BNI Vice Chairman Emeritus &amp; Senator로서 BNI의 글로벌 성장을 이끌어온 핵심 인물이며, 2017년에는 전 세계에 긍정의 힘을 전파하는 글로벌 운동 <strong class="text-white">Possi Global</strong>을 공동 창립했다.<br><br>
-그의 핵심 메시지는 단 하나 — <strong class="text-white">"Positivity(긍정)"</strong>. 긍정적 태도가 비즈니스와 삶을 어떻게 바꾸는지를 38년의 BNI 경험으로 증명해 온 글로벌 리더이자 스피커다.`,
+        name: 'Asato Ohno',
+        title: 'BNI Japan National Director · JBN International 대표',
+        quote: '"Changing the Way the World Does Business — 소개(리퍼럴)로 세상의 비즈니스 방식을 바꾼다"',
+        profile: `<strong class="text-white">BNI 재팬</strong>을 이끄는 내셔널 디렉터이자 JBN International 대표. 1965년 일본 지바현 출생으로 릿쿄대학 법학부를 졸업한 뒤 메릴린치, 파리바 등 미국·유럽계 증권사에서 <strong class="text-white">자본시장 경력</strong>을 쌓았다.<br><br>
+1995년 런던으로 부임해 활동하던 중 BNI를 만났고, 3년간 멤버로 활동하며 리퍼럴 마케팅의 힘을 직접 경험했다. BNI 창립자 <strong class="text-white">아이반 마이즈너 박사</strong>를 만나 일본 전개를 제안, 2006년 11년 만에 귀국해 <strong class="text-white">BNI 재팬</strong>을 출범시켰다.<br><br>
+이후 BNI 재팬을 <strong class="text-white">380개 챕터 · 멤버 12,000명 이상</strong> 규모로 성장시켰으며, 최근 12개월간 멤버 간 소개로 <strong class="text-white">1,237억 엔</strong>의 비즈니스를 창출했다. "소개(리퍼럴)로 세상의 비즈니스 방식을 바꾼다"는 비전을 일본 전역에 확산하고 있다.`,
         career: [
-            { current: true, text: 'BNI Vice Chairman Emeritus & Senator' },
-            { current: true, text: 'Possi Global Co-Founder' },
-            { current: true, text: 'Referral Hub LLC 대표' },
-            { current: false, text: 'BNI CEO (최고경영자)' },
-            { current: false, text: 'BNI COO (최고운영책임자)' },
-            { current: false, text: 'BNI US National Director' },
-            { current: false, text: 'BNI Executive Director' }
+            { current: true, text: 'BNI Japan National Director' },
+            { current: true, text: 'JBN International 대표이사' },
+            { current: false, text: 'BNI 재팬 설립 (2006)' },
+            { current: false, text: '인터넷 서비스 회사 공동 설립 (런던, 2002)' },
+            { current: false, text: '메릴린치 · 파리바 등 증권사 (자본시장)' }
         ],
-        gallery: ['스피커 이미지/speaker-norm-profile.png', '스피커 이미지/speaker-norm-g1.png', '스피커 이미지/speaker-norm-g2.png'],
-        book: { title: '『The Magic of Positivity』 3rd Edition', sub: 'Be Positive and YOU will Be Happy!' },
+        gallery: [],
+        book: null,
         topic: {
             tag: 'SPECIAL SPEECH',
-            title: '"Enjoy Making Positivity a Habit!<br>— 긍정을 습관으로 만드는 법"',
-            desc: '긍정을 습관으로 만드는 것이 어떻게 비즈니스와 삶을 변화시키는지 — BNI 38년 경험에서 나온 통찰을 전합니다.'
-        },
-        pillars: [
-            { num: '01', en: 'Never Give Up', ko: '절대 포기하지 마라' },
-            { num: '02', en: 'Show That You Care', ko: '배려를 표현하라' },
-            { num: '03', en: 'Accept Responsibility', ko: '책임을 수용하라' },
-            { num: '04', en: 'Treat with Respect', ko: '존중으로 대하라' },
-            { num: '05', en: 'Keep Your Word', ko: '약속을 지켜라' },
-            { num: '06', en: 'Always Think Remarkable', ko: '항상 비범함을 생각하라' },
-            { num: '07', en: 'Enjoy a Little Craziness', ko: '약간의 광기를 즐겨라' }
-        ]
+            title: '"Changing the Way the World Does Business<br>— 소개(리퍼럴)가 비즈니스의 미래다"',
+            desc: 'BNI 재팬을 20년간 멤버 12,000명 규모로 키워낸 리퍼럴 마케팅의 힘 — 소개가 어떻게 비즈니스를 바꾸는지 전합니다.'
+        }
     },
     jeongMs: {
         photo: '스피커 이미지/speaker-jeong-ms-4.jpeg',
