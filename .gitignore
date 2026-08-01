@@ -1,1 +1,17 @@
 .vercel
+
+# --- 2026-08-01 자격증명·개인데이터 차단 (사본은 볼트 99. private) ---
+.env
+_*.json
+_*.txt
+_*.html
+pay-data.json
+pc-*.json
+np-hits.json
+updates.json
+
+# 중첩 저장소 (별도 repo로 관리)
+nc26_backup_20260407_202019/
+
+# Airtable 토큰 평문 포함
+typebot-survey/

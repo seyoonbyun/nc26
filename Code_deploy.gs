@@ -198,6 +198,12 @@ function doGet(e) {
     return getBoothStatus();
   }
 
+  // ── 굿즈 부스 재고 관리 (goods.html) ──
+  if (action === "goodsList")   return goodsList();
+  if (action === "goodsSale")   return goodsSale(e.parameter);
+  if (action === "goodsCancel") return goodsCancel(e.parameter);
+  if (action === "goodsLog")    return goodsLog(e.parameter);
+
   return ContentService
     .createTextOutput(JSON.stringify({ status: "ok", message: "Accelerate 2026 Registration API is running." }))
     .setMimeType(ContentService.MimeType.JSON);
@@ -759,4 +765,245 @@ function verifyPartyCode(code) {
     return out(result);
   }
   return out(result);
+}
+
+// =============================================================
+// 굿즈 부스 재고 관리 (goods.html 백엔드)
+//   시트: '굿즈_재고' (현재고) / '굿즈_판매기록' (판매 로그)
+//   action: goodsList / goodsSale / goodsCancel / goodsLog  (doGet 라우팅)
+// =============================================================
+var GOODS_SHEET = '굿즈_재고';
+var GOODS_LOG = '굿즈_판매기록';
+var GOODS_STOCK_HEADERS = ['id', '품명', '옵션', '카테고리', '초기재고', '현재고', '특가', '수정시각'];
+var GOODS_LOG_HEADERS   = ['시각', 'ref', '구분', 'id', '품명', '옵션', '수량', '판매가', '결제금액'];
+
+// 단일 품목 시드 — id는 goods.html GOODS_MASTER 와 1:1 일치. 멘토링 도서·와펜 제외(포스터 품목만).
+var GOODS_SEED = [
+  { id: 'tee-w-s',   name: '화이트 카라티', variant: 'S',   cat: '의류',     init: 10,   priceSpc: 35000 },
+  { id: 'tee-w-m',   name: '화이트 카라티', variant: 'M',   cat: '의류',     init: 17,   priceSpc: 35000 },
+  { id: 'tee-w-l',   name: '화이트 카라티', variant: 'L',   cat: '의류',     init: 23,   priceSpc: 35000 },
+  { id: 'tee-w-xl',  name: '화이트 카라티', variant: 'XL',  cat: '의류',     init: 23,   priceSpc: 35000 },
+  { id: 'tee-w-2xl', name: '화이트 카라티', variant: '2XL', cat: '의류',     init: 9,    priceSpc: 35000 },
+  { id: 'tee-b-s',   name: '블랙 카라티',   variant: 'S',   cat: '의류',     init: 9,    priceSpc: 35000 },
+  { id: 'tee-b-m',   name: '블랙 카라티',   variant: 'M',   cat: '의류',     init: 10,   priceSpc: 35000 },
+  { id: 'tee-b-l',   name: '블랙 카라티',   variant: 'L',   cat: '의류',     init: 14,   priceSpc: 35000 },
+  { id: 'tee-b-xl',  name: '블랙 카라티',   variant: 'XL',  cat: '의류',     init: 22,   priceSpc: 35000 },
+  { id: 'tee-b-2xl', name: '블랙 카라티',   variant: '2XL', cat: '의류',     init: 7,    priceSpc: 35000 },
+  { id: 'cap-blk',   name: 'BNI 볼캡',      variant: '블랙', cat: '액세서리', init: 20,   priceSpc: 22000 },
+  { id: 'cap-red',   name: 'BNI 볼캡',      variant: '레드', cat: '액세서리', init: 20,   priceSpc: 22000 },
+  { id: 'scarf-white', name: 'BNI 실크스카프', variant: '화이트', cat: '액세서리', init: 30, priceSpc: 39000 },
+  { id: 'scarf-red',   name: 'BNI 실크스카프', variant: '레드',   cat: '액세서리', init: 30, priceSpc: 39000 },
+  { id: 'tie-std',   name: 'BNI 넥타이',    variant: '클래식', cat: '액세서리', init: 140,  priceSpc: 38000 },
+  { id: 'tie-auto',  name: 'BNI 넥타이',    variant: '자동', cat: '액세서리', init: 158,  priceSpc: 38000 },
+  { id: 'pouch',     name: 'nc26 랩탑 파우치', variant: 'ONE', cat: '액세서리', init: 100,  priceSpc: 29000 },
+  { id: 'mug',       name: 'BNI 머그컵',    variant: 'ONE', cat: '굿즈',     init: 83,   priceSpc: 15000 },
+  { id: 'badge-fire', name: '횃불 뱃지',     variant: 'ONE', cat: '뱃지',     init: 150,  priceSpc: 13000 },
+  { id: 'badge-conf', name: 'nc26 컨퍼런스 뱃지', variant: 'ONE', cat: '뱃지', init: 1000, priceSpc: 10000 },
+  { id: 'tablecov',  name: 'BNI 테이블보',  variant: 'ONE', cat: '대형',     init: 2,    priceSpc: 170000 },
+];
+
+// 세트(합성) 품목 — 자체 재고 없음. 판매 시 구성품 재고를 자동 차감.
+var GOODS_COMPOSITE = {
+  'set-mug-pouch': { name: '머그+파우치 세트', variant: '', priceSpc: 42000, parts: [{ id: 'mug', n: 1 }, { id: 'pouch', n: 1 }] }
+};
+
+function goodsJson_(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
+}
+
+// 활성 스프레드시트 (외부 전역에 의존하지 않도록 자체 getter)
+function goodsSS_() {
+  return SpreadsheetApp.getActiveSpreadsheet();
+}
+
+function goodsStockSheet_() {
+  var sh = goodsSS_().getSheetByName(GOODS_SHEET);
+  if (!sh) {
+    sh = goodsSS_().insertSheet(GOODS_SHEET);
+    sh.appendRow(GOODS_STOCK_HEADERS);
+    sh.getRange(1, 1, 1, GOODS_STOCK_HEADERS.length).setFontWeight('bold').setBackground('#cf1f2e').setFontColor('#ffffff');
+    sh.setFrozenRows(1);
+  }
+  // 시드 누락분만 추가 (기존 재고는 보존)
+  var data = sh.getDataRange().getValues();
+  var have = {};
+  for (var i = 1; i < data.length; i++) have[String(data[i][0]).trim()] = true;
+  GOODS_SEED.forEach(function (g) {
+    if (!have[g.id]) {
+      sh.appendRow([g.id, g.name, g.variant, g.cat, g.init, g.init, g.priceSpc, new Date()]);
+    }
+  });
+  return sh;
+}
+
+function goodsReadStock_() {
+  var sh = goodsStockSheet_();
+  var data = sh.getDataRange().getValues();
+  var map = {};
+  for (var i = 1; i < data.length; i++) {
+    var id = String(data[i][0] || '').trim();
+    if (!id) continue;
+    map[id] = {
+      row: i + 1, name: data[i][1], variant: data[i][2], cat: data[i][3],
+      init: Number(data[i][4] || 0), remain: Number(data[i][5] || 0), priceSpc: Number(data[i][6] || 0)
+    };
+  }
+  return { sheet: sh, map: map };
+}
+
+function goodsLogSheet_() {
+  var sh = goodsSS_().getSheetByName(GOODS_LOG);
+  if (!sh) {
+    sh = goodsSS_().insertSheet(GOODS_LOG);
+    sh.appendRow(GOODS_LOG_HEADERS);
+    sh.getRange(1, 1, 1, GOODS_LOG_HEADERS.length).setFontWeight('bold').setBackground('#cf1f2e').setFontColor('#ffffff');
+    sh.setFrozenRows(1);
+  }
+  return sh;
+}
+
+function goodsList() {
+  try {
+    var st = goodsReadStock_();
+    var items = [];
+    Object.keys(st.map).forEach(function (id) {
+      var m = st.map[id];
+      items.push({ id: id, name: m.name, variant: m.variant, cat: m.cat, init: m.init, remain: m.remain, priceSpc: m.priceSpc });
+    });
+    return goodsJson_({ ok: true, items: items });
+  } catch (err) {
+    return goodsJson_({ ok: false, error: String(err && err.message || err) });
+  }
+}
+
+function goodsSale(p) {
+  var lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(20000);
+    var id = String(p.id || '').trim();
+    var qty = Math.max(1, parseInt(p.qty, 10) || 1);
+    if (!id) return goodsJson_({ ok: false, error: 'id 누락' });
+
+    var st = goodsReadStock_();
+    var ref = Utilities.getUuid().slice(0, 8);
+    var now = new Date();
+    var logSh = goodsLogSheet_();
+
+    if (GOODS_COMPOSITE[id]) {
+      var comp = GOODS_COMPOSITE[id];
+      var comps = {};
+      comp.parts.forEach(function (pt) {
+        var m = st.map[pt.id];
+        if (!m) throw new Error('구성품 없음: ' + pt.id);
+        var nr = m.remain - pt.n * qty;
+        st.sheet.getRange(m.row, 6).setValue(nr);
+        st.sheet.getRange(m.row, 8).setValue(now);
+        comps[pt.id] = nr;
+      });
+      logSh.appendRow([now, ref, 'SALE', id, comp.name, comp.variant || '', qty, comp.priceSpc, comp.priceSpc * qty]);
+      var remainSet = Math.min.apply(null, comp.parts.map(function (pt) { return comps[pt.id]; }));
+      return goodsJson_({ ok: true, id: id, ref: ref, remain: remainSet, components: comps });
+    }
+
+    var m = st.map[id];
+    if (!m) return goodsJson_({ ok: false, error: '품목 없음: ' + id });
+    var nr = m.remain - qty;
+    st.sheet.getRange(m.row, 6).setValue(nr);
+    st.sheet.getRange(m.row, 8).setValue(now);
+    logSh.appendRow([now, ref, 'SALE', id, m.name, m.variant, qty, m.priceSpc, m.priceSpc * qty]);
+    return goodsJson_({ ok: true, id: id, ref: ref, remain: nr });
+  } catch (err) {
+    return goodsJson_({ ok: false, error: String(err && err.message || err) });
+  } finally {
+    try { lock.releaseLock(); } catch (e) {}
+  }
+}
+
+function goodsCancel(p) {
+  var lock = LockService.getScriptLock();
+  try {
+    lock.waitLock(20000);
+    var ref = String(p.ref || '').trim();
+    if (!ref) return goodsJson_({ ok: false, error: 'ref 누락' });
+    var logSh = goodsLogSheet_();
+    var ldata = logSh.getDataRange().getValues();
+    var rowIdx = -1, lrow = null;
+    for (var i = 1; i < ldata.length; i++) {
+      if (String(ldata[i][1]) === ref) { rowIdx = i + 1; lrow = ldata[i]; break; }
+    }
+    if (rowIdx < 0) return goodsJson_({ ok: false, error: '기록 없음' });
+    if (String(lrow[2]) === 'CANCEL') return goodsJson_({ ok: false, error: '이미 취소됨' });
+
+    var id = String(lrow[3]);
+    var qty = Number(lrow[6] || 0);
+    var st = goodsReadStock_();
+    var now = new Date();
+    var resp = { ok: true, id: id };
+
+    if (GOODS_COMPOSITE[id]) {
+      var comps = {};
+      GOODS_COMPOSITE[id].parts.forEach(function (pt) {
+        var m = st.map[pt.id];
+        if (m) {
+          var nr = m.remain + pt.n * qty;
+          st.sheet.getRange(m.row, 6).setValue(nr);
+          st.sheet.getRange(m.row, 8).setValue(now);
+          comps[pt.id] = nr;
+        }
+      });
+      resp.components = comps;
+      resp.remain = Math.min.apply(null, GOODS_COMPOSITE[id].parts.map(function (pt) { return comps[pt.id]; }));
+    } else {
+      var m = st.map[id];
+      if (m) {
+        var nr = m.remain + qty;
+        st.sheet.getRange(m.row, 6).setValue(nr);
+        st.sheet.getRange(m.row, 8).setValue(now);
+        resp.remain = nr;
+      }
+    }
+    logSh.getRange(rowIdx, 3).setValue('CANCEL');  // 구분 → CANCEL (원본 행을 취소표시)
+    return goodsJson_(resp);
+  } catch (err) {
+    return goodsJson_({ ok: false, error: String(err && err.message || err) });
+  } finally {
+    try { lock.releaseLock(); } catch (e) {}
+  }
+}
+
+function goodsLog(p) {
+  try {
+    var limit = Math.max(1, Math.min(200, parseInt(p && p.limit, 10) || 50));
+    var sh = goodsLogSheet_();
+    var last = sh.getLastRow();
+    if (last <= 1) return goodsJson_({ ok: true, logs: [] });
+    var n = Math.min(limit, last - 1);
+    var data = sh.getRange(last - n + 1, 1, n, GOODS_LOG_HEADERS.length).getValues();
+    var logs = [];
+    for (var i = data.length - 1; i >= 0; i--) {
+      var r = data[i];
+      logs.push({
+        ts: r[0] ? new Date(r[0]).toISOString() : '', ref: String(r[1]),
+        action: String(r[2]), id: String(r[3]), name: r[4], variant: r[5],
+        qty: Number(r[6] || 0)
+      });
+    }
+    return goodsJson_({ ok: true, logs: logs });
+  } catch (err) {
+    return goodsJson_({ ok: false, error: String(err && err.message || err) });
+  }
+}
+
+// ── 테스트 데이터 초기화 (편집기에서 1회 실행: Run > goodsResetAll) ──
+//    굿즈_재고·굿즈_판매기록 시트를 삭제 → 다음 호출 때 엑셀 초기값으로 새로 생성됨.
+//    (실제 판매 시작 전, 테스트로 차감된 재고를 원상 복구할 때 사용)
+function goodsResetAll() {
+  var ss = goodsSS_();
+  [GOODS_SHEET, GOODS_LOG].forEach(function (n) {
+    var sh = ss.getSheetByName(n);
+    if (sh) ss.deleteSheet(sh);
+  });
+  goodsStockSheet_();  // 재고 시트 재생성 + 시드(엑셀 초기값)
+  goodsLogSheet_();    // 판매기록 시트 재생성 (새 헤더)
+  return '굿즈 재고/판매기록 초기화 완료 — 재고가 초기값으로 복구되었습니다.';
 }

@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>nc26 굿즈 가격표 · A4 포스터</title>
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"/>
+<style>
+  /* A4: 210 x 297 mm  (세로 / portrait)
+     A3 디자인을 zoom 0.7071로 폭 축소 → A4 폭에 fit
+     컨텐츠는 자연스럽게 여러 A4 페이지에 흐르되, 카드/배너 단위로 페이지 분할 금지 */
+  @page { size: A4 portrait; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: #ddd;
+    font-family: 'Pretendard', 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    color: #0a0c10;
+  }
+  .page {
+    width: 297mm;
+    margin: 14mm auto;
+    background: #ffffff;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.18);
+    padding: 14mm 14mm 12mm;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    zoom: 0.7071;
+  }
+  /* 카드·배너 단위 페이지 분할 금지 (인쇄 시 중간에 잘리지 않게) */
+  .card, .set-banner, .header, .footer, .grid {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  @media print {
+    html, body { background: #fff; }
+    .page { margin: 0; box-shadow: none; }
+  }
+
+  /* HEADER */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 3px solid #cf1f2e;
+    padding-bottom: 8mm;
+    margin-bottom: 8mm;
+  }
+  .header-left .eyebrow {
+    color: #cf1f2e;
+    font-weight: 800;
+    font-size: 14pt;
+    letter-spacing: 0.3em;
+    margin-bottom: 4mm;
+  }
+  .header-left h1 {
+    font-size: 36pt;
+    font-weight: 900;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: #0a0c10;
+  }
+  .header-left h1 .accent { color: #cf1f2e; }
+  .header-left .subtitle {
+    margin-top: 5mm;
+    font-size: 11pt;
+    color: #555;
+    font-weight: 500;
+  }
+  .header-right {
+    text-align: right;
+  }
+  .badge {
+    display: inline-block;
+    background: #cf1f2e;
+    color: #fff;
+    padding: 3mm 6mm;
+    border-radius: 999px;
+    font-weight: 800;
+    font-size: 11pt;
+    letter-spacing: 0.1em;
+    margin-bottom: 3mm;
+  }
+  .header-right .date {
+    font-size: 10pt;
+    color: #555;
+    font-weight: 600;
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5mm;
+    margin-bottom: 6mm;
+  }
+  .grid--featured {
+    grid-template-columns: repeat(2, 1fr);
+    margin-bottom: 5mm;
+  }
+  .grid--half {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .card {
+    border: 1.5px solid #e8e8ec;
+    border-radius: 4mm;
+    padding: 5mm;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: #fff;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+  .card--featured {
+    background: linear-gradient(180deg, #fff 0%, #fff7f8 100%);
+    border: 1.5px solid #f5cdd1;
+  }
+  .card__imgwrap {
+    width: 100%;
+    height: 55mm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4mm;
+    background: #0a0c10;
+    border-radius: 3mm;
+    overflow: hidden;
+  }
+  .card--featured .card__imgwrap { height: 65mm; }
+  .card__imgwrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+  .card__imgwrap.placeholder {
+    background: linear-gradient(135deg, #f5f5f7 0%, #e8e8ec 100%);
+    color: #999;
+    font-weight: 600;
+    font-size: 14pt;
+    letter-spacing: 0.1em;
+  }
+  .card__name {
+    font-size: 12pt;
+    font-weight: 800;
+    color: #0a0c10;
+    margin-bottom: 1.5mm;
+    line-height: 1.2;
+    min-height: 1.2em;
+  }
+  .card--featured .card__name { font-size: 14pt; }
+  .card__name-en {
+    display: block;
+    font-size: 9.5pt;
+    font-weight: 700;
+    color: #3f4148;
+    margin-top: 0.8mm;
+    letter-spacing: 0.01em;
+  }
+  .card--featured .card__name-en { font-size: 11pt; }
+  .card__desc {
+    font-size: 9pt;
+    color: #777;
+    font-weight: 500;
+    margin-bottom: 3mm;
+    line-height: 1.3;
+  }
+  .card__desc-en {
+    display: block;
+    font-size: 8.5pt;
+    font-weight: 500;
+    color: #5a5d66;
+    margin-top: 1mm;
+    letter-spacing: 0.01em;
+    line-height: 1.3;
+  }
+  .card__special-usd {
+    font-size: 11pt;
+    font-weight: 800;
+    color: #cf1f2e;
+    margin-left: 1.5mm;
+    letter-spacing: 0.02em;
+  }
+  .card--featured .card__special-usd { font-size: 13pt; }
+  .card--span2 .card__special-usd { font-size: 13pt; }
+  .card__prices {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5mm;
+    width: 100%;
+  }
+  .card__regular {
+    font-size: 9.5pt;
+    color: #aaa;
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+    font-weight: 500;
+  }
+  .card__special {
+    display: flex;
+    align-items: baseline;
+    gap: 2mm;
+    color: #cf1f2e;
+  }
+  .card__special-label {
+    font-size: 8.5pt;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    background: #cf1f2e;
+    color: #fff;
+    padding: 0.8mm 2mm;
+    border-radius: 1mm;
+  }
+  .card__special-price {
+    font-size: 18pt;
+    font-weight: 900;
+    color: #cf1f2e;
+    letter-spacing: -0.01em;
+  }
+  .card--featured .card__special-price { font-size: 22pt; }
+  .card__special-price .won { font-size: 11pt; font-weight: 700; margin-left: 0.5mm; }
+  .tag-soldout {
+    display: inline-block;
+    background: #cf1f2e;
+    color: #fff;
+    font-weight: 900;
+    font-size: 11pt;
+    letter-spacing: 0.12em;
+    padding: 1.2mm 3mm;
+    border-radius: 1.5mm;
+    margin-left: 2.5mm;
+    vertical-align: middle;
+    border: 1.5px solid #fff;
+    box-shadow: 0 0 0 1.5px #cf1f2e, 0 1mm 2mm rgba(207, 31, 46, 0.25);
+  }
+  .card--span2 { grid-column: span 2; }
+  .card--span2 .card__imgwrap { height: 75mm; background: #0a0c10; position: relative; }
+
+  /* 대각선 SOLD OUT 스탬프 */
+  .soldout-stamp {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-10deg);
+    background: rgba(207, 31, 46, 0.95);
+    color: #fff;
+    font-weight: 900;
+    font-size: 18pt;
+    line-height: 1.05;
+    text-align: center;
+    padding: 3mm 7mm;
+    border: 3px solid #fff;
+    border-radius: 2mm;
+    letter-spacing: 0.12em;
+    box-shadow: 0 0 0 2px #cf1f2e, 0 3mm 8mm rgba(0,0,0,0.35);
+    white-space: nowrap;
+    z-index: 2;
+    pointer-events: none;
+  }
+  .soldout-stamp .small {
+    display: block;
+    font-size: 9pt;
+    letter-spacing: 0.2em;
+    margin-bottom: 0.5mm;
+    opacity: 0.95;
+  }
+
+  /* SET BANNER */
+  .set-banner {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    background: linear-gradient(135deg, #0a0c10 0%, #1a1c25 100%);
+    border-radius: 4mm;
+    overflow: hidden;
+    margin-bottom: 5mm;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    border: 1.5px solid #cf1f2e;
+    box-shadow: 0 4mm 8mm -3mm rgba(207, 31, 46, 0.35);
+  }
+  .set-banner__img {
+    background: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4mm;
+    min-height: 55mm;
+  }
+  .set-banner__img img {
+    width: 100%;
+    height: 100%;
+    max-height: 55mm;
+    object-fit: contain;
+    border-radius: 2mm;
+  }
+  .set-banner__content {
+    padding: 6mm 7mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+  }
+  .set-banner__badge {
+    display: inline-block;
+    background: #cf1f2e;
+    color: #fff;
+    font-weight: 900;
+    font-size: 9pt;
+    letter-spacing: 0.25em;
+    padding: 1.5mm 4mm;
+    border-radius: 999px;
+    width: fit-content;
+    margin-bottom: 4mm;
+  }
+  .set-banner__title {
+    font-size: 19pt;
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    margin-bottom: 2mm;
+    white-space: nowrap;
+  }
+  .set-banner__desc {
+    font-size: 10pt;
+    color: #cbd1dd;
+    font-weight: 500;
+    margin-bottom: 5mm;
+    line-height: 1.4;
+  }
+  .set-banner__prices {
+    display: flex;
+    align-items: baseline;
+    gap: 4mm;
+    flex-wrap: wrap;
+  }
+  .set-banner__regular {
+    font-size: 10pt;
+    color: #888;
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+    font-weight: 500;
+  }
+  .set-banner__special {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5mm;
+  }
+  .set-banner__special-price {
+    font-size: 28pt;
+    font-weight: 900;
+    color: #ff5160;
+    letter-spacing: -0.02em;
+  }
+  .set-banner__won { font-size: 14pt; font-weight: 700; color: #ff5160; margin-left: 0.5mm; }
+  .set-banner__off {
+    background: #cf1f2e;
+    color: #fff;
+    font-weight: 900;
+    font-size: 11pt;
+    padding: 1.5mm 3mm;
+    border-radius: 2mm;
+    letter-spacing: 0.02em;
+  }
+
+  /* FOOTER */
+  .footer {
+    margin-top: auto;
+    border-top: 2px solid #0a0c10;
+    padding-top: 5mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .footer-info {
+    font-size: 9pt;
+    color: #555;
+    line-height: 1.5;
+  }
+  .footer-info strong { color: #0a0c10; font-weight: 800; }
+  .footer-info ul { list-style: none; }
+  .footer-info li { margin-bottom: 1mm; }
+  .footer-info li::before {
+    content: '·';
+    color: #cf1f2e;
+    font-weight: 900;
+    margin-right: 2mm;
+  }
+  .footer-info li.footer-bank {
+    color: #cf1f2e;
+    font-weight: 600;
+  }
+  .footer-info li.footer-bank strong { color: #cf1f2e; }
+  .footer-brand {
+    text-align: right;
+  }
+  .footer-brand .logo {
+    font-size: 24pt;
+    font-weight: 900;
+    color: #cf1f2e;
+    letter-spacing: -0.02em;
+    margin-bottom: 2mm;
+    line-height: 1;
+  }
+  .footer-brand .small {
+    font-size: 12pt;
+    color: #555;
+    font-weight: 700;
+    line-height: 1.35;
+    letter-spacing: 0.01em;
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-left">
+      <div class="eyebrow">NC26 · CONFERENCE GOODS</div>
+      <h1>BNI KOREA<br/><span class="accent">공식 굿즈  Official Goods</span></h1>
+      <div class="subtitle">컨퍼런스 현장 특별가 · 한정 수량 판매<br/><span style="color:#999;font-size:9pt;font-weight:500;">Conference Special Pricing · Limited Stock</span></div>
+    </div>
+    <div class="header-right">
+      <div class="badge">CONFERENCE SPECIAL</div>
+      <div class="date">2026.06.01–02 · 2 Days<br/>Swiss Grand Hotel Seoul, Korea</div>
+    </div>
+  </header>
+
+  <!-- BADGES (top, 2 columns) -->
+  <div class="grid grid--featured">
+
+    <!-- 횃불 뱃지 -->
+    <div class="card card--featured">
+      <div class="card__imgwrap">
+        <img src="nc26_goods_black ver/PhotoshopExtension_Image_10.png" alt="횃불 뱃지"/>
+      </div>
+      <div class="card__name">횃불 뱃지<span class="card__name-en">Torch Pin Badge</span></div>
+      <div class="card__desc">BNI KOREA 시그니처 핀 뱃지<span class="card__desc-en">BNI KOREA Signature Pin</span></div>
+      <div class="card__prices">
+        <div class="card__regular">정상가 / Regular 15,000원 ($11)</div>
+        <div class="card__special">
+          <span class="card__special-label">NC26.특가</span>
+          <span class="card__special-price">13,000<span class="won">원</span></span><span class="card__special-usd">$9</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- nc26 컨퍼런스 뱃지 -->
+    <div class="card card--featured">
+      <div class="card__imgwrap">
+        <img src="nc26_goods_black ver/PhotoshopExtension_Image_1.png" alt="nc26 컨퍼런스 뱃지"/>
+      </div>
+      <div class="card__name">nc26 컨퍼런스 뱃지<span class="card__name-en">nc26 Conference Badge</span></div>
+      <div class="card__desc">BNI KOREA 2026 National Conference</div>
+      <div class="card__prices">
+        <div class="card__regular">정상가 / Regular 15,000원 ($11)</div>
+        <div class="card__special">
+          <span class="card__special-label">NC26.특가</span>
+          <span class="card__special-price">10,000<span class="won">원</span></span><span class="card__special-usd">$7</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FEATURED (apparel - 2 columns, larger) -->
+  <div class="grid grid--featured">
+
+    <!-- 카라티 화이트 -->
+    <div class="card card--featured">
+      <div class="card__imgwrap">
+        <img src="nc26_goods_black ver/PhotoshopExtension_Image_11.png" alt="화이트 카라 반팔티셔츠"/>
+      </div>
+      <div class="card__name">화이트 카라 반팔 티셔츠<span class="card__name-en">White Collar T-Shirt</span></div>
+      <div class="card__desc">BNI Korea 로고 자수 · 사이즈 S / M / L / XL / 2XL<span class="card__desc-en">Embroidered logo · Size S to 2XL</span></div>
+      <div class="card__prices">
+        <div class="card__regular">정상가 / Regular 45,000원 ($32)</div>
+        <div class="card__special">
+          <span class="card__special-label">NC26.특가</span>
+          <span class="card__special-price">35,000<span class="won">원</span></span><span class="card__special-usd">$25</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 카라티 블랙 -->
+    <div class="card card--featured">
+      <div class="card__imgwrap">
+        <img src="nc26_goods_black ver/PhotoshopExtension_Image_12.png" alt="검정 카라 반팔티셔츠"/>
+      </div>
+      <div class="card__name">검정 카라 반팔 티셔츠<span class="card__name-en">Black Collar T-Shirt</span></div>
+      <div class="card__desc">BNI Korea 로고 자수 · 사이즈 S / M / L / XL / 2XL<span class="card__desc-en">Embroidered logo · Size S to 2XL</span></div>
+      <div class="card__prices">
+        <div class="card__regular">정상가 / Regular 45,000원 ($32)</div>
+        <div class="card__special">
+          <span class="card__special-label">NC26.특가</span>
+          <span class="card__special-price">35,000<span class="won">원</span></span><span class="card__special-usd">$25</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CAPS (featured, 3-color image with RED sold out) -->
+  <div class="grid grid--featured">
+    <div class="card card--featured card--span2">
+      <div class="card__imgwrap">
+        <img src="nc26_goods_black ver/PhotoshopExtension_Image_5.png" alt="BNI 볼캡 (블랙·레드·화이트)"/>
+      </div>
+      <div class="card__name">BNI 볼캡 <span class="tag-soldout">WHITE 품절 / SOLD OUT</span><span class="card__name-en">BNI Ball Cap</span></div>
+      <div class="card__desc">BNI KOREA 로고 자수 · 프리 사이즈 · <strong style="color:#cf1f2e;">현재 판매 컬러: 블랙 / 레드</strong><span class="card__desc-en">Embroidered logo · Free size · Available: Black / Red</span></div>
+      <div class="card__prices">
+        <div class="card__regular">정상가 / Regular 28,000원 ($20)</div>
+        <div class="card__special">
+          <span class="card__special-label">NC26.특가</span>
+          <span class="card__special-price">22,000<span class="won">원</span></span><span class="card__special-usd">$16</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 머그 + 파우치 (세트 구성품 단품 노출, 2-col) -->
+  <div class="grid grid--featured">
+
+    <!-- 파우치 -->
+    <div class="card card--featured">
+      <div class="card__imgwrap">
+        <img src="nc26_goods_black ver/PhotoshopExtension_Image_2.png" alt="nc26 파우치"/>
+      </div>
+      <div class="card__name">nc26 랩탑 파우치<span class="card__name-en">nc26 Laptop Pouch</span></div>
+      <div class="card__desc">컨퍼런스 한정판 · 노트북·서류 수납<span class="card__desc-en">Conference Limited · Laptop & Documents</span></div>
+      <div class="card__prices">
+        <div class="card__regular">정상가 / Regular 39,000원 ($28)</div>
+        <div class="card__special">
+          <span class="card__special-label">NC26.특가</span>
+          <span class="card__special-price">29,000<span class="won">원</span></span><span class="card__special-usd">$21</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 머그컵 -->
+    <div class="card card--featured">
+      <div class="card__imgwrap">
+        <img src="nc26_goods_black ver/PhotoshopExtension_Image_3.png" alt="BNI 머그컵"/>
+      </div>
+      <div class="card__name">BNI 머그컵<span class="card__name-en">BNI Mug</span></div>
+      <div class="card__desc">우드 뚜껑 · BNI KOREA 로고 각인<span class="card__desc-en">Wooden Lid · BNI KOREA Engraved</span></div>
+      <div class="card__prices">
+        <div class="card__regular">정상가 / Regular 19,000원 ($14)</div>
+        <div class="card__special">
+          <span class="card__special-label">NC26.특가</span>
+          <span class="card__special-price">15,000<span class="won">원</span></span><span class="card__special-usd">$11</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- SET BANNER (full width) -->
+  <div class="set-banner">
+    <div class="set-banner__img">
+      <img src="BNI Korea_pouch_mug set.png" alt="머그컵 + 파우치 세트"/>
+    </div>
+    <div class="set-banner__content">
+      <div class="set-banner__badge">★ NC26 SPECIAL SET</div>
+      <div class="set-banner__title">머그컵 + 랩탑 파우치 세트<span style="display:block;font-size:10pt;font-weight:600;color:#cbd1dd;letter-spacing:0.04em;margin-top:1.5mm;">Mug + Laptop Pouch Bundle</span></div>
+      <div class="set-banner__desc">컨퍼런스 한정 묶음 · 정상가 기준 단품 구매 대비 <strong style="color:#ffd6da;">16,000원 할인</strong><br/><span style="color:#9aa0ad;font-size:8.5pt;">Conference Bundle · Save 16,000 KRW vs Regular price</span></div>
+      <div class="set-banner__prices">
+        <span class="set-banner__regular">정상가 / Regular 58,000원 ($41)</span>
+        <div class="set-banner__special">
+          <span class="set-banner__special-price">42,000<span class="set-banner__won">원</span></span>
+          <span style="font-size:15pt;font-weight:800;color:#ff5160;margin-left:2mm;">$30</span>
+        </div>
+        <span class="set-banner__off">28% OFF</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN GRID (2 columns) -->
+  <div class="grid grid--half">
+
+    <!-- 실크스카프 화이트 -->
+    <div class="card">
+      <div class="card__imgwrap">
+        <img src="nc26_goods_black ver/PhotoshopExtension_Image_4.png" alt="BNI 로고 실크 100% 스카프 · 화이트"/>
+      </div>
+      <div class="card__name">BNI 실크 스카프 · 화이트<span class="card__name-en">BNI Silk Scarf · White</span></div>
+      <div class="card__desc">실크 100% · BNI 로고 와펜 · 정장 포인트<span class="card__desc-en">100% Silk · BNI Logo Patch · Formal Accent</span></div>
+      <div class="card__prices">
+        <div class="card__regular">정상가 / Regular 55,000원 ($39)</div>
+        <div class="card__special">
+          <span class="card__special-label">NC26.특가</span>
+          <span class="card__special-price">39,000<span class="won">원</span></span><span class="card__special-usd">$28</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 실크스카프 레드 -->
+    <div class="card">
+      <div class="card__imgwrap">
+        <img src="nc26_goods_black ver/PhotoshopExtension_Image_13.png" alt="BNI 로고 실크 스카프 · 레드"/>
+      </div>
+      <div class="card__name">BNI 실크 스카프 · 레드<span class="card__name-en">BNI Silk Scarf · Red</span></div>
+      <div class="card__desc">실크 100% · BNI 패턴 · 정장·코디 포인트<span class="card__desc-en">100% Silk · BNI Pattern · Formal Accent</span></div>
+      <div class="card__prices">
+        <div class="card__regular">정상가 / Regular 55,000원 ($39)</div>
+        <div class="card__special">
+          <span class="card__special-label">NC26.특가</span>
+          <span class="card__special-price">39,000<span class="won">원</span></span><span class="card__special-usd">$28</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 넥타이 클래식 -->
+    <div class="card">
+      <div class="card__imgwrap">
+        <img src="nc26_goods_black ver/PhotoshopExtension_Image_7.png" alt="BNI 넥타이 · 클래식"/>
+      </div>
+      <div class="card__name">BNI 넥타이 · 클래식 타입<span class="card__name-en">BNI Necktie · Classic Type</span></div>
+      <div class="card__desc">BNI 패턴 실크 · 클래식 매듭형<span class="card__desc-en">BNI Pattern Silk · Classic Knot</span></div>
+      <div class="card__prices">
+        <div class="card__regular">정상가 / Regular 45,000원 ($32)</div>
+        <div class="card__special">
+          <span class="card__special-label">NC26.특가</span>
+          <span class="card__special-price">38,000<span class="won">원</span></span><span class="card__special-usd">$27</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 넥타이 자동 -->
+    <div class="card">
+      <div class="card__imgwrap">
+        <img src="nc26_goods_black ver/PhotoshopExtension_Image_6.png" alt="BNI 넥타이 · 자동"/>
+      </div>
+      <div class="card__name">BNI 넥타이 · 자동 타입<span class="card__name-en">BNI Necktie · Auto Type</span></div>
+      <div class="card__desc">BNI 패턴 실크 · 자동 매듭(원터치)<span class="card__desc-en">BNI Pattern Silk · Auto Knot (One-touch)</span></div>
+      <div class="card__prices">
+        <div class="card__regular">정상가 / Regular 45,000원 ($32)</div>
+        <div class="card__special">
+          <span class="card__special-label">NC26.특가</span>
+          <span class="card__special-price">38,000<span class="won">원</span></span><span class="card__special-usd">$27</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 테이블보 (span 2 cols) -->
+    <div class="card card--span2">
+      <div class="card__imgwrap">
+        <img src="nc26_goods_black ver/PhotoshopExtension_Image_9.png" alt="BNI 테이블보"/>
+      </div>
+      <div class="card__name">BNI 테이블보<span class="card__name-en">BNI Table Cover</span></div>
+      <div class="card__desc">챕터 테이블용 · BNI 공식 로고 · 한정 수량<span class="card__desc-en">For Chapter Tables · Official Logo · Limited Stock</span></div>
+      <div class="card__prices">
+        <div class="card__regular">정상가 / Regular 190,000원 ($136)</div>
+        <div class="card__special">
+          <span class="card__special-label">NC26.특가</span>
+          <span class="card__special-price">170,000<span class="won">원</span></span><span class="card__special-usd">$121</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-info">
+      <ul>
+        <li><strong>결제 안내 / Payment</strong> · 카드 | 현금, 계좌이체 가능. 현장 결제만<br/><span style="color:#888;">Card | Cash, Bank Transfer · On-site Only</span></li>
+        <li class="footer-bank"><strong>계좌이체 / Bank Transfer</strong> · 입금계좌 <strong>355-0061-5184-03</strong> · 예금주 <strong>비엔아이코리아(주) / BNI KOREA Co., Ltd.</strong></li>
+        <li>가격은 <strong>컨퍼런스 기간 한정 특별가</strong>이며, 재고 소진 시 조기 마감될 수 있습니다.<br/><span style="color:#888;">Conference special pricing only. Subject to stock availability.</span></li>
+        <li><strong>환율 / FX Rate</strong> · USD는 1 USD ≈ 1,400 KRW 환산가 (참고용) / USD prices are approximate, calculated at 1 USD ≈ 1,400 KRW</li>
+      </ul>
+    </div>
+    <div class="footer-brand">
+      <div class="logo">BNI KOREA</div>
+      <div class="small">Accelerate 2026<br/>Conference Goods</div>
+    </div>
+  </footer>
+
+</div>
+
+</body>
+</html>

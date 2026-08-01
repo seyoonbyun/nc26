@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html class="dark" lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Day 2 키노트 스피커 레이아웃 비교</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+<script>
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: { "primary": "#cf1f2e" },
+            fontFamily: { "display": ["Inter", "Noto Sans KR", "sans-serif"], "heading": ["Montserrat", "sans-serif"] }
+        }
+    }
+}
+</script>
+<style>
+body { font-family: 'Noto Sans KR', 'Inter', sans-serif; }
+.font-heading { font-family: 'Montserrat', sans-serif; }
+</style>
+</head>
+<body class="bg-[#0a0c10] text-white">
+
+<!-- Reference: Day 1 김하원 (현재 적용 중) -->
+<div class="max-w-6xl mx-auto px-4 py-8">
+<div class="mb-6 border-b border-slate-700 pb-4">
+<h1 class="text-3xl font-black font-heading text-primary">참고 — DAY 1 김하원 (현재)</h1>
+<p class="text-slate-400 text-sm mt-1">이 사이즈가 기준입니다</p>
+</div>
+<div class="relative rounded-2xl overflow-hidden mb-5 group cursor-pointer aspect-[16/9] md:aspect-[21/9]">
+<img src="스피커 이미지/speaker-kim-hawon.jpg" alt="김하원 대표" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 20%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10"></div>
+<div class="absolute inset-0 p-6 md:p-10 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Keynote Speaker</span>
+<h3 class="text-3xl md:text-5xl font-black mb-2">김하원</h3>
+<p class="text-sm md:text-base text-slate-300 mb-3">주식회사 해녀키친그룹 대표이사</p>
+<p class="text-base md:text-xl font-bold text-white leading-snug">"제주 로컬의 이야기가<br>세계인의 무대에 오르다"</p>
+</div>
+</div>
+</div>
+
+<!-- ===== OPTION A: Lead Hero + Duo ===== -->
+<div class="max-w-6xl mx-auto px-4 py-8">
+<div class="mb-6 border-b border-yellow-500/50 pb-4">
+<h1 class="text-3xl font-black font-heading text-yellow-400">A안 — Lead Hero + Duo</h1>
+<p class="text-slate-400 text-sm mt-1">Mac 풀와이드 21:9 (김하원 동일) + Norm·Judee 2컬럼 16:9</p>
+</div>
+
+<div class="relative rounded-2xl overflow-hidden mb-5 group cursor-pointer aspect-[16/9] md:aspect-[21/9]">
+<img src="스피커 이미지/speaker-mac-card.jpg" alt="Mac Srinivasan" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 20%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10"></div>
+<div class="absolute inset-0 p-6 md:p-10 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Keynote Ⅱ</span>
+<h3 class="text-3xl md:text-5xl font-black mb-2">Mac Srinivasan</h3>
+<p class="text-sm md:text-base text-slate-300 mb-3">CEO, The Abundant Group · Former BNI Global Markets President</p>
+<p class="text-base md:text-xl font-bold text-white leading-snug">"Creating High Performance Teams<br>— 고성과 팀을 만드는 법"</p>
+</div>
+</div>
+
+<div class="grid md:grid-cols-2 gap-4 mb-5">
+<div class="relative rounded-2xl overflow-hidden aspect-[16/9] group cursor-pointer">
+<img src="스피커 이미지/Norm Dominguez_main.jpg" alt="Norm Dominguez" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 15%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10"></div>
+<div class="absolute inset-0 p-5 md:p-7 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-2">Special Speech Ⅱ</span>
+<h3 class="text-2xl md:text-3xl font-black mb-1">Norm Dominguez</h3>
+<p class="text-xs md:text-sm text-slate-300 mb-2">BNI Vice Chairman Emeritus & Senator · Co-Founder, Possi Global</p>
+<p class="text-sm md:text-base font-bold text-white leading-snug">"The other is Not You, Not Me,<br>It's Us"</p>
+</div>
+</div>
+<div class="relative rounded-2xl overflow-hidden aspect-[16/9] group cursor-pointer">
+<img src="스피커 이미지/speaker-philippines-ed.png" alt="Judee R. Quiazon" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 15%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10"></div>
+<div class="absolute inset-0 p-5 md:p-7 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-2">Keynote Ⅰ</span>
+<h3 class="text-2xl md:text-3xl font-black mb-1">Judee R. Quiazon</h3>
+<p class="text-xs md:text-sm text-slate-300 mb-2">BNI Taguig Region · Executive Director</p>
+<p class="text-sm md:text-base font-bold text-white leading-snug">"어떻게 성과를 내는 탁월한<br>커뮤니티 문화를 만드는가?"</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ===== OPTION B: Triple Wide Stack ===== -->
+<div class="max-w-6xl mx-auto px-4 py-8">
+<div class="mb-6 border-b border-blue-500/50 pb-4">
+<h1 class="text-3xl font-black font-heading text-blue-400">B안 — Triple Wide Stack</h1>
+<p class="text-slate-400 text-sm mt-1">3명 모두 풀와이드 2:1 비율 (김하원 21:9보다 살짝 높아 차별화)</p>
+</div>
+
+<div class="space-y-5 mb-5">
+<div class="relative rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[2/1] group cursor-pointer">
+<img src="스피커 이미지/speaker-mac-card.jpg" alt="Mac Srinivasan" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 20%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10"></div>
+<div class="absolute inset-0 p-6 md:p-10 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Keynote Ⅱ</span>
+<h3 class="text-3xl md:text-5xl font-black mb-2">Mac Srinivasan</h3>
+<p class="text-sm md:text-base text-slate-300 mb-3">CEO, The Abundant Group · Former BNI Global Markets President</p>
+<p class="text-base md:text-xl font-bold text-white leading-snug">"Creating High Performance Teams<br>— 고성과 팀을 만드는 법"</p>
+</div>
+</div>
+
+<div class="relative rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[2/1] group cursor-pointer">
+<img src="스피커 이미지/Norm Dominguez_main.jpg" alt="Norm Dominguez" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 15%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10"></div>
+<div class="absolute inset-0 p-6 md:p-10 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Special Speech Ⅱ</span>
+<h3 class="text-3xl md:text-5xl font-black mb-2">Norm Dominguez</h3>
+<p class="text-sm md:text-base text-slate-300 mb-3">BNI Vice Chairman Emeritus & Senator · Co-Founder, Possi Global</p>
+<p class="text-base md:text-xl font-bold text-white leading-snug">"The other is Not You, Not Me,<br>It's Us"</p>
+</div>
+</div>
+
+<div class="relative rounded-2xl overflow-hidden aspect-[16/9] md:aspect-[2/1] group cursor-pointer">
+<img src="스피커 이미지/speaker-philippines-ed.png" alt="Judee R. Quiazon" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 15%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10"></div>
+<div class="absolute inset-0 p-6 md:p-10 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Keynote Ⅰ</span>
+<h3 class="text-3xl md:text-5xl font-black mb-2">Judee R. Quiazon</h3>
+<p class="text-sm md:text-base text-slate-300 mb-3">BNI Taguig Region · Executive Director</p>
+<p class="text-base md:text-xl font-bold text-white leading-snug">"어떻게 성과를 내는 탁월한<br>커뮤니티 문화를 만드는가?"</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ===== OPTION C: Duo Hero + Solo ===== -->
+<div class="max-w-6xl mx-auto px-4 py-8">
+<div class="mb-6 border-b border-emerald-500/50 pb-4">
+<h1 class="text-3xl font-black font-heading text-emerald-400">C안 — Duo Hero + Solo</h1>
+<p class="text-slate-400 text-sm mt-1">Mac·Norm 2컬럼 정사각(1:1) 대형 카드 + Judee 풀와이드 16:9</p>
+</div>
+
+<div class="grid md:grid-cols-2 gap-4 mb-5">
+<div class="relative rounded-2xl overflow-hidden aspect-square group cursor-pointer">
+<img src="스피커 이미지/speaker-mac-card.jpg" alt="Mac Srinivasan" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 20%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent"></div>
+<div class="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Keynote Ⅱ</span>
+<h3 class="text-2xl md:text-4xl font-black mb-2">Mac Srinivasan</h3>
+<p class="text-xs md:text-sm text-slate-300 mb-2">CEO, The Abundant Group · Former BNI Global Markets President</p>
+<p class="text-sm md:text-lg font-bold text-white leading-snug">"Creating High Performance Teams<br>— 고성과 팀을 만드는 법"</p>
+</div>
+</div>
+<div class="relative rounded-2xl overflow-hidden aspect-square group cursor-pointer">
+<img src="스피커 이미지/Norm Dominguez_main.jpg" alt="Norm Dominguez" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 15%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/45 to-transparent"></div>
+<div class="absolute inset-0 p-6 md:p-8 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Special Speech Ⅱ</span>
+<h3 class="text-2xl md:text-4xl font-black mb-2">Norm Dominguez</h3>
+<p class="text-xs md:text-sm text-slate-300 mb-2">BNI Vice Chairman Emeritus & Senator · Co-Founder, Possi Global</p>
+<p class="text-sm md:text-lg font-bold text-white leading-snug">"The other is Not You, Not Me,<br>It's Us"</p>
+</div>
+</div>
+</div>
+
+<div class="relative rounded-2xl overflow-hidden mb-5 group cursor-pointer aspect-[16/9]">
+<img src="스피커 이미지/speaker-philippines-ed.png" alt="Judee R. Quiazon" class="absolute inset-0 w-full h-full object-cover" style="object-position: center 15%;"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/95 via-black/55 to-black/10"></div>
+<div class="absolute inset-0 p-6 md:p-10 flex flex-col justify-end">
+<span class="inline-block w-fit bg-primary text-white text-[11px] font-bold font-heading px-3 py-1.5 rounded-full tracking-widest uppercase mb-3">Keynote Ⅰ</span>
+<h3 class="text-3xl md:text-5xl font-black mb-2">Judee R. Quiazon</h3>
+<p class="text-sm md:text-base text-slate-300 mb-3">BNI Taguig Region · Executive Director</p>
+<p class="text-base md:text-xl font-bold text-white leading-snug">"어떻게 성과를 내는 탁월한<br>커뮤니티 문화를 만드는가?"</p>
+</div>
+</div>
+</div>
+
+<div class="h-20"></div>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8"/>
+<title>부스 신청 안내 · NC26 BNI Korea National Conference</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Malgun Gothic', '맑은 고딕', -apple-system, sans-serif;
+    color: #222;
+    background: #f6f6f8;
+    line-height: 1.55;
+  }
+  .page {
+    width: 210mm;
+    min-height: 297mm;
+    padding: 14mm 14mm 14mm 14mm;
+    margin: 12px auto;
+    background: #fff;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    page-break-after: always;
+    position: relative;
+  }
+  .page:last-child { page-break-after: auto; }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #cf1f2e;
+    padding-bottom: 6mm;
+    margin-bottom: 8mm;
+  }
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  .brand .nc { font-size: 22pt; font-weight: 900; color: #cf1f2e; letter-spacing: -0.02em; }
+  .brand .sub { font-size: 9pt; color: #666; font-weight: 600; }
+  .step-label {
+    background: #cf1f2e;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 10pt;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+  }
+  h1.cover-title {
+    font-size: 30pt;
+    font-weight: 900;
+    color: #111;
+    letter-spacing: -0.025em;
+    margin-top: 28mm;
+    line-height: 1.2;
+  }
+  .cover-sub {
+    font-size: 13pt;
+    color: #666;
+    margin-top: 6mm;
+    font-weight: 500;
+  }
+  .cover-meta {
+    margin-top: 22mm;
+    border-top: 1px solid #ddd;
+    padding-top: 8mm;
+    font-size: 10pt;
+    color: #444;
+  }
+  .cover-meta dl { display: grid; grid-template-columns: 90px 1fr; gap: 4mm 6mm; }
+  .cover-meta dt { font-weight: 700; color: #cf1f2e; }
+  .cover-flow {
+    margin-top: 14mm;
+    background: #fff7ec;
+    border-left: 4px solid #f59e0b;
+    padding: 6mm 7mm;
+    border-radius: 4px;
+  }
+  .cover-flow h3 { font-size: 11pt; color: #92400e; margin-bottom: 3mm; }
+  .cover-flow ol { padding-left: 5mm; font-size: 10pt; color: #444; }
+  .cover-flow ol li { margin-bottom: 1.5mm; }
+  .cover-footer {
+    position: absolute;
+    bottom: 14mm;
+    left: 14mm;
+    right: 14mm;
+    border-top: 1px solid #eee;
+    padding-top: 5mm;
+    font-size: 8.5pt;
+    color: #888;
+    display: flex;
+    justify-content: space-between;
+  }
+  h2.step-title {
+    font-size: 18pt;
+    color: #111;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 2mm;
+  }
+  .step-desc {
+    font-size: 10.5pt;
+    color: #555;
+    margin-bottom: 6mm;
+  }
+  .screenshot {
+    margin: 0 auto;
+    max-width: 100%;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    overflow: hidden;
+    background: #000;
+  }
+  .screenshot img { width: 100%; height: auto; display: block; }
+  .info-box {
+    margin-top: 6mm;
+    padding: 5mm 6mm;
+    background: #fafbff;
+    border-left: 4px solid #cf1f2e;
+    border-radius: 4px;
+    font-size: 10pt;
+    color: #333;
+  }
+  .info-box .label {
+    font-weight: 800;
+    color: #cf1f2e;
+    margin-bottom: 2mm;
+    font-size: 9.5pt;
+    letter-spacing: 0.02em;
+  }
+  .info-box ul { padding-left: 5mm; }
+  .info-box ul li { margin-bottom: 1.2mm; }
+  .info-box .hint {
+    margin-top: 3mm;
+    padding: 3mm 4mm;
+    background: #fff;
+    border: 1px dashed #cbd5e1;
+    border-radius: 3px;
+    font-size: 9pt;
+    color: #555;
+  }
+  .footer-bar {
+    position: absolute;
+    bottom: 8mm;
+    left: 14mm;
+    right: 14mm;
+    border-top: 1px solid #eee;
+    padding-top: 3mm;
+    font-size: 8pt;
+    color: #999;
+    display: flex;
+    justify-content: space-between;
+  }
+  .pill {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #fef2f2;
+    color: #cf1f2e;
+    font-weight: 700;
+    font-size: 9pt;
+    margin-right: 4px;
+  }
+  @media print {
+    body { background: #fff; }
+    .page {
+      margin: 0;
+      box-shadow: none;
+      width: 100%;
+      min-height: auto;
+    }
+    @page { size: A4; margin: 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cover -->
+<section class="page">
+  <div class="header">
+    <div class="brand">
+      <span class="nc">NC 26</span>
+      <span class="sub">제 11회 BNI Korea National Conference</span>
+    </div>
+    <span class="step-label" style="background:#111">OFFLINE GUIDE</span>
+  </div>
+
+  <h1 class="cover-title">부스 신청 절차 안내<br/><span style="color:#cf1f2e">Booth Application Guide</span></h1>
+  <p class="cover-sub">홈페이지 부스 신청부터 결제까지 한눈에 보는 단계별 가이드</p>
+
+  <div class="cover-meta">
+    <dl>
+      <dt>일시</dt><dd>2026년 6월 1일(월) – 6월 2일(화)</dd>
+      <dt>장소</dt><dd>스위스 그랜드 호텔 (Swiss Grand Hotel, Seoul)</dd>
+      <dt>부스 가격</dt><dd>₩2,200,000 (부가세 포함) · 2m × 2m × 2.5m</dd>
+      <dt>신청 페이지</dt><dd>https://www.nc26-bnikorea.com/ticket.html</dd>
+    </dl>
+  </div>
+
+  <div class="cover-flow">
+    <h3>전체 흐름 (총 7단계)</h3>
+    <ol>
+      <li>티켓 페이지의 <b>"부스 전시"</b> 카드에서 <b>[부스 선택하기]</b> 버튼 클릭</li>
+      <li>부스 배치도 모달에서 <b>Zone A · Zone B</b> 자리 확인</li>
+      <li>원하는 부스(주황색) 클릭 → 하단 [신청서 작성 · Apply] 버튼 클릭</li>
+      <li>참가 업체 / 신청자 정보 입력</li>
+      <li>회사 로고·홍보자료 첨부 + F&amp;B 영업신고(필수) 항목 확인</li>
+      <li>부스 사이즈 확인 후 [부스 신청 제출] 클릭</li>
+      <li>결제 페이지 자동 이동 → 가상계좌 / 신용카드 / 카카오페이 결제</li>
+    </ol>
+  </div>
+
+  <div class="cover-footer">
+    <span>BNI Korea · National Conference 2026</span>
+    <span>v1 · 2026.05.01</span>
+  </div>
+</section>
+
+<!-- Step 1 -->
+<section class="page">
+  <div class="header">
+    <div class="brand"><span class="nc">NC 26</span><span class="sub">부스 신청 안내</span></div>
+    <span class="step-label">STEP 1</span>
+  </div>
+  <h2 class="step-title">티켓 페이지에서 [부스 선택하기] 클릭</h2>
+  <p class="step-desc">홈페이지 → 티켓 페이지 하단의 <b>"부스 전시"</b> 카드에서 신청을 시작합니다.</p>
+
+  <div class="screenshot"><img src="screenshots/01-booth-section.png" alt="Step 1"/></div>
+
+  <div class="info-box">
+    <div class="label">📌 화면 안내</div>
+    <ul>
+      <li><span class="pill">부스 전시</span> 카드에 표시된 가격 <b>₩2,200,000 (부가세 포함)</b> 확인</li>
+      <li>포함 사항: 상단 간판 디자인·설치 / 프로그램 광고 게재 / 행사 당일 새벽 2시부터 셋업 가능</li>
+      <li>오른쪽 하단 주황색 <b>[부스 선택하기]</b> 버튼을 클릭하면 부스 배치도 모달이 열립니다.</li>
+    </ul>
+    <div class="hint">💡 결제 수단은 가상계좌 / 신용카드 / 카카오페이 3가지 모두 지원합니다.</div>
+  </div>
+
+  <div class="footer-bar"><span>STEP 1 / 7</span><span>nc26-bnikorea.com</span></div>
+</section>
+
+<!-- Step 2 -->
+<section class="page">
+  <div class="header">
+    <div class="brand"><span class="nc">NC 26</span><span class="sub">부스 신청 안내</span></div>
+    <span class="step-label">STEP 2</span>
+  </div>
+  <h2 class="step-title">부스 배치도 확인 (Zone A · Zone B)</h2>
+  <p class="step-desc">스위스 그랜드 호텔 행사장 도면 위에서 <b>실제 부스 위치</b>와 <b>판매 상태</b>를 한눈에 확인합니다.</p>
+
+  <div class="screenshot"><img src="screenshots/02-booth-map.png" alt="Step 2"/></div>
+
+  <div class="info-box">
+    <div class="label">📌 부스 색상 구분</div>
+    <ul>
+      <li><span class="pill" style="background:#fef3c7;color:#b45309">주황</span> 선택 가능 (Available)</li>
+      <li><span class="pill" style="background:#fee2e2;color:#cf1f2e">빨강</span> 내가 선택 중인 부스 (Selected)</li>
+      <li><span class="pill" style="background:#e2e8f0;color:#475569">회색</span> 판매 완료 (Sold) — 선택 불가</li>
+      <li><span class="pill" style="background:#fff;border:1px solid #cf1f2e;color:#cf1f2e">흰색 테두리</span> BNI 부스 (BNI Booth)</li>
+    </ul>
+    <div class="hint">💡 Zone A는 메인 게이트 앞 직선 라인, Zone B는 행사장 우측 곡선 라인(Foyer)입니다.</div>
+  </div>
+
+  <div class="footer-bar"><span>STEP 2 / 7</span><span>nc26-bnikorea.com</span></div>
+</section>
+
+<!-- Step 3 -->
+<section class="page">
+  <div class="header">
+    <div class="brand"><span class="nc">NC 26</span><span class="sub">부스 신청 안내</span></div>
+    <span class="step-label">STEP 3</span>
+  </div>
+  <h2 class="step-title">원하는 부스 선택 → [신청서 작성 · Apply]</h2>
+  <p class="step-desc">주황색(선택 가능) 부스를 클릭하면 빨간색으로 바뀌고, 하단 바에 선택 정보가 표시됩니다.</p>
+
+  <div class="screenshot"><img src="screenshots/03-booth-selected.png" alt="Step 3"/></div>
+
+  <div class="info-box">
+    <div class="label">📌 화면 안내</div>
+    <ul>
+      <li>선택한 부스 번호(예: <b>A03</b>)와 Zone, 가격(₩2,200,000)이 화면 하단에 표시됩니다.</li>
+      <li>다른 부스로 변경하고 싶으면 다른 주황색 부스를 다시 클릭하면 됩니다.</li>
+      <li>부스를 확정했다면 우측 하단 빨간색 <b>[→ 신청서 작성 · Apply]</b> 버튼을 클릭합니다.</li>
+    </ul>
+    <div class="hint">⚠️ "Sold"로 표시된 회색 부스는 이미 판매 완료되어 선택할 수 없습니다.</div>
+  </div>
+
+  <div class="footer-bar"><span>STEP 3 / 7</span><span>nc26-bnikorea.com</span></div>
+</section>
+
+<!-- Step 4 -->
+<section class="page">
+  <div class="header">
+    <div class="brand"><span class="nc">NC 26</span><span class="sub">부스 신청 안내</span></div>
+    <span class="step-label">STEP 4</span>
+  </div>
+  <h2 class="step-title">참가 업체 · 신청자 정보 입력</h2>
+  <p class="step-desc">선택한 부스 번호가 자동으로 표시된 상태에서 회사 정보와 신청자 정보를 작성합니다.</p>
+
+  <div class="screenshot"><img src="screenshots/04-application-form-top.png" alt="Step 4"/></div>
+
+  <div class="info-box">
+    <div class="label">📌 입력 항목</div>
+    <ul>
+      <li><b>참가 업체</b>: 회사명 · 대표자명 · 주소(우편번호 포함) · 대표전화 · 팩스 · 홈페이지 · E-Mail</li>
+      <li><b>신청자 정보</b>: 신청자명 · 챕터(BNI 멤버 시) · 전화(휴대폰) · 이메일 · 사업자등록번호</li>
+      <li>모든 <b>* 표시 항목은 필수 입력</b>입니다.</li>
+    </ul>
+    <div class="hint">💡 부스 번호는 화면 상단 빨간 박스에 자동 표시됩니다. 변경이 필요하면 우측 [변경 · Change] 클릭.</div>
+  </div>
+
+  <div class="footer-bar"><span>STEP 4 / 7</span><span>nc26-bnikorea.com</span></div>
+</section>
+
+<!-- Step 5 -->
+<section class="page">
+  <div class="header">
+    <div class="brand"><span class="nc">NC 26</span><span class="sub">부스 신청 안내</span></div>
+    <span class="step-label">STEP 5</span>
+  </div>
+  <h2 class="step-title">파일 첨부 · F&amp;B 영업신고 항목</h2>
+  <p class="step-desc">회사 로고/홍보자료를 업로드하고, 식음료 부스 운영 시 필수 영업신고 안내를 확인합니다.</p>
+
+  <div class="screenshot"><img src="screenshots/05-application-form-middle.png" alt="Step 5"/></div>
+
+  <div class="info-box">
+    <div class="label">📌 첨부 · 셋업 안내</div>
+    <ul>
+      <li><b>홍보자료 업로드</b>: AI / PNG / JPG / PDF · 파일당 최대 <b>5MB</b></li>
+      <li>5MB 초과 시 <b>admin@bni-korea.com</b>으로 별도 이메일 송부</li>
+      <li><b>부스 셋팅 시간</b>: 행사 당일 새벽 2시부터 가능 (이전 요청 시 개별 협의)</li>
+      <li><b>F&amp;B 부스 영업신고(필수)</b>: 일반 음식물 신고가 되어있는 업체만 가능 (추가 케이터 조리 가능),
+        장부24 홈페이지 "행사장 영업신고" 진행 — 개인 사업자: 영업신고증 / 법인 사업자: 영업신고증 + 법인 등기부등본 + 인감증명서 첨부</li>
+      <li>현장에서 식·음료 시식 불가, 판매로 판매만 가능</li>
+    </ul>
+  </div>
+
+  <div class="footer-bar"><span>STEP 5 / 7</span><span>nc26-bnikorea.com</span></div>
+</section>
+
+<!-- Step 6 -->
+<section class="page">
+  <div class="header">
+    <div class="brand"><span class="nc">NC 26</span><span class="sub">부스 신청 안내</span></div>
+    <span class="step-label">STEP 6</span>
+  </div>
+  <h2 class="step-title">부스 사이즈 확인 → [부스 신청 제출]</h2>
+  <p class="step-desc">제공되는 부스 규격을 시각적으로 확인하고 신청을 최종 제출합니다.</p>
+
+  <div class="screenshot"><img src="screenshots/06-application-form-bottom.png" alt="Step 6"/></div>
+
+  <div class="info-box">
+    <div class="label">📌 부스 사양</div>
+    <ul>
+      <li><b>사이즈</b>: 2m(가로) × 2m(세로) × 2.5m(높이)</li>
+      <li>상단 간판 디자인·설치 지원 / 프로그램 광고 게재</li>
+      <li>아래 빨간색 <b>[부스 신청 제출]</b> 버튼 클릭 시, 신청 정보가 저장되고 자동으로 결제 페이지로 이동합니다.</li>
+    </ul>
+    <div class="hint">💡 신청 후 결제 안내는 신청자 이메일로도 자동 발송됩니다.</div>
+  </div>
+
+  <div class="footer-bar"><span>STEP 6 / 7</span><span>nc26-bnikorea.com</span></div>
+</section>
+
+<!-- Step 7 -->
+<section class="page">
+  <div class="header">
+    <div class="brand"><span class="nc">NC 26</span><span class="sub">부스 신청 안내</span></div>
+    <span class="step-label">STEP 7</span>
+  </div>
+  <h2 class="step-title">결제 진행 (NC 26 결제 페이지)</h2>
+  <p class="step-desc">자동으로 이동된 결제 페이지에서 신청자 정보를 입력하고 결제를 완료합니다.</p>
+
+  <div class="screenshot"><img src="screenshots/07-payment-page.png" alt="Step 7"/></div>
+
+  <div class="info-box">
+    <div class="label">📌 결제 안내</div>
+    <ul>
+      <li><b>상품 유형</b>: Exhibition Booth (자동 선택됨)</li>
+      <li><b>입력 항목</b>: 이름 · 이메일 · 연락처 · 지역 등</li>
+      <li><b>결제 수단</b>: 가상계좌 / 신용카드 / 카카오페이 (3가지 중 선택)</li>
+      <li>결제 완료 후 <b>주최측 확인 메일</b>이 자동 발송되며, 부스 위치가 최종 확정됩니다.</li>
+    </ul>
+    <div class="hint">📞 결제 관련 문의: BNI Korea (admin@bni-korea.com) · 카카오톡 채널 @BNI Korea</div>
+  </div>
+
+  <div class="footer-bar"><span>STEP 7 / 7 · 끝</span><span>nc26-bnikorea.com</span></div>
+</section>
+
+</body>
+</html>
